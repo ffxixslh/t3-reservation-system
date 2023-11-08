@@ -5,14 +5,19 @@
   "scripts": {
     "build": "next build",
     "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "dev": "next dev",
+    "db:seed": "prisma db seed",
     "postinstall": "prisma generate",
+    "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
-    "@prisma/client": "^5.1.1",
+    "@prisma/client": "^5.5.2",
     "@t3-oss/env-nextjs": "^0.7.0",
     "@tanstack/react-query": "^4.32.6",
     "@trpc/client": "^10.37.1",
@@ -33,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "autoprefixer": "^10.4.14",
+    "cross-env": "^7.0.3",
     "eslint": "^8.47.0",
     "eslint-config-next": "^13.5.4",
     "postcss": "^8.4.27",
