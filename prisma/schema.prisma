@@ -11,12 +11,15 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  name          String
-  email         String?         @unique
-  password      String
-  phone         String
-  role          UserRole        @default(PATIENT)
+  id        String   @id @default(cuid())
+  name      String
+  email     String?  @unique
+  password  String
+  phone     String
+  role      UserRole @default(PATIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
   Appointment   Appointment[]
   MedicalRecord MedicalRecord[]
 
@@ -30,11 +33,13 @@ enum UserRole {
 }
 
 model Doctor {
-  id     Int         @id @default(autoincrement())
-  name   String
-  dept   Department  @relation(fields: [deptId], references: [id])
-  deptId Int
-  level  DoctorLevel
+  id        String      @id @default(cuid())
+  name      String
+  dept      Department  @relation(fields: [deptId], references: [id])
+  deptId    Int
+  level     DoctorLevel
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now())
 
   appointments  Appointment[]
   MedicalRecord MedicalRecord[]
@@ -54,16 +59,18 @@ model Department {
   desc String?
 
   doctors Doctor[]
+
+  @@map("departments")
 }
 
 model Appointment {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
-  patient   User @relation(fields: [patientId], references: [id])
-  patientId Int
+  patient   User   @relation(fields: [patientId], references: [id])
+  patientId String
 
   doctor   Doctor @relation(fields: [doctorId], references: [id])
-  doctorId Int
+  doctorId String
 
   time   DateTime
   status AppointmentStatus
@@ -89,14 +96,16 @@ model Text {
 }
 
 model MedicalRecord {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
-  patient   User @relation(fields: [patientId], references: [id])
-  patientId Int
+  patient   User   @relation(fields: [patientId], references: [id])
+  patientId String
 
   doctor   Doctor @relation(fields: [doctorId], references: [id])
-  doctorId Int
+  doctorId String
 
   record Text   @relation(fields: [textId], references: [id]) // 病历内容
   textId String
+
+  @@map("medical_records")
 }
