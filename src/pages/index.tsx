@@ -103,7 +103,7 @@ export default function Home() {
       {fetchAllUsers.data?.map((user) => (
         <div
           key={user.id}
-          className="my-4 grid grid-cols-4 gap-4 rounded border border-gray-300 bg-white p-4 shadow"
+          className="my-4 grid grid-cols-4 gap-4 rounded border  bg-transparent p-4 shadow"
         >
           <p>{user.id}</p>
           <p>{user.name}</p>

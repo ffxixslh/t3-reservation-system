@@ -13,21 +13,21 @@ const inter = Inter({
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <main
-      className={cn(
-        "min-h-screen bg-background font-sans antialiased",
-        inter.variable,
-      )}
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
     >
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+      <main
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.variable,
+        )}
       >
         <Component {...pageProps} />
-      </ThemeProvider>
-    </main>
+      </main>
+    </ThemeProvider>
   );
 };
 

@@ -87,7 +87,12 @@ export default function TeamSwitcher({
   const [showNewTeamDialog, setShowNewTeamDialog] =
     React.useState(false);
   const [selectedTeam, setSelectedTeam] =
-    React.useState<Team>(groups[0].teams[0]);
+    React.useState<Team>(
+      groups[0]?.teams[0] ?? {
+        label: "default label",
+        value: "default value",
+      },
+    );
 
   return (
     <Dialog

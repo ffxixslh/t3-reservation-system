@@ -1,5 +1,4 @@
-import type { Metadata } from "next";
-import Image from "next/image";
+import Head from "next/head";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -24,7 +23,7 @@ import TeamSwitcher from "~/components/dashboard/team-switcher";
 import { UserNav } from "~/components/dashboard/user-nav";
 import { ModeToggle } from "~/components/mode-toggle";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Dashboard",
   description:
     "Example dashboard app built using the components.",
@@ -33,22 +32,13 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/dashboard-light.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="block dark:hidden"
+      <Head>
+        <title>{metadata.title}</title>
+        <meta
+          name="description"
+          content={metadata.description}
         />
-        <Image
-          src="/examples/dashboard-dark.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="hidden dark:block"
-        />
-      </div>
+      </Head>
       <div className="hidden flex-col md:flex">
         <div className="border-b">
           <div className="flex h-16 items-center px-4">
@@ -79,7 +69,7 @@ export default function DashboardPage() {
               <TabsTrigger value="overview">
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
+              <TabsTrigger value="analytics">
                 Analytics
               </TabsTrigger>
               <TabsTrigger value="reports" disabled>
