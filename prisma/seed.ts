@@ -23,8 +23,8 @@ async function main() {
   // });
   // await db.appointment.create({
   //   data: {
-  //     patientId: 1,
-  //     doctorId: 1,
+  //     patientId: "cloqydov60000uod8jnojmi34",
+  //     doctorId: "cloqydovx0002uod8k7es3f6a",
   //     time: new Date(),
   //     status: "PENDING",
   //   },
