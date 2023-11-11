@@ -72,8 +72,9 @@ model Appointment {
   doctor   Doctor @relation(fields: [doctorId], references: [id])
   doctorId String
 
-  time   DateTime
-  status AppointmentStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now())
+  status    AppointmentStatus
 
   @@map("appointments")
 }
@@ -106,6 +107,9 @@ model MedicalRecord {
 
   record Text   @relation(fields: [textId], references: [id]) // 病历内容
   textId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   @@map("medical_records")
 }
