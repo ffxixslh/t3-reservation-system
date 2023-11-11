@@ -1,7 +1,7 @@
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import { cn } from "~/lib/utils";
-import { ThemeProvider } from "~/components/theme-provider";
+import { ThemeProvider } from "providers/theme-provider";
 
 import "~/styles/globals.css";
 import { Inter } from "next/font/google";
