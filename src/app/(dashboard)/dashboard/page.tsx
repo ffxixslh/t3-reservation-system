@@ -1,4 +1,4 @@
-import Head from "next/head";
+import { type Metadata } from "next";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -23,7 +23,7 @@ import TeamSwitcher from "~/components/dashboard/team-switcher";
 import { UserNav } from "~/components/dashboard/user-nav";
 import { ModeToggle } from "~/components/mode-toggle";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Dashboard",
   description:
     "Example dashboard app built using the components.",
@@ -32,13 +32,6 @@ export const metadata = {
 export default function DashboardPage() {
   return (
     <>
-      <Head>
-        <title>{metadata.title}</title>
-        <meta
-          name="description"
-          content={metadata.description}
-        />
-      </Head>
       <div className="hidden flex-col md:flex">
         <div className="border-b">
           <div className="flex h-16 items-center px-4">

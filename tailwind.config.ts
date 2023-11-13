@@ -1,3 +1,4 @@
+import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
@@ -16,11 +17,11 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
-    },
-    extend: {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -63,7 +64,7 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: {
             height: "var(--radix-accordion-content-height)",
           },
@@ -72,7 +73,7 @@ module.exports = {
           from: {
             height: "var(--radix-accordion-content-height)",
           },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
@@ -82,4 +83,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config;
