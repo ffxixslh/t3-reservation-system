@@ -5,7 +5,7 @@ import { api } from "~/trpc/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -25,7 +25,7 @@ export async function PATCH(
       });
     }
 
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -33,7 +33,7 @@ export async function PATCH(
 
     const store = await api.store.updateMany({
       where: {
-        id: params.storeId,
+        id: params.hospitalId,
         userId,
       },
       data: {
@@ -52,7 +52,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -63,7 +63,7 @@ export async function DELETE(
       });
     }
 
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -71,7 +71,7 @@ export async function DELETE(
 
     const store = await api.store.deleteMany({
       where: {
-        id: params.storeId,
+        id: params.hospitalId,
         userId,
       },
     });

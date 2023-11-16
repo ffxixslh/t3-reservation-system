@@ -1,34 +1,73 @@
 import { db } from "../src/server/db";
 
 async function main() {
-  // await db.user.create({
-  //   data: {
-  //     name: "John Doe",
-  //     email: "john@doe.com",
-  //     password: "john@doe",
-  //     phone: "13000000000",
-  //   },
-  // });
-  // await db.department.create({
-  //   data: {
-  //     name: "内科",
-  //   },
-  // });
-  // await db.doctor.create({
-  //   data: {
-  //     name: "Dr. Lee",
-  //     deptId: 1,
-  //     level: "MAIN",
-  //   },
-  // });
-  // await db.appointment.create({
-  //   data: {
-  //     patientId: "cloqydov60000uod8jnojmi34",
-  //     doctorId: "cloqydovx0002uod8k7es3f6a",
-  //     time: new Date(),
-  //     status: "PENDING",
-  //   },
-  // });
+  /* 1. create hospital */
+  const { id: hospitalId, name: hospitalName } =
+    await db.hospital.create({
+      data: {
+        name: "hospital1",
+      },
+    });
+  /* 2. create department */
+  const {
+    id: departmentId,
+    name: departmentName,
+    description: departmentDescription,
+    hospitalId: departmentHospitalId,
+  } = await db.department.create({
+    data: {
+      name: "department1",
+      hospital: {
+        connect: {
+          id: hospitalId,
+        },
+      },
+    },
+  });
+  /* 3. create patient */
+  const {
+    id: patientId,
+    name: patientName,
+    email: patientEmail,
+    phone: patientPhone,
+    hospitalId: patientHospitalId,
+  } = await db.user.create({
+    data: {
+      name: "patient1",
+      password: "123456",
+      phone: "13000000001",
+      hospital: {
+        connect: {
+          id: hospitalId,
+        },
+      },
+    },
+  });
+  /* 4. create doctor */
+  const {
+    id: doctorId,
+    name: doctorName,
+    level: doctorLevel,
+    departmentId: doctorDepartmentId,
+    hospitalId: doctorHospitalId,
+  } = await db.doctor.create({
+    data: {
+      name: "doctor1",
+      departmentId,
+      hospitalId,
+      level: "MAIN",
+    },
+  });
+  /* 5. create appointment */
+  await db.appointment.create({
+    data: {
+      patientId: patientId,
+      doctorId: doctorId,
+      hospitalId: hospitalId,
+      time: new Date().toISOString(),
+      status: "PENDING",
+    },
+  });
 }
 
 main()

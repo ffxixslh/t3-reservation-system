@@ -12,7 +12,6 @@ import "~/styles/globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +30,7 @@ export default async function RootLayout({
   await Promise.resolve(1);
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.className}`}>
+      <body className={`${inter.className}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
           <ThemeProvider
             attribute="class"

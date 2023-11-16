@@ -5,7 +5,7 @@ import { api } from "~/trpc/server";
 
 export async function POST(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -65,7 +65,7 @@ export async function POST(
       });
     }
 
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -73,7 +73,7 @@ export async function POST(
 
     const storeByUserId = await api.store.findFirst({
       where: {
-        id: params.storeId,
+        id: params.hospitalId,
         userId,
       },
     });
@@ -93,7 +93,7 @@ export async function POST(
         categoryId,
         colorId,
         sizeId,
-        storeId: params.storeId,
+        hospitalId: params.hospitalId,
         images: {
           createMany: {
             data: [
@@ -117,7 +117,7 @@ export async function POST(
 
 export async function GET(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
     const { searchParams } = new URL(req.url);
@@ -128,7 +128,7 @@ export async function GET(
     const sizeId = searchParams.get("sizeId") || undefined;
     const isFeatured = searchParams.get("isFeatured");
 
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -136,7 +136,7 @@ export async function GET(
 
     const products = await api.product.findMany({
       where: {
-        storeId: params.storeId,
+        hospitalId: params.hospitalId,
         categoryId,
         colorId,
         sizeId,

@@ -5,7 +5,7 @@ import { api } from "~/trpc/server";
 
 export async function POST(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -32,7 +32,7 @@ export async function POST(
       });
     }
 
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -40,7 +40,7 @@ export async function POST(
 
     // const storeByUserId = await api.store.findFirst({
     //   where: {
-    //     id: params.storeId,
+    //     id: params.hospitalId,
     //     userId,
     //   },
     // });
@@ -55,7 +55,7 @@ export async function POST(
     //   data: {
     //     name,
     //     billboardId,
-    //     storeId: params.storeId,
+    //     hospitalId: params.hospitalId,
     //   },
     // });
     const category = await Promise.resolve({
@@ -75,10 +75,10 @@ export async function POST(
 
 export async function GET(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -86,7 +86,7 @@ export async function GET(
 
     // const categories = await api.category.findMany({
     //   where: {
-    //     storeId: params.storeId,
+    //     hospitalId: params.hospitalId,
     //   },
     // });
 

@@ -18,7 +18,7 @@ export async function OPTIONS() {
 
 export async function POST(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   const { productIds } = await req.json();
 
@@ -54,7 +54,7 @@ export async function POST(
 
   const order = await api.order.create({
     data: {
-      storeId: params.storeId,
+      hospitalId: params.hospitalId,
       isPaid: false,
       orderItems: {
         create: productIds.map((productId: string) => ({

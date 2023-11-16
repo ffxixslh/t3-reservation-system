@@ -47,7 +47,7 @@ export async function DELETE(
   req: Request,
   {
     params,
-  }: { params: { productId: string; storeId: string } },
+  }: { params: { productId: string; hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -66,7 +66,7 @@ export async function DELETE(
 
     // const storeByUserId = await api.store.findFirst({
     //   where: {
-    //     id: params.storeId,
+    //     id: params.hospitalId,
     //     userId,
     //   },
     // });
@@ -99,7 +99,7 @@ export async function PATCH(
   req: Request,
   {
     params,
-  }: { params: { productId: string; storeId: string } },
+  }: { params: { productId: string; hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -167,7 +167,7 @@ export async function PATCH(
 
     // const storeByUserId = await api.store.findFirst({
     //   where: {
-    //     id: params.storeId,
+    //     id: params.hospitalId,
     //     userId,
     //   },
     // });

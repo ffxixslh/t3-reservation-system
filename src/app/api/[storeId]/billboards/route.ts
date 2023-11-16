@@ -5,7 +5,7 @@ import { api } from "~/trpc/server";
 
 export async function POST(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -32,7 +32,7 @@ export async function POST(
       });
     }
 
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -40,7 +40,7 @@ export async function POST(
 
     // const storeByUserId = await api.store.findFirst({
     //   where: {
-    //     id: params.storeId,
+    //     id: params.hospitalId,
     //     userId,
     //   },
     // });
@@ -55,7 +55,7 @@ export async function POST(
     //   data: {
     //     label,
     //     imageUrl,
-    //     storeId: params.storeId,
+    //     hospitalId: params.hospitalId,
     //   },
     // });
 
@@ -63,7 +63,7 @@ export async function POST(
       id: "1",
       label: "Label 1",
       imageUrl: "Image URL 1",
-      storeId: "1",
+      hospitalId: "1",
     });
 
     return NextResponse.json(billboard);
@@ -77,10 +77,10 @@ export async function POST(
 
 export async function GET(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { hospitalId: string } },
 ) {
   try {
-    if (!params.storeId) {
+    if (!params.hospitalId) {
       return new NextResponse("Store id is required", {
         status: 400,
       });
@@ -88,7 +88,7 @@ export async function GET(
 
     // const billboards = await api.billboard.findMany({
     //   where: {
-    //     storeId: params.storeId,
+    //     hospitalId: params.hospitalId,
     //   },
     // });
     const billboards = await Promise.resolve([
@@ -96,7 +96,7 @@ export async function GET(
         id: "1",
         label: "Label 1",
         imageUrl: "Image URL 1",
-        storeId: "1",
+        hospitalId: "1",
       },
     ]);
 

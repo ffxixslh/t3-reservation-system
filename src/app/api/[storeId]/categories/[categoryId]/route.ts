@@ -36,7 +36,7 @@ export async function DELETE(
   req: Request,
   {
     params,
-  }: { params: { categoryId: string; storeId: string } },
+  }: { params: { categoryId: string; hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -55,7 +55,7 @@ export async function DELETE(
 
     const storeByUserId = await api.store.findFirst({
       where: {
-        id: params.storeId,
+        id: params.hospitalId,
         userId,
       },
     });
@@ -85,7 +85,7 @@ export async function PATCH(
   req: Request,
   {
     params,
-  }: { params: { categoryId: string; storeId: string } },
+  }: { params: { categoryId: string; hospitalId: string } },
 ) {
   try {
     //   const { userId } = auth();
@@ -120,7 +120,7 @@ export async function PATCH(
 
     const storeByUserId = await api.store.findFirst({
       where: {
-        id: params.storeId,
+        id: params.hospitalId,
         userId,
       },
     });

@@ -24,7 +24,7 @@ export async function GET(
       id: "1",
       label: "Label 1",
       imageUrl: "Image URL 1",
-      storeId: "1",
+      hospitalId: "1",
     });
 
     return NextResponse.json(billboard);
@@ -40,7 +40,9 @@ export async function DELETE(
   req: Request,
   {
     params,
-  }: { params: { billboardId: string; storeId: string } },
+  }: {
+    params: { billboardId: string; hospitalId: string };
+  },
 ) {
   try {
     //   const { userId } = auth();
@@ -59,7 +61,7 @@ export async function DELETE(
 
     // const storeByUserId = await api.store.findFirst({
     //   where: {
-    //     id: params.storeId,
+    //     id: params.hospitalId,
     //     userId,
     //   },
     // });
@@ -80,7 +82,7 @@ export async function DELETE(
       id: "1",
       label: "Label 1",
       imageUrl: "Image URL 1",
-      storeId: "1",
+      hospitalId: "1",
     });
 
     return NextResponse.json(billboard);
@@ -96,7 +98,9 @@ export async function PATCH(
   req: Request,
   {
     params,
-  }: { params: { billboardId: string; storeId: string } },
+  }: {
+    params: { billboardId: string; hospitalId: string };
+  },
 ) {
   try {
     //   const { userId } = auth();
@@ -131,7 +135,7 @@ export async function PATCH(
 
     // const storeByUserId = await api.store.findFirst({
     //   where: {
-    //     id: params.storeId,
+    //     id: params.hospitalId,
     //     userId,
     //   },
     // });
@@ -156,7 +160,7 @@ export async function PATCH(
       id: "1",
       label: "Label 1",
       imageUrl: "Image URL 1",
-      storeId: "1",
+      hospitalId: "1",
     });
 
     return NextResponse.json(billboard);

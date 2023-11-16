@@ -16,14 +16,21 @@ const userSchema = z.object({
     })
     .min(1)
     .max(16),
-  phone: z.string({
-    required_error: "Phone is required",
-    invalid_type_error: "Phone must be a string",
-  }),
+  phone: z
+    .string({
+      required_error: "Phone is required",
+      invalid_type_error: "Phone must be a string",
+    })
+    .length(11),
   email: z.string().optional().default(""),
   role: z
     .enum(["ADMIN", "DOCTOR", "PATIENT"])
     .default("PATIENT"),
+  hospital: z.object({
+    connect: z.object({
+      id: z.string(),
+    }),
+  }),
 });
 
 const userUpdateSchema = z.object({

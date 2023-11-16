@@ -5,53 +5,53 @@ import { useParams, usePathname } from "next/navigation";
 
 import { cn } from "~/lib/utils";
 
+interface ParamsProps {
+  hospitalId: string;
+  [key: string]: string;
+}
+
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
-  const params = useParams();
+  const params = useParams<ParamsProps>();
 
   const routes = [
     {
-      href: `/${params.storeId}`,
-      label: "Overview",
-      active: pathname === `/${params.storeId}`,
+      href: `/dashboard/${params.hospitalId}`,
+      label: "总览",
+      active: pathname === `/`,
     },
     {
-      href: `/${params.storeId}/billboards`,
-      label: "Billboards",
-      active: pathname === `/${params.storeId}/billboards`,
+      href: `/dashboard/${params.hospitalId}/billboards`,
+      label: "看板",
+      active: pathname === `/billboards`,
     },
     {
-      href: `/${params.storeId}/categories`,
-      label: "Categories",
-      active: pathname === `/${params.storeId}/categories`,
+      href: `/dashboard/${params.hospitalId}/doctors`,
+      label: "医生",
+      active: pathname === `/doctors`,
     },
     {
-      href: `/${params.storeId}/sizes`,
-      label: "Sizes",
-      active: pathname === `/${params.storeId}/sizes`,
+      href: `/dashboard/${params.hospitalId}/patients`,
+      label: "患者",
+      active: pathname === `/patients`,
     },
     {
-      href: `/${params.storeId}/colors`,
-      label: "Colors",
-      active: pathname === `/${params.storeId}/colors`,
+      href: `/dashboard/${params.hospitalId}/appointments`,
+      label: "预约",
+      active: pathname === `/appointments`,
     },
     {
-      href: `/${params.storeId}/products`,
-      label: "Products",
-      active: pathname === `/${params.storeId}/products`,
+      href: `/dashboard/${params.hospitalId}/admins`,
+      label: "管理员",
+      active: pathname === `/admins`,
     },
     {
-      href: `/${params.storeId}/orders`,
-      label: "Orders",
-      active: pathname === `/${params.storeId}/orders`,
-    },
-    {
-      href: `/${params.storeId}/settings`,
-      label: "Settings",
-      active: pathname === `/${params.storeId}/settings`,
+      href: `/dashboard/${params.hospitalId}/settings`,
+      label: "设置",
+      active: pathname === `/settings`,
     },
   ];
 
@@ -70,7 +70,7 @@ export function MainNav({
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
             route.active
-              ? "text-black dark:text-white"
+              ? "font-bold text-black dark:text-white"
               : "text-muted-foreground",
           )}
         >

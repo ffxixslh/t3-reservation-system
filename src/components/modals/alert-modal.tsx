@@ -30,8 +30,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title="Are you sure?"
-      description="This action cannot be undone."
+      title={`你确定吗？`}
+      description={`此操作无法撤消。`}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -41,14 +41,14 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           variant="outline"
           onClick={onClose}
         >
-          Cancel
+          {`取消`}
         </Button>
         <Button
           disabled={loading}
           variant="destructive"
           onClick={onConfirm}
         >
-          Continue
+          {`继续`}
         </Button>
       </div>
     </Modal>
