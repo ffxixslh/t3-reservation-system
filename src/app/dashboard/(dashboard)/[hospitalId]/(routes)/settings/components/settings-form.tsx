@@ -78,8 +78,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
       hospitalDeleteMutation.mutate({
         id: initialData.id,
       });
-      router.refresh();
-      router.push("/");
+      router.replace("/dashboard");
       toast.success(`医院数据已删除。`);
     } catch (error) {
       toast.error(

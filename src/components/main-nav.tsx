@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 import { cn } from "~/lib/utils";
 
@@ -15,45 +16,62 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
+
   const params = useParams<ParamsProps>();
 
-  const routes = [
-    {
-      href: `/dashboard/${params.hospitalId}`,
-      label: "总览",
-      active: pathname === `/`,
-    },
-    {
-      href: `/dashboard/${params.hospitalId}/billboards`,
-      label: "看板",
-      active: pathname === `/billboards`,
-    },
-    {
-      href: `/dashboard/${params.hospitalId}/doctors`,
-      label: "医生",
-      active: pathname === `/doctors`,
-    },
-    {
-      href: `/dashboard/${params.hospitalId}/patients`,
-      label: "患者",
-      active: pathname === `/patients`,
-    },
-    {
-      href: `/dashboard/${params.hospitalId}/appointments`,
-      label: "预约",
-      active: pathname === `/appointments`,
-    },
-    {
-      href: `/dashboard/${params.hospitalId}/admins`,
-      label: "管理员",
-      active: pathname === `/admins`,
-    },
-    {
-      href: `/dashboard/${params.hospitalId}/settings`,
-      label: "设置",
-      active: pathname === `/settings`,
-    },
-  ];
+  const routes = useMemo(
+    () => [
+      {
+        href: `/dashboard/${params.hospitalId}`,
+        label: "总览",
+        active:
+          pathname === `/dashboard/${params.hospitalId}`,
+      },
+      {
+        href: `/dashboard/${params.hospitalId}/billboards`,
+        label: "看板",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/billboards`,
+      },
+      {
+        href: `/dashboard/${params.hospitalId}/doctors`,
+        label: "医生",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/doctors`,
+      },
+      {
+        href: `/dashboard/${params.hospitalId}/patients`,
+        label: "患者",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/patients`,
+      },
+      {
+        href: `/dashboard/${params.hospitalId}/appointments`,
+        label: "预约",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/appointments`,
+      },
+      {
+        href: `/dashboard/${params.hospitalId}/admins`,
+        label: "管理员",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/admins`,
+      },
+      {
+        href: `/dashboard/${params.hospitalId}/settings`,
+        label: "设置",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/settings`,
+      },
+    ],
+    [params.hospitalId, pathname],
+  );
 
   return (
     <nav

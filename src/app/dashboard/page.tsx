@@ -10,16 +10,23 @@ import {
   CommandList,
 } from "~/components/ui/command";
 
+import { redirect } from "next/navigation";
+
 import { api } from "~/trpc/server";
 
 export default async function DashboardRootPage() {
   const hospitals = await api.hospital.getAll.query();
+
+  if (hospitals.length < 1) {
+    redirect(`/dashboard/setup`);
+  }
+
   return (
     <div className="flex h-screen w-screen flex-col place-items-center justify-center">
-      <div className="mb-2 text-center text-2xl font-bold">
-        {`欢迎使用医院仪表板`}
-      </div>
       <div className="h-72 w-80">
+        <div className="mb-2 px-1 text-start text-2xl font-bold">
+          {`医院仪表板`}
+        </div>
         <Command className="rounded-lg border">
           <CommandList>
             <CommandInput placeholder={`搜索医院...`} />

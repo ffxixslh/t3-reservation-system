@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   });
 
   if (!hospital) {
-    redirect(`/`);
+    redirect(`/dashboard`);
   }
 
   return (

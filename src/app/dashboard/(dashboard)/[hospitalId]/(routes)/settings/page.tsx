@@ -15,7 +15,7 @@ const SettingsPage = async ({
   });
 
   if (!hospital) {
-    redirect(`/`);
+    redirect(`/dashboard`);
   }
 
   return (

@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search"
+          placeholder={`搜索`}
           value={
             (table
               .getColumn(searchKey)
@@ -110,7 +110,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {`暂无数据`}
                 </TableCell>
               </TableRow>
             )}
@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          {`上一页`}
         </Button>
         <Button
           variant="outline"
@@ -132,7 +132,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          {`下一页`}
         </Button>
       </div>
     </div>

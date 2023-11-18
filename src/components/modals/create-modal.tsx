@@ -45,7 +45,9 @@ export const CreateModal = () => {
       setLoading(true);
       hospitalCreateMutation.mutate(values, {
         onSuccess: (data) => {
-          router.push(`/${data.id}`);
+          router.push(`/dashboard/${data.id}`);
+          form.setValue("name", "");
+          createModal.onClose();
         },
       });
     } catch (error) {

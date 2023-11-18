@@ -9,29 +9,37 @@ import { Heading } from "~/components/ui/heading";
 import { Separator } from "~/components/ui/separator";
 import { ApiList } from "~/components/ui/api-list";
 
-import { type ProductColumn, columns } from "./columns";
+import { columns } from "./columns";
+import { type Patient } from "~/types";
 
-interface ProductsClientProps {
-  data: ProductColumn[];
+interface PatientsClientProps {
+  data: Patient[];
 }
 
-export const ProductsClient: React.FC<
-  ProductsClientProps
+export const PatientsClient: React.FC<
+  PatientsClientProps
 > = ({ data }) => {
-  const params = useParams();
+  const params = useParams<{
+    hospitalId: string;
+  }>();
   const router = useRouter();
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Products (${data.length})`}
-          description="Manage products for your store"
+          title={`患者 (${data.length})`}
+          description={`管理医院的患者数据`}
         />
         <Button
-          onClick={() => router.push(`/products/new`)}
+          onClick={() =>
+            router.push(
+              `/dashboard/${params.hospitalId}/patients/new`,
+            )
+          }
         >
-          <Plus className="mr-2 h-4 w-4" /> Add New
+          <Plus className="mr-2 h-4 w-4" />{" "}
+          <span>{`新增`}</span>
         </Button>
       </div>
       <Separator />
