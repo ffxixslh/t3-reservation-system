@@ -77,7 +77,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
     : {
         id: "",
         name: "",
-        password: "",
+        password: "123456",
         email: "",
         phone: "",
         role: "PATIENT",
@@ -92,7 +92,6 @@ export const PatientForm: React.FC<PatientFormProps> = ({
   });
 
   const onSubmit = async (data: PatientFormValues) => {
-    debugger;
     try {
       const transformedData: z.infer<
         typeof userUpdateSchema
@@ -111,11 +110,11 @@ export const PatientForm: React.FC<PatientFormProps> = ({
           transformedData,
         );
       }
-      router.refresh();
       router.push(
         `/dashboard/${params.hospitalId}/patients`,
       );
       toast.success(toastMessage);
+      router.refresh();
     } catch (error) {
       toast.error("出了些问题。");
     } finally {
@@ -129,11 +128,11 @@ export const PatientForm: React.FC<PatientFormProps> = ({
       await userDeleteMutation.mutateAsync({
         id: params.patientId,
       });
-      router.refresh();
       router.push(
         `/dashboard/${params.hospitalId}/patients`,
       );
       toast.success("患者数据已删除。");
+      router.refresh();
     } catch (error) {
       toast.error("出了些问题。");
     } finally {
@@ -141,6 +140,9 @@ export const PatientForm: React.FC<PatientFormProps> = ({
       setOpen(false);
     }
   };
+
+  const onInvalid = (error: unknown) =>
+    console.error(error);
 
   return (
     <>
@@ -166,7 +168,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
       <Separator />
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="w-full space-y-8"
         >
           <div className="gap-8 md:grid md:grid-cols-3">
@@ -229,7 +231,6 @@ export const PatientForm: React.FC<PatientFormProps> = ({
             type="submit"
             disabled={loading}
             className="ml-auto"
-            onClick={() => console.log("click")}
           >
             {action}
           </Button>
