@@ -43,7 +43,7 @@ export function MainNav({
       },
       {
         href: `/dashboard/${params.hospitalId}/patients`,
-        label: "患者",
+        label: "用户",
         active:
           pathname ===
           `/dashboard/${params.hospitalId}/patients`,

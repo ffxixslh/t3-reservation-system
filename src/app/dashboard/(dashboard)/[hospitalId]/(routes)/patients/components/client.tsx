@@ -28,8 +28,8 @@ export const PatientsClient: React.FC<
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`患者 (${data.length})`}
-          description={`管理医院的患者数据`}
+          title={`用户 (${data.length})`}
+          description={`管理医院的用户数据`}
         />
         <Button
           onClick={() =>

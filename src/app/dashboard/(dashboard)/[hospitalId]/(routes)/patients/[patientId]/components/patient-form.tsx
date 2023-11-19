@@ -60,13 +60,13 @@ export const PatientForm: React.FC<PatientFormProps> = ({
   const userDeleteMutation =
     api.user.deleteUser.useMutation();
 
-  const title = initialData ? "编辑患者" : "创建患者";
+  const title = initialData ? "编辑用户" : "创建用户";
   const description = initialData
-    ? "编辑该患者信息"
-    : "添加该新的患者";
+    ? "编辑该用户信息"
+    : "添加该新的用户";
   const toastMessage = initialData
-    ? "该患者信息已更新。"
-    : "该患者信息已创建。";
+    ? "该用户信息已更新。"
+    : "该用户信息已创建。";
   const action = initialData ? "保存" : "创建";
 
   const defaultValues: PatientFormValues = initialData
@@ -131,7 +131,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
       router.push(
         `/dashboard/${params.hospitalId}/patients`,
       );
-      toast.success("患者数据已删除。");
+      toast.success("用户数据已删除。");
       router.refresh();
     } catch (error) {
       toast.error("出了些问题。");
