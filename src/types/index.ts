@@ -4,6 +4,8 @@ import type {
   User,
 } from "@prisma/client";
 
-export type Patient = User & {
+export type TPatient = User & {
   appointment: Appointment[];
 } & { medicalRecord: MedicalRecord[] };
+
+export type TUser = User;

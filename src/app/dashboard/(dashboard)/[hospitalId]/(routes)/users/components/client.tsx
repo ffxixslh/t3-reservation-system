@@ -10,15 +10,15 @@ import { Separator } from "~/components/ui/separator";
 import { ApiList } from "~/components/ui/api-list";
 
 import { columns } from "./columns";
-import { type Patient } from "~/types";
+import { type TPatient } from "~/types";
 
-interface PatientsClientProps {
-  data: Patient[];
+interface UsersClientProps {
+  data: TPatient[];
 }
 
-export const PatientsClient: React.FC<
-  PatientsClientProps
-> = ({ data }) => {
+export const UsersClient: React.FC<UsersClientProps> = ({
+  data,
+}) => {
   const params = useParams<{
     hospitalId: string;
   }>();
@@ -34,7 +34,7 @@ export const PatientsClient: React.FC<
         <Button
           onClick={() =>
             router.push(
-              `/dashboard/${params.hospitalId}/patients/new`,
+              `/dashboard/${params.hospitalId}/users/new`,
             )
           }
         >

@@ -33,20 +33,20 @@ import { AlertModal } from "~/components/modals/alert-modal";
 // import { Checkbox } from "~/components/ui/checkbox";
 import { api } from "~/trpc/react";
 import { userUpdateSchema } from "~/schemas";
-import { type Patient } from "~/types";
+import { type TPatient } from "~/types";
 
-type PatientFormValues = z.infer<typeof userUpdateSchema>;
+type UserFormValues = z.infer<typeof userUpdateSchema>;
 
-interface PatientFormProps {
-  initialData: Patient | null;
+interface UserFormProps {
+  initialData: TPatient | null;
 }
 
-export const PatientForm: React.FC<PatientFormProps> = ({
+export const UserForm: React.FC<UserFormProps> = ({
   initialData,
 }) => {
   const params = useParams<{
     hospitalId: string;
-    patientId: string;
+    userId: string;
   }>();
   const router = useRouter();
 
@@ -69,7 +69,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
     : "该用户信息已创建。";
   const action = initialData ? "保存" : "创建";
 
-  const defaultValues: PatientFormValues = initialData
+  const defaultValues: UserFormValues = initialData
     ? {
         ...initialData,
         email: initialData.email ?? "",
@@ -86,12 +86,12 @@ export const PatientForm: React.FC<PatientFormProps> = ({
         updatedAt: new Date(),
       };
 
-  const form = useForm<PatientFormValues>({
+  const form = useForm<UserFormValues>({
     resolver: zodResolver(userUpdateSchema),
     defaultValues,
   });
 
-  const onSubmit = async (data: PatientFormValues) => {
+  const onSubmit = async (data: UserFormValues) => {
     try {
       const transformedData: z.infer<
         typeof userUpdateSchema
@@ -110,9 +110,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
           transformedData,
         );
       }
-      router.push(
-        `/dashboard/${params.hospitalId}/patients`,
-      );
+      router.push(`/dashboard/${params.hospitalId}/users`);
       toast.success(toastMessage);
       router.refresh();
     } catch (error) {
@@ -126,11 +124,9 @@ export const PatientForm: React.FC<PatientFormProps> = ({
     try {
       setLoading(true);
       await userDeleteMutation.mutateAsync({
-        id: params.patientId,
+        id: params.userId,
       });
-      router.push(
-        `/dashboard/${params.hospitalId}/patients`,
-      );
+      router.push(`/dashboard/${params.hospitalId}/users`);
       toast.success("用户数据已删除。");
       router.refresh();
     } catch (error) {

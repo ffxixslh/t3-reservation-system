@@ -35,18 +35,18 @@ export function MainNav({
           `/dashboard/${params.hospitalId}/billboards`,
       },
       {
+        href: `/dashboard/${params.hospitalId}/users`,
+        label: "用户",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/users`,
+      },
+      {
         href: `/dashboard/${params.hospitalId}/doctors`,
         label: "医生",
         active:
           pathname ===
           `/dashboard/${params.hospitalId}/doctors`,
-      },
-      {
-        href: `/dashboard/${params.hospitalId}/patients`,
-        label: "用户",
-        active:
-          pathname ===
-          `/dashboard/${params.hospitalId}/patients`,
       },
       {
         href: `/dashboard/${params.hospitalId}/appointments`,

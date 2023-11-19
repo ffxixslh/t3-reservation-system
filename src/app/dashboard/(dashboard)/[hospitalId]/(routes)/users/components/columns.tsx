@@ -4,10 +4,10 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { zhCN } from "date-fns/locale";
 
 import { CellAction } from "./cell-action";
-import type { Patient } from "~/types";
+import type { TPatient } from "~/types";
 import { dateFormatter } from "~/lib/utils";
 
-export const columns: ColumnDef<Patient>[] = [
+export const columns: ColumnDef<TPatient>[] = [
   {
     accessorKey: "name",
     header: `名称`,

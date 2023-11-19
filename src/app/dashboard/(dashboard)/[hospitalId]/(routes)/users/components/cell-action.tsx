@@ -21,10 +21,10 @@ import {
 } from "~/components/ui/dropdown-menu";
 
 import { api } from "~/trpc/react";
-import { type Patient } from "~/types";
+import { type TPatient } from "~/types";
 
 interface CellActionProps {
-  data: Patient;
+  data: TPatient;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -83,7 +83,7 @@ export const CellAction: React.FC<CellActionProps> = ({
           <DropdownMenuItem
             onClick={() =>
               router.push(
-                `/dashboard/${params.hospitalId}/patients/${data.id}`,
+                `/dashboard/${params.hospitalId}/users/${data.id}`,
               )
             }
           >
