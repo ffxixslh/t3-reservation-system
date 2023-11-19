@@ -46,7 +46,7 @@ export const userRouter = createTRPCRouter({
     .input(userUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.user.update({
-        where: idSchema.parse(input.id),
+        where: idSchema.parse(input),
         data: userUpdateSchema.parse(input),
       });
     }),
