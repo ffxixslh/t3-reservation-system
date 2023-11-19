@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
-
 import { useParams, useRouter } from "next/navigation";
 
 import { Input } from "~/components/ui/input";
@@ -22,18 +21,20 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { Heading } from "~/components/ui/heading";
 import { AlertModal } from "~/components/modals/alert-modal";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "~/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 // import ImageUpload from "~/components/ui/image-upload";
-// import { Checkbox } from "~/components/ui/checkbox";
+
 import { api } from "~/trpc/react";
 import { userUpdateSchema } from "~/schemas";
 import { type TPatient } from "~/types";
+import { roleFormatter } from "~/lib/utils";
+import { ROLES } from "~/constants";
 
 type UserFormValues = z.infer<typeof userUpdateSchema>;
 
@@ -67,7 +68,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   const toastMessage = initialData
     ? "该用户信息已更新。"
     : "该用户信息已创建。";
-  const action = initialData ? "保存" : "创建";
+  const confirmAction = initialData ? "保存" : "创建";
 
   const defaultValues: UserFormValues = initialData
     ? {
@@ -93,12 +94,7 @@ export const UserForm: React.FC<UserFormProps> = ({
 
   const onSubmit = async (data: UserFormValues) => {
     try {
-      const transformedData: z.infer<
-        typeof userUpdateSchema
-      > = {
-        ...data,
-        role: "PATIENT" as const,
-      };
+      const transformedData: UserFormValues = data;
 
       setLoading(true);
       if (initialData) {
@@ -222,14 +218,69 @@ export const UserForm: React.FC<UserFormProps> = ({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{`角色`}</FormLabel>
+                  <FormControl>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="选择角色"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {ROLES.map((role) => (
+                          <SelectItem
+                            key={role}
+                            value={role}
+                          >
+                            {roleFormatter(role)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          <Button
-            type="submit"
-            disabled={loading}
-            className="ml-auto"
-          >
-            {action}
-          </Button>
+          <div className="flex w-fit gap-4">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="ml-auto"
+            >
+              {confirmAction}
+            </Button>
+            <Button
+              variant="secondary"
+              disabled={loading}
+              className="ml-auto"
+              onClick={() => router.back()}
+            >
+              {`取消`}
+            </Button>
+            <Button
+              variant="ghost"
+              type="reset"
+              disabled={loading}
+              className="ml-auto"
+              onClick={() => form.reset()}
+            >
+              {`重置`}
+            </Button>
+          </div>
         </form>
       </Form>
     </>

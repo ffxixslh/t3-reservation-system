@@ -5,7 +5,7 @@ import { zhCN } from "date-fns/locale";
 
 import { CellAction } from "./cell-action";
 import type { TPatient } from "~/types";
-import { dateFormatter } from "~/lib/utils";
+import { dateFormatter, roleFormatter } from "~/lib/utils";
 
 export const columns: ColumnDef<TPatient>[] = [
   {
@@ -19,6 +19,15 @@ export const columns: ColumnDef<TPatient>[] = [
   {
     accessorKey: "phone",
     header: `电话`,
+  },
+  {
+    accessorKey: "role",
+    header: `角色`,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-2">
+        {roleFormatter(row.original?.role)}
+      </div>
+    ),
   },
   {
     accessorKey: "appointment",

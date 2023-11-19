@@ -48,15 +48,9 @@ export const UsersClient: React.FC<UsersClientProps> = ({
         columns={columns}
         data={data}
       />
-      <Heading
-        title="API"
-        description="API Calls for Products"
-      />
+      <Heading title="API" description="用户调用 API" />
       <Separator />
-      <ApiList
-        entityName="products"
-        entityIdName="productId"
-      />
+      <ApiList entityName="users" entityIdName="userId" />
     </>
   );
 };
