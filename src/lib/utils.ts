@@ -14,7 +14,7 @@ export const formatter = new Intl.NumberFormat("en-US", {
 export const dateFormatter = (
   dateValue: Date,
   locale: Locale,
-  formatTemplate = "MMM do, yyyy",
+  formatTemplate = "yyyy-MM-dd HH:mm:ss",
 ) => {
   return format(dateValue, formatTemplate, {
     locale,

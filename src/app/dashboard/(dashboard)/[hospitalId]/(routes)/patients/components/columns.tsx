@@ -1,9 +1,12 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
+import { zhCN } from "date-fns/locale";
 
 import { CellAction } from "./cell-action";
 import type { Patient } from "~/types";
+import { dateFormatter } from "~/lib/utils";
+
 export const columns: ColumnDef<Patient>[] = [
   {
     accessorKey: "name",
@@ -40,7 +43,7 @@ export const columns: ColumnDef<Patient>[] = [
     header: "创建日期",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.createdAt.toLocaleString()}
+        {dateFormatter(row.original?.createdAt, zhCN)}
       </div>
     ),
   },
