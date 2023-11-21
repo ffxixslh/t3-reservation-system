@@ -20,40 +20,46 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { AlertModal } from "~/components/modals/alert-modal";
-
-import { type BillboardColumn } from "./columns";
+import { type TDepartment } from "~/types";
+import { api } from "~/trpc/react";
 
 interface CellActionProps {
-  data: BillboardColumn;
+  data: TDepartment;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
   data,
 }) => {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ hospitalId: string }>();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const departmentDeleteMutation =
+    api.department.deleteDepartment.useMutation();
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/billboards/${data.id}`);
-      toast.success("Billboard deleted.");
+      await departmentDeleteMutation.mutateAsync({
+        id: data.id,
+      });
+      toast.success("部门数据已删除。");
       router.refresh();
     } catch (error) {
       toast.error(
-        "Make sure you removed all categories using this billboard first.",
+        "确保首先删除所有使用到该部门的相关数据。",
       );
     } finally {
-      setOpen(false);
       setLoading(false);
+      setOpen(false);
     }
   };
 
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("Billboard ID copied to clipboard.");
+  const onCopy = async (id: string) => {
+    await navigator.clipboard.writeText(id);
+    toast.success("部门 ID 已复制到剪贴板。");
   };
 
   return (
@@ -67,24 +73,31 @@ export const CellAction: React.FC<CellActionProps> = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{`打开菜单`}</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(data.id)}>
-            <Copy className="mr-2 h-4 w-4" /> Copy Id
+          <DropdownMenuLabel>{`操作`}</DropdownMenuLabel>
+          <DropdownMenuItem
+            onClick={() => onCopy(String(data.id))}
+          >
+            <Copy className="mr-2 h-4 w-4" />
+            <span>{`复制 Id`}</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/billboards/${data.id}`)
+              router.push(
+                `/dashboard/${params.hospitalId}/departments/${data.id}`,
+              )
             }
           >
-            <Edit className="mr-2 h-4 w-4" /> Update
+            <Edit className="mr-2 h-4 w-4" />
+            <span>{`编辑`}</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
+            <Trash className="mr-2 h-4 w-4" />
+            <span>{`删除`}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

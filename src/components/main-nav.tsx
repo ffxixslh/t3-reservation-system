@@ -6,18 +6,15 @@ import { useMemo } from "react";
 
 import { cn } from "~/lib/utils";
 
-interface ParamsProps {
-  hospitalId: string;
-  [key: string]: string;
-}
-
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
 
-  const params = useParams<ParamsProps>();
+  const params = useParams<{
+    hospitalId: string;
+  }>();
 
   const routes = useMemo(
     () => [
@@ -28,11 +25,11 @@ export function MainNav({
           pathname === `/dashboard/${params.hospitalId}`,
       },
       {
-        href: `/dashboard/${params.hospitalId}/billboards`,
-        label: "看板",
+        href: `/dashboard/${params.hospitalId}/departments`,
+        label: "部门",
         active:
           pathname ===
-          `/dashboard/${params.hospitalId}/billboards`,
+          `/dashboard/${params.hospitalId}/departments`,
       },
       {
         href: `/dashboard/${params.hospitalId}/users`,

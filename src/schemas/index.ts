@@ -1,10 +1,36 @@
 import { z } from "zod";
 
-export const idSchema = z.object({ id: z.string() });
+export const cuidSchema = z.object({ id: z.string() });
+
+export const numberIdSchema = z.object({ id: z.number() });
 
 export const hospitalIdSchema = z.object({
   hospitalId: z.string(),
 });
+
+export const hospitalSchema = z.object({
+  name: z.string().min(1).max(32),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
+});
+
+export const hospitalUpdateSchema =
+  hospitalSchema.merge(cuidSchema);
+
+export const departmentIdSchema = z.object({
+  departmentId: z.number(),
+});
+
+export const departmentSchema = z.object({
+  name: z.string().min(1).max(32),
+  description: z.string().min(0).max(128).default(""),
+  hospitalId: z.string(),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
+});
+
+export const departmentUpdateSchema =
+  departmentSchema.merge(numberIdSchema);
 
 export const userSchema = z.object({
   name: z.string().min(1).max(32),
@@ -31,6 +57,7 @@ export const userSchema = z.object({
   // appointment: z.array()
 });
 
-export const userUpdateSchema = userSchema.merge(idSchema);
+export const userUpdateSchema =
+  userSchema.merge(cuidSchema);
 
 // export const appointmentSchema = z.object({});

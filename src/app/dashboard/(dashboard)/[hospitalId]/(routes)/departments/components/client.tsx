@@ -9,45 +9,50 @@ import { Heading } from "~/components/ui/heading";
 import { Separator } from "~/components/ui/separator";
 import { ApiList } from "~/components/ui/api-list";
 
-import { columns, type BillboardColumn } from "./columns";
+import { columns } from "./columns";
+import { type TDepartment } from "~/types";
 
-interface BillboardClientProps {
-  data: BillboardColumn[];
+interface DepartmentClientProps {
+  data: TDepartment[];
 }
 
-export const BillboardClient: React.FC<
-  BillboardClientProps
+export const DepartmentClient: React.FC<
+  DepartmentClientProps
 > = ({ data }) => {
-  const params = useParams();
+  const params = useParams<{
+    hospitalId: string;
+  }>();
   const router = useRouter();
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Billboards (${data.length})`}
-          description="Manage billboards for your store"
+          title={`部门 (${data.length})`}
+          description={`管理医院的部门数据`}
         />
         <Button
-          onClick={() => router.push(`/billboards/new`)}
+          onClick={() =>
+            router.push(
+              `/dashboard/${params.hospitalId}/departments/new`,
+            )
+          }
         >
-          <Plus className="mr-2 h-4 w-4" /> Add New
+          <Plus className="mr-2 h-4 w-4" />
+          <span>{`新增`}</span>
         </Button>
       </div>
       <Separator />
       <DataTable
-        searchKey="label"
+        searchKey="name"
         columns={columns}
         data={data}
       />
-      <Heading
-        title="API"
-        description="API Calls for Billboards"
-      />
+      <Heading title="API" description="部门接口调用" />
       <Separator />
       <ApiList
-        entityName="billboards"
-        entityIdName="billboardId"
+        entityName="departments"
+        entityIdName="departmentId"
       />
     </>
   );
