@@ -56,7 +56,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 
   const onCopy = async (id: string) => {
     await navigator.clipboard.writeText(id);
-    toast.success("Product ID copied to clipboard.");
+    toast.success("用户 ID 已复制到剪贴板。");
   };
 
   return (
