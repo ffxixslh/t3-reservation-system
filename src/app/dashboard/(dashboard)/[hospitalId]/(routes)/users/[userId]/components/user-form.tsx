@@ -68,7 +68,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   const toastMessage = initialData
     ? "该用户信息已更新。"
     : "该用户信息已创建。";
-  const confirmAction = initialData ? "保存" : "创建";
+  const action = initialData ? "保存" : "创建";
 
   const defaultValues: UserFormValues = initialData
     ? {
@@ -94,17 +94,11 @@ export const UserForm: React.FC<UserFormProps> = ({
 
   const onSubmit = async (data: UserFormValues) => {
     try {
-      const transformedData: UserFormValues = data;
-
       setLoading(true);
       if (initialData) {
-        await userUpdateMutation.mutateAsync(
-          transformedData,
-        );
+        await userUpdateMutation.mutateAsync(data);
       } else {
-        await userCreateMutation.mutateAsync(
-          transformedData,
-        );
+        await userCreateMutation.mutateAsync(data);
       }
       router.push(`/dashboard/${params.hospitalId}/users`);
       toast.success(toastMessage);
@@ -126,7 +120,9 @@ export const UserForm: React.FC<UserFormProps> = ({
       toast.success("用户数据已删除。");
       router.refresh();
     } catch (error) {
-      toast.error("出了些问题。");
+      toast.error(
+        "请确保你已删除所有使用到该用户的相关数据。",
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -163,13 +159,45 @@ export const UserForm: React.FC<UserFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="w-full space-y-8"
         >
+          {/* <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Images</FormLabel>
+                  <FormControl>
+                    <ImageUpload
+                      value={field.value.map(
+                        (image) => image.url,
+                      )}
+                      disabled={loading}
+                      onChange={(url) =>
+                        field.onChange([
+                          ...field.value,
+                          { url },
+                        ])
+                      }
+                      onRemove={(url) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (current) =>
+                              current.url !== url,
+                          ),
+                        ])
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
           <div className="gap-8 md:grid md:grid-cols-3">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{`名称`}</FormLabel>
+                  <FormLabel>{`用户名称`}</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -187,7 +215,7 @@ export const UserForm: React.FC<UserFormProps> = ({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{`邮箱`}</FormLabel>
+                  <FormLabel>{`用户邮箱`}</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -205,7 +233,7 @@ export const UserForm: React.FC<UserFormProps> = ({
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{`电话`}</FormLabel>
+                  <FormLabel>{`用户电话`}</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -223,7 +251,7 @@ export const UserForm: React.FC<UserFormProps> = ({
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{`角色`}</FormLabel>
+                  <FormLabel>{`用户角色`}</FormLabel>
                   <FormControl>
                     <Select
                       disabled={loading}
@@ -255,16 +283,17 @@ export const UserForm: React.FC<UserFormProps> = ({
               )}
             />
           </div>
-          <div className="flex w-fit gap-4">
+          <div className="flex w-fit gap-3">
             <Button
               type="submit"
               disabled={loading}
               className="ml-auto"
             >
-              {confirmAction}
+              {action}
             </Button>
             <Button
               variant="secondary"
+              type="button"
               disabled={loading}
               className="ml-auto"
               onClick={() => router.back()}
@@ -286,35 +315,3 @@ export const UserForm: React.FC<UserFormProps> = ({
     </>
   );
 };
-
-/* <FormField
-            control={form.control}
-            name="images"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value.map(
-                      (image) => image.url,
-                    )}
-                    disabled={loading}
-                    onChange={(url) =>
-                      field.onChange([
-                        ...field.value,
-                        { url },
-                      ])
-                    }
-                    onRemove={(url) =>
-                      field.onChange([
-                        ...field.value.filter(
-                          (current) => current.url !== url,
-                        ),
-                      ])
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */

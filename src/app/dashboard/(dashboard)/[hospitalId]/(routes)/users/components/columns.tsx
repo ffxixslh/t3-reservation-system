@@ -10,19 +10,19 @@ import { dateFormatter, roleFormatter } from "~/lib/utils";
 export const columns: ColumnDef<TPatient>[] = [
   {
     accessorKey: "name",
-    header: `名称`,
+    header: "名称",
   },
   {
     accessorKey: "email",
-    header: `邮箱`,
+    header: "邮箱",
   },
   {
     accessorKey: "phone",
-    header: `电话`,
+    header: "电话",
   },
   {
     accessorKey: "role",
-    header: `角色`,
+    header: "角色",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {roleFormatter(row.original?.role)}
@@ -31,19 +31,19 @@ export const columns: ColumnDef<TPatient>[] = [
   },
   {
     accessorKey: "appointment",
-    header: `预约`,
+    header: "预约",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.appointment.length}
+        {row.original?.appointments.length}
       </div>
     ),
   },
   {
     accessorKey: "medicalRecord",
-    header: `医疗记录`,
+    header: "医疗记录",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.medicalRecord.length}
+        {row.original?.medicalRecords.length}
       </div>
     ),
   },

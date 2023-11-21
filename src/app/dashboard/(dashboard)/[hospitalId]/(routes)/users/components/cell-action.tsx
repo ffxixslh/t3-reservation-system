@@ -30,24 +30,27 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({
   data,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
   const router = useRouter();
   const params = useParams<{ hospitalId: string }>();
+
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const userDeleteMutation =
     api.user.deleteUser.useMutation();
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     try {
       setLoading(true);
-      userDeleteMutation.mutate({
+      await userDeleteMutation.mutateAsync({
         id: data.id,
       });
-      toast.success(`用户数据删除成功。`);
+      toast.success(`用户数据已删除。`);
       router.refresh();
     } catch (error) {
-      toast.error(`出了些问题`);
+      toast.error(
+        "请确保你已删除所有使用到该用户的相关数据。",
+      );
     } finally {
       setLoading(false);
       setOpen(false);

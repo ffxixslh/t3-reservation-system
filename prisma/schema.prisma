@@ -48,8 +48,8 @@ model User {
   hospitalId    String
   hospitalAdmin HospitalAdmin? @relation("AdminToUser")
 
-  appointment   Appointment[]
-  medicalRecord MedicalRecord[]
+  appointments   Appointment[]
+  medicalRecords MedicalRecord[]
 
   @@map("users")
 }
