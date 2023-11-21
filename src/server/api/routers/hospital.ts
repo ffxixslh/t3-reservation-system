@@ -1,30 +1,23 @@
-import { z } from "zod";
+import {
+  cuidSchema,
+  hospitalSchema,
+  hospitalUpdateSchema,
+} from "~/schemas";
 
 import {
   createTRPCRouter,
   publicProcedure,
 } from "~/server/api/trpc";
 
-const idSchema = z.object({ id: z.string() });
-
-const hospitalSchema = z.object({
-  name: z.string().min(1).max(32),
-});
-
-const hospitalUpdateSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-});
-
 export const hospitalRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.hospital.findMany();
   }),
   getOne: publicProcedure
-    .input(idSchema)
+    .input(cuidSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.hospital.findUnique({
-        where: idSchema.parse(input),
+        where: cuidSchema.parse(input),
       });
     }),
   createHospital: publicProcedure
@@ -38,15 +31,15 @@ export const hospitalRouter = createTRPCRouter({
     .input(hospitalUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.hospital.update({
-        where: { id: input.id },
+        where: cuidSchema.parse(input),
         data: hospitalUpdateSchema.parse(input),
       });
     }),
   deleteHospital: publicProcedure
-    .input(idSchema)
+    .input(cuidSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.hospital.delete({
-        where: idSchema.parse(input),
+        where: cuidSchema.parse(input),
       });
     }),
 });
