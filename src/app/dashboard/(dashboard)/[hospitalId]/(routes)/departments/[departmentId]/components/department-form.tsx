@@ -109,11 +109,11 @@ export const DepartmentForm: React.FC<
       router.push(
         `/dashboard/${params.hospitalId}/departments`,
       );
-      toast.success("用户数据已删除。");
+      toast.success("部门数据已删除。");
       router.refresh();
     } catch (error) {
       toast.error(
-        "请确保你已删除所有使用到该用户的相关数据。",
+        "请确保你已删除所有使用到该部门的相关数据。",
       );
     } finally {
       setLoading(false);
