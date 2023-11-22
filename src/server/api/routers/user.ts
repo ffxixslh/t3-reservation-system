@@ -1,6 +1,6 @@
 import {
   hospitalIdSchema,
-  cuidSchema,
+  stringIdSchema,
   userSchema,
   userUpdateSchema,
 } from "~/schemas";
@@ -25,10 +25,10 @@ export const userRouter = createTRPCRouter({
       });
     }),
   getOne: publicProcedure
-    .input(cuidSchema)
+    .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.user.findUnique({
-        where: cuidSchema.parse(input),
+        where: stringIdSchema.parse(input),
         include: {
           appointments: true,
           medicalRecords: true,
@@ -46,15 +46,15 @@ export const userRouter = createTRPCRouter({
     .input(userUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.user.update({
-        where: cuidSchema.parse(input),
+        where: stringIdSchema.parse(input),
         data: userUpdateSchema.parse(input),
       });
     }),
   deleteUser: publicProcedure
-    .input(cuidSchema)
+    .input(stringIdSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.user.delete({
-        where: cuidSchema.parse(input),
+        where: stringIdSchema.parse(input),
       });
     }),
 });

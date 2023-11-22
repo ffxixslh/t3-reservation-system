@@ -32,7 +32,7 @@ import {
 
 import { api } from "~/trpc/react";
 import { doctorUpdateSchema } from "~/schemas";
-import { type TDoctor } from "~/types";
+import { type TDepartment, type TDoctor } from "~/types";
 import { levelFormatter } from "~/lib/utils";
 import { LEVEL } from "~/constants";
 
@@ -40,10 +40,12 @@ type DoctorFormValues = z.infer<typeof doctorUpdateSchema>;
 
 interface DoctorFormProps {
   initialData: TDoctor | null;
+  departments: TDepartment[];
 }
 
 export const DoctorForm: React.FC<DoctorFormProps> = ({
   initialData,
+  departments,
 }) => {
   const params = useParams<{
     hospitalId: string;
@@ -74,7 +76,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     id: "",
     name: "",
     hospitalId: params.hospitalId,
-    departmentId: 0,
+    departmentId: "",
     level: "RESIDENT",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -212,32 +214,32 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               name="departmentId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{`部门 ID`}</FormLabel>
+                  <FormLabel>{`部门`}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
+                    <Select
                       disabled={loading}
-                      placeholder={`部门 ID`}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="hospitalId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{`医院 ID`}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      disabled={loading}
-                      placeholder={`医院 ID`}
-                      {...field}
-                    />
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="选择部门"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {departments.map((department) => (
+                          <SelectItem
+                            key={department.id}
+                            value={department.id}
+                          >
+                            {department.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

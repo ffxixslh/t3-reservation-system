@@ -4,7 +4,10 @@ import type {
   User,
   Department,
   Doctor,
+  Hospital,
 } from "@prisma/client";
+
+export type THospital = Hospital;
 
 export type TUser = User;
 
@@ -18,4 +21,6 @@ export type TPatient = User & {
 
 export type TDoctor = Doctor & {
   appointments: Appointment[];
-} & { medicalRecords: MedicalRecord[] };
+} & { medicalRecords: MedicalRecord[] } & {
+  department: Department;
+};

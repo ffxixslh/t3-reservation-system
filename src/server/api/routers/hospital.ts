@@ -1,5 +1,5 @@
 import {
-  cuidSchema,
+  stringIdSchema,
   hospitalSchema,
   hospitalUpdateSchema,
 } from "~/schemas";
@@ -14,10 +14,10 @@ export const hospitalRouter = createTRPCRouter({
     return await ctx.db.hospital.findMany();
   }),
   getOne: publicProcedure
-    .input(cuidSchema)
+    .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.hospital.findUnique({
-        where: cuidSchema.parse(input),
+        where: stringIdSchema.parse(input),
       });
     }),
   createHospital: publicProcedure
@@ -31,15 +31,15 @@ export const hospitalRouter = createTRPCRouter({
     .input(hospitalUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.hospital.update({
-        where: cuidSchema.parse(input),
+        where: stringIdSchema.parse(input),
         data: hospitalUpdateSchema.parse(input),
       });
     }),
   deleteHospital: publicProcedure
-    .input(cuidSchema)
+    .input(stringIdSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.hospital.delete({
-        where: cuidSchema.parse(input),
+        where: stringIdSchema.parse(input),
       });
     }),
 });
