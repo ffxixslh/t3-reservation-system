@@ -34,7 +34,7 @@ import { api } from "~/trpc/react";
 import { userUpdateSchema } from "~/schemas";
 import { type TPatient } from "~/types";
 import { roleFormatter } from "~/lib/utils";
-import { ROLES } from "~/constants";
+import { ROLE } from "~/constants";
 
 type UserFormValues = z.infer<typeof userUpdateSchema>;
 
@@ -267,7 +267,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {ROLES.map((role) => (
+                        {ROLE.map((role) => (
                           <SelectItem
                             key={role}
                             value={role}

@@ -2,7 +2,7 @@ import { api } from "~/trpc/server";
 
 import { UsersClient } from "./components/client";
 
-const UserPage = async ({
+const UsersPage = async ({
   params,
 }: {
   params: { hospitalId: string };
@@ -20,4 +20,4 @@ const UserPage = async ({
   );
 };
 
-export default UserPage;
+export default UsersPage;
