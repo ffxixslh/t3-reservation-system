@@ -1,6 +1,6 @@
 import { UserForm } from "../[userId]/components/user-form";
 
-const UsersPage = async () => {
+const UserNewPage = async () => {
   await Promise.resolve();
 
   return (
@@ -12,4 +12,4 @@ const UsersPage = async () => {
   );
 };
 
-export default UsersPage;
+export default UserNewPage;
