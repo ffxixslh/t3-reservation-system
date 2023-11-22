@@ -59,12 +59,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     defaultValues: initialData,
   });
 
-  const onSubmit = (data: SettingsFormValues) => {
+  const onSubmit = async (data: SettingsFormValues) => {
     try {
       setLoading(true);
-      hospitalUpdateMutation.mutate(data);
-      router.refresh();
+      await hospitalUpdateMutation.mutateAsync(data);
       toast.success(`医院设置已更新。`);
+      router.refresh();
     } catch (error) {
       toast.error(`出了些问题`);
     } finally {
@@ -72,18 +72,16 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     }
   };
 
-  const onDelete = () => {
+  const onDelete = async () => {
     try {
       setLoading(true);
-      hospitalDeleteMutation.mutate({
+      await hospitalDeleteMutation.mutateAsync({
         id: initialData.id,
       });
       router.replace("/dashboard");
       toast.success(`医院数据已删除。`);
     } catch (error) {
-      toast.error(
-        `确保首先删除医院内所有内容再执行此操作。`,
-      );
+      toast.error(`请先删除医院内所有内容再执行此操作。`);
     } finally {
       setLoading(false);
       setOpen(false);
