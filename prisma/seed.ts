@@ -6,8 +6,8 @@ async function main() {
     await db.hospital.create({
       data: {
         name: "hospital1",
-        createdAt: new Date().toLocaleString(),
-        updatedAt: new Date().toLocaleString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
   /* 2. create department */
@@ -24,8 +24,8 @@ async function main() {
           id: hospitalId,
         },
       },
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
   /* 3. create patient */
@@ -45,8 +45,8 @@ async function main() {
           id: hospitalId,
         },
       },
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
   /* 4. create doctor */
@@ -61,9 +61,9 @@ async function main() {
       name: "doctor1",
       departmentId,
       hospitalId,
-      level: "MAIN",
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
+      level: "ATTENDING",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
   /* 5. create appointment */
@@ -78,10 +78,10 @@ async function main() {
       patientId: patientId,
       doctorId: doctorId,
       hospitalId: hospitalId,
-      time: new Date().toLocaleString(),
+      time: new Date(),
       status: "PENDING",
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
 }

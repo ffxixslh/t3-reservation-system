@@ -8,7 +8,7 @@ const DepartmentPage = async ({
   params: { departmentId: string };
 }) => {
   const department = await api.department.getOne.query({
-    id: Number(params.departmentId),
+    id: params.departmentId,
   });
 
   return (

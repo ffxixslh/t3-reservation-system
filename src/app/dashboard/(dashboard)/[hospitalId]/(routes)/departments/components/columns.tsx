@@ -17,7 +17,9 @@ export const columns: ColumnDef<TDepartment>[] = [
     header: "描述",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.description}
+        {row.original?.description === null
+          ? "无"
+          : row.original?.description}
       </div>
     ),
   },

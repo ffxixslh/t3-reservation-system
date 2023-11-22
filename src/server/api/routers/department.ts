@@ -1,5 +1,5 @@
 import {
-  numberIdSchema,
+  stringIdSchema,
   departmentSchema,
   departmentUpdateSchema,
   hospitalIdSchema,
@@ -25,10 +25,10 @@ export const departmentRouter = createTRPCRouter({
       });
     }),
   getOne: publicProcedure
-    .input(numberIdSchema)
+    .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.department.findUnique({
-        where: numberIdSchema.parse(input),
+        where: stringIdSchema.parse(input),
         include: {
           doctors: true,
         },
@@ -45,15 +45,15 @@ export const departmentRouter = createTRPCRouter({
     .input(departmentUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.department.update({
-        where: numberIdSchema.parse(input),
+        where: stringIdSchema.parse(input),
         data: departmentUpdateSchema.parse(input),
       });
     }),
   deleteDepartment: publicProcedure
-    .input(numberIdSchema)
+    .input(stringIdSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.department.delete({
-        where: numberIdSchema.parse(input),
+        where: stringIdSchema.parse(input),
       });
     }),
 });

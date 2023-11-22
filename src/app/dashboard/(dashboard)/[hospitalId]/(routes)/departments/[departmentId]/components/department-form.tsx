@@ -71,7 +71,7 @@ export const DepartmentForm: React.FC<
           description: initialData?.description ?? "",
         }
       : {
-          id: 0,
+          id: "",
           name: "",
           description: "",
           hospitalId: params.hospitalId,
@@ -104,7 +104,7 @@ export const DepartmentForm: React.FC<
     try {
       setLoading(true);
       await departmentDeleteMutation.mutateAsync({
-        id: Number(params.departmentId),
+        id: params.departmentId,
       });
       router.push(
         `/dashboard/${params.hospitalId}/departments`,

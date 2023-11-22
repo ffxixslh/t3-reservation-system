@@ -1,6 +1,6 @@
 import { DepartmentForm } from "../[departmentId]/components/department-form";
 
-const UsersPage = async () => {
+const DepartmentNewPage = async () => {
   await Promise.resolve();
 
   return (
@@ -12,4 +12,4 @@ const UsersPage = async () => {
   );
 };
 
-export default UsersPage;
+export default DepartmentNewPage;
