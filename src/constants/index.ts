@@ -1,7 +1,14 @@
-import { type TUser } from "~/types";
+import { type TDoctor, type TUser } from "~/types";
 
-export const ROLES: TUser["role"][] = [
+export const ROLE: TUser["role"][] = [
   "PATIENT",
   "ADMIN",
   "DOCTOR",
+];
+
+export const LEVEL: TDoctor["level"][] = [
+  "CHIEF",
+  "ATTENDING",
+  "RESIDENT",
+  "INTERN",
 ];

@@ -1,62 +1,59 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table";
+import { zhCN } from "date-fns/locale";
 
-import { CellAction } from "./cell-action"
+import { CellAction } from "./cell-action";
+import type { TDoctor } from "~/types";
+import { dateFormatter, levelFormatter } from "~/lib/utils";
 
-export type ProductColumn = {
-  id: string
-  name: string;
-  price: string;
-  category: string;
-  size: string;
-  color: string;
-  createdAt: string;
-  isFeatured: boolean;
-  isArchived: boolean;
-}
-
-export const columns: ColumnDef<ProductColumn>[] = [
+export const columns: ColumnDef<TDoctor>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "名称",
   },
   {
-    accessorKey: "isArchived",
-    header: "Archived",
+    accessorKey: "departmentId",
+    header: "部门 ID",
   },
   {
-    accessorKey: "isFeatured",
-    header: "Featured",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-  },
-  {
-    accessorKey: "size",
-    header: "Size",
-  },
-  {
-    accessorKey: "color",
-    header: "Color",
+    accessorKey: "role",
+    header: "级别",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original.color}
-        <div className="h-6 w-6 rounded-full border" style={{ backgroundColor: row.original.color }} />
+        {levelFormatter(row.original?.level)}
       </div>
-    )
+    ),
+  },
+  {
+    accessorKey: "appointment",
+    header: "预约",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-2">
+        {row.original?.appointments.length}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "medicalRecord",
+    header: "医疗记录",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-2">
+        {row.original?.medicalRecords.length}
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",
-    header: "Date",
+    header: "创建日期",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-2">
+        {dateFormatter(row.original?.createdAt, zhCN)}
+      </div>
+    ),
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
+    cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

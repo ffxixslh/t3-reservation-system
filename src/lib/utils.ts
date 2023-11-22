@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { format, type Locale } from "date-fns";
 import { twMerge } from "tailwind-merge";
-import { type TUser } from "~/types";
+import { type TDoctor, type TUser } from "~/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -32,6 +32,23 @@ export const roleFormatter = (role: TUser["role"]) => {
     }
     case "ADMIN": {
       return "管理员";
+    }
+  }
+};
+
+export const levelFormatter = (level: TDoctor["level"]) => {
+  switch (level) {
+    case "CHIEF": {
+      return "主任医师";
+    }
+    case "ATTENDING": {
+      return "主治医师";
+    }
+    case "RESIDENT": {
+      return "住院医师";
+    }
+    case "INTERN": {
+      return "实习医师";
     }
   }
 };

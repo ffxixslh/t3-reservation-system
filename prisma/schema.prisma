@@ -25,11 +25,11 @@ model Hospital {
 }
 
 model HospitalAdmin {
-  hospitalId String @map("hospital_id")
-  userId     String @unique @map("user_id")
+  hospital   Hospital @relation("HospitalToAdmin", fields: [hospitalId], references: [id])
+  hospitalId String   @map("hospital_id")
 
-  hospital Hospital @relation("HospitalToAdmin", fields: [hospitalId], references: [id])
-  user     User     @relation("AdminToUser", fields: [userId], references: [id])
+  user   User   @relation("UserToAdmin", fields: [userId], references: [id])
+  userId String @unique @map("user_id")
 
   @@unique([hospitalId, userId])
 }
@@ -44,9 +44,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  hospital      Hospital       @relation("HospitalToPatient", fields: [hospitalId], references: [id])
-  hospitalId    String
-  hospitalAdmin HospitalAdmin? @relation("AdminToUser")
+  hospital   Hospital @relation("HospitalToPatient", fields: [hospitalId], references: [id])
+  hospitalId String
+
+  hospitalAdmin HospitalAdmin? @relation("UserToAdmin")
+
+  doctor   Doctor? @relation("DoctorToUser", fields: [doctorId], references: [id])
+  doctorId String? @unique
 
   appointments   Appointment[]
   medicalRecords MedicalRecord[]
@@ -72,15 +76,19 @@ model Doctor {
   hospital   Hospital @relation("HospitalToDoctor", fields: [hospitalId], references: [id])
   hospitalId String
 
-  appointments  Appointment[]
-  medicalRecord MedicalRecord[]
+  user   User?   @relation("DoctorToUser")
+  userId String?
+
+  appointments   Appointment[]
+  medicalRecords MedicalRecord[]
 
   @@map("doctors")
 }
 
 enum DoctorLevel {
-  MAIN
-  VICE
+  RESIDENT
+  ATTENDING
+  INTERN
   CHIEF
 }
 

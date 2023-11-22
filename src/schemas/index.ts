@@ -60,4 +60,21 @@ export const userSchema = z.object({
 export const userUpdateSchema =
   userSchema.merge(cuidSchema);
 
+export const doctorSchema = z.object({
+  name: z.string().min(1).max(32),
+  level: z.enum([
+    "CHIEF",
+    "ATTENDING",
+    "INTERN",
+    "RESIDENT",
+  ]),
+  departmentId: z.number(),
+  hospitalId: z.string(),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
+});
+
+export const doctorUpdateSchema =
+  doctorSchema.merge(cuidSchema);
+
 // export const appointmentSchema = z.object({});

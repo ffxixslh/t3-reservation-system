@@ -9,29 +9,37 @@ import { Heading } from "~/components/ui/heading";
 import { Separator } from "~/components/ui/separator";
 import { ApiList } from "~/components/ui/api-list";
 
-import { type ProductColumn, columns } from "./columns";
+import { columns } from "./columns";
+import { type TDoctor } from "~/types";
 
-interface ProductsClientProps {
-  data: ProductColumn[];
+interface DoctorsClientProps {
+  data: TDoctor[];
 }
 
-export const ProductsClient: React.FC<
-  ProductsClientProps
+export const DoctorsClient: React.FC<
+  DoctorsClientProps
 > = ({ data }) => {
-  const params = useParams();
+  const params = useParams<{
+    hospitalId: string;
+  }>();
   const router = useRouter();
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Products (${data.length})`}
-          description="Manage products for your store"
+          title={`医生 (${data.length})`}
+          description={`管理医院的医生数据`}
         />
         <Button
-          onClick={() => router.push(`/products/new`)}
+          onClick={() =>
+            router.push(
+              `/dashboard/${params.hospitalId}/doctors/new`,
+            )
+          }
         >
-          <Plus className="mr-2 h-4 w-4" /> Add New
+          <Plus className="mr-2 h-4 w-4" />{" "}
+          <span>{`新增`}</span>
         </Button>
       </div>
       <Separator />
@@ -40,14 +48,11 @@ export const ProductsClient: React.FC<
         columns={columns}
         data={data}
       />
-      <Heading
-        title="API"
-        description="API Calls for Products"
-      />
+      <Heading title="API" description="医生接口调用" />
       <Separator />
       <ApiList
-        entityName="products"
-        entityIdName="productId"
+        entityName="doctors"
+        entityIdName="doctorId"
       />
     </>
   );

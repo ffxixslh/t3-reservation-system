@@ -15,3 +15,7 @@ export type TDepartment = Department & {
 export type TPatient = User & {
   appointments: Appointment[];
 } & { medicalRecords: MedicalRecord[] };
+
+export type TDoctor = Doctor & {
+  appointments: Appointment[];
+} & { medicalRecords: MedicalRecord[] };
