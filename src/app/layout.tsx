@@ -16,10 +16,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Reservation System Dashboard",
-    default: "Dashboard",
+    template: "%s | 医疗预约系统",
+    default: "医疗预约系统",
   },
-  description: "Reservation System Dashboard",
+  description: "医疗预约系统。",
 };
 
 export default async function RootLayout({
