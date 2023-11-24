@@ -7,14 +7,14 @@ const DoctorsPage = async ({
 }: {
   params: { hospitalId: string };
 }) => {
-  const data = await api.doctor.getAll.query({
+  const doctors = await api.doctor.getAll.query({
     hospitalId: params.hospitalId,
   });
 
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <DoctorsClient data={data} />
+        <DoctorsClient data={doctors} />
       </div>
     </div>
   );

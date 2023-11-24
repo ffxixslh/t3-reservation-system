@@ -13,7 +13,7 @@ export const columns: ColumnDef<TDoctor>[] = [
     header: "名称",
   },
   {
-    accessorKey: "departmentId",
+    accessorKey: "department",
     header: "部门",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
