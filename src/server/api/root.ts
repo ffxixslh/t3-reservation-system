@@ -1,7 +1,8 @@
 import { hospitalRouter } from "~/server/api/routers/hospital";
 import { departmentRouter } from "~/server/api/routers/department";
-import { doctorRouter } from "./routers/doctor";
+import { doctorRouter } from "~/server/api/routers/doctor";
 import { userRouter } from "~/server/api/routers/user";
+import { appointmentRouter } from "~/server/api/routers/appointment";
 
 import { createTRPCRouter } from "~/server/api/trpc";
 
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   department: departmentRouter,
   doctor: doctorRouter,
   user: userRouter,
+  appointment: appointmentRouter,
 });
 
 // export type definition of API

@@ -24,3 +24,7 @@ export type TDoctor = Doctor & {
 } & { medicalRecords: MedicalRecord[] } & {
   department: Department;
 };
+
+export type TAppointment = Appointment & {
+  doctor: Doctor;
+} & { patient: User };

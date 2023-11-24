@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-// import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -22,8 +21,6 @@ import {
 import { Separator } from "~/components/ui/separator";
 import { Heading } from "~/components/ui/heading";
 import { AlertModal } from "~/components/modals/alert-modal";
-import { ApiAlert } from "~/components/ui/api-alert";
-import { useOrigin } from "~/hooks/use-origin";
 import { api } from "~/trpc/react";
 
 const formSchema = z.object({
@@ -44,7 +41,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
   initialData,
 }) => {
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -144,12 +140,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
           </Button>
         </form>
       </Form>
-      <Separator />
-      <ApiAlert
-        title="NEXT_PUBLIC_API_URL"
-        variant="public"
-        description={`${origin}/api/`}
-      />
     </>
   );
 };

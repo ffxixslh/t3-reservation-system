@@ -1,4 +1,8 @@
-import { type TDoctor, type TUser } from "~/types";
+import {
+  type TAppointment,
+  type TDoctor,
+  type TUser,
+} from "~/types";
 
 export const ROLE: TUser["role"][] = [
   "PATIENT",
@@ -11,4 +15,11 @@ export const LEVEL: TDoctor["level"][] = [
   "ATTENDING",
   "RESIDENT",
   "INTERN",
+];
+
+export const STATUS: TAppointment["status"][] = [
+  "PENDING",
+  "CONFIRMED",
+  "CANCELED",
+  "COMPLETED",
 ];

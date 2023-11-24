@@ -75,4 +75,20 @@ export const doctorSchema = z.object({
 export const doctorUpdateSchema =
   doctorSchema.merge(stringIdSchema);
 
-// export const appointmentSchema = z.object({});
+export const appointmentSchema = z.object({
+  time: z.date().default(new Date()),
+  status: z.enum([
+    "PENDING",
+    "CONFIRMED",
+    "COMPLETED",
+    "CANCELED",
+  ]),
+  patientId: z.string(),
+  doctorId: z.string(),
+  hospitalId: z.string(),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
+});
+
+export const appointmentUpdateSchema =
+  appointmentSchema.merge(stringIdSchema);

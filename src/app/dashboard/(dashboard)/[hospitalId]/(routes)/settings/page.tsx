@@ -1,14 +1,16 @@
+import React from "react";
 import { redirect } from "next/navigation";
-// import { auth } from "@clerk/nextjs";
 
 import { api } from "~/trpc/server";
 
 import { SettingsForm } from "./components/settings-form";
 
-const SettingsPage = async ({
-  params,
-}: {
+interface SettingsPageParams {
   params: { hospitalId: string };
+}
+
+const SettingsPage: React.FC<SettingsPageParams> = async ({
+  params,
 }) => {
   const hospital = await api.hospital.getOne.query({
     id: params.hospitalId,

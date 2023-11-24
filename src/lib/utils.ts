@@ -1,7 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import { format, type Locale } from "date-fns";
 import { twMerge } from "tailwind-merge";
-import { type TDoctor, type TUser } from "~/types";
+import {
+  type TAppointment,
+  type TDoctor,
+  type TUser,
+} from "~/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -13,7 +17,7 @@ export const formatter = new Intl.NumberFormat("en-US", {
 });
 
 export const dateFormatter = (
-  dateValue: Date,
+  dateValue: Date | number,
   locale: Locale,
   formatTemplate = "yyyy-MM-dd HH:mm:ss",
 ) => {
@@ -49,6 +53,25 @@ export const levelFormatter = (level: TDoctor["level"]) => {
     }
     case "INTERN": {
       return "实习医师";
+    }
+  }
+};
+
+export const statusFormatter = (
+  status: TAppointment["status"],
+) => {
+  switch (status) {
+    case "PENDING": {
+      return "待处理";
+    }
+    case "CONFIRMED": {
+      return "已确认";
+    }
+    case "CANCELED": {
+      return "已取消";
+    }
+    case "COMPLETED": {
+      return "已完成";
     }
   }
 };
