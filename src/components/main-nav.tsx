@@ -53,6 +53,13 @@ export function MainNav({
           `/dashboard/${params.hospitalId}/appointments`,
       },
       {
+        href: `/dashboard/${params.hospitalId}/records`,
+        label: "医疗记录",
+        active:
+          pathname ===
+          `/dashboard/${params.hospitalId}/records`,
+      },
+      {
         href: `/dashboard/${params.hospitalId}/admins`,
         label: "管理员",
         active:

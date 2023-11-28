@@ -92,3 +92,23 @@ export const appointmentSchema = z.object({
 
 export const appointmentUpdateSchema =
   appointmentSchema.merge(stringIdSchema);
+
+export const textSchema = z.object({
+  title: z.string().min(2).max(32),
+  content: z.string().min(8).max(1024),
+});
+
+export const textUpdateSchema =
+  textSchema.merge(stringIdSchema);
+
+export const recordSchema = z.object({
+  textId: z.string(),
+  patientId: z.string(),
+  doctorId: z.string(),
+  hospitalId: z.string(),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
+});
+
+export const recordUpdateSchema =
+  recordSchema.merge(stringIdSchema);

@@ -5,6 +5,7 @@ import type {
   Department,
   Doctor,
   Hospital,
+  Text,
 } from "@prisma/client";
 
 export type THospital = Hospital;
@@ -28,3 +29,9 @@ export type TDoctor = Doctor & {
 export type TAppointment = Appointment & {
   doctor: Doctor;
 } & { patient: User };
+
+export type TText = Text;
+
+export type TRecord = MedicalRecord & {
+  doctor: Doctor;
+} & { patient: User } & { text: Text };

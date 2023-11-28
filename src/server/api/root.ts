@@ -3,6 +3,8 @@ import { departmentRouter } from "~/server/api/routers/department";
 import { doctorRouter } from "~/server/api/routers/doctor";
 import { userRouter } from "~/server/api/routers/user";
 import { appointmentRouter } from "~/server/api/routers/appointment";
+import { textRouter } from "~/server/api/routers/text";
+import { recordRouter } from "~/server/api/routers/record";
 
 import { createTRPCRouter } from "~/server/api/trpc";
 
@@ -17,6 +19,8 @@ export const appRouter = createTRPCRouter({
   doctor: doctorRouter,
   user: userRouter,
   appointment: appointmentRouter,
+  text: textRouter,
+  record: recordRouter,
 });
 
 // export type definition of API
