@@ -169,7 +169,7 @@ export const DepartmentForm: React.FC<
               </FormItem>
             )}
           /> */}
-          <div className="gap-8 md:grid md:grid-cols-3">
+          <div className="gap-8 md:grid md:grid-cols-4">
             <FormField
               control={form.control}
               name="name"

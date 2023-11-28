@@ -9,6 +9,10 @@ import { dateFormatter, levelFormatter } from "~/lib/utils";
 
 export const columns: ColumnDef<TDoctor>[] = [
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "name",
     header: "名称",
   },

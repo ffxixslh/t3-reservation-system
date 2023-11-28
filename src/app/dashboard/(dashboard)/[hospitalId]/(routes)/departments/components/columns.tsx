@@ -9,6 +9,10 @@ import { dateFormatter } from "~/lib/utils";
 
 export const columns: ColumnDef<TDepartment>[] = [
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "name",
     header: "名称",
   },

@@ -12,6 +12,10 @@ import {
 
 export const columns: ColumnDef<TAppointment>[] = [
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "status",
     header: "预约状态",
     cell: ({ row }) => (

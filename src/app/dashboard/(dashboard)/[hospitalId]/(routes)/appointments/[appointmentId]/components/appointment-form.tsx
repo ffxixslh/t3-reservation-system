@@ -37,7 +37,7 @@ import {
   DatetimePicker,
   selectTimeConstraint,
   timeParser,
-} from "~/components/datetime-picker";
+} from "~/components/ui/datetime-picker";
 import { STATUS } from "~/constants";
 import { statusFormatter } from "~/lib/utils";
 
@@ -211,21 +211,7 @@ export const AppointmentForm: React.FC<
                 </FormItem>
               )}
             /> */}
-          <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="time"
-              render={({ field }) => (
-                <FormItem className="flex flex-col gap-y-[5px] pb-2 pt-1.5">
-                  <FormLabel>{`预约时间`}</FormLabel>
-                  <DatetimePicker
-                    date={field.value}
-                    setDate={field.onChange}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="gap-8 md:grid md:grid-cols-4">
             <FormField
               control={form.control}
               name="status"
@@ -264,10 +250,25 @@ export const AppointmentForm: React.FC<
             />
             <FormField
               control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-y-[5px] pb-2 pt-1.5">
+                  <FormLabel>{`预约时间`}</FormLabel>
+                  <DatetimePicker
+                    date={field.value}
+                    setDate={field.onChange}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="doctorId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{`医生`}</FormLabel>
+                  <FormLabel>{`预约医生`}</FormLabel>
                   <FormControl>
                     <Select
                       disabled={loading}
