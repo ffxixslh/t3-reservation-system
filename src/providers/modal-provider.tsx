@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { CreateModal } from "~/components/modals/create-modal";
+import { HospitalCreateModal } from "~/components/modals/hospital-create-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,7 +17,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <CreateModal />
+      <HospitalCreateModal />
     </>
   );
 };

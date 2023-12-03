@@ -1,6 +1,6 @@
 "use client";
 
-import * as z from "zod";
+import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -20,19 +20,16 @@ import {
 import { useBasicModal } from "~/hooks/use-basic-modal";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
+import { hospitalSchema } from "~/schemas";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-});
-
-export const CreateModal = () => {
+export const HospitalCreateModal = () => {
   const createModal = useBasicModal();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof hospitalSchema>>({
+    resolver: zodResolver(hospitalSchema),
     defaultValues: {
       name: "",
     },
@@ -40,10 +37,12 @@ export const CreateModal = () => {
   const hospitalCreateMutation =
     api.hospital.createHospital.useMutation();
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (
+    values: z.infer<typeof hospitalSchema>,
+  ) => {
     try {
       setLoading(true);
-      hospitalCreateMutation.mutate(values, {
+      await hospitalCreateMutation.mutateAsync(values, {
         onSuccess: (data) => {
           router.push(`/dashboard/${data.id}`);
           form.setValue("name", "");
@@ -51,7 +50,7 @@ export const CreateModal = () => {
         },
       });
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("出了些问题");
     } finally {
       setLoading(false);
     }
