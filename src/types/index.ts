@@ -34,4 +34,4 @@ export type TText = Text;
 
 export type TRecord = MedicalRecord & {
   doctor: Doctor;
-} & { patient: User } & { text: Text };
+} & { patient: User } & { texts: Text[] };

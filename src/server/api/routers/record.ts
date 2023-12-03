@@ -18,7 +18,7 @@ export const recordRouter = createTRPCRouter({
         include: {
           doctor: true,
           patient: true,
-          text: true,
+          texts: true,
         },
         orderBy: {
           createdAt: "desc",
@@ -33,7 +33,7 @@ export const recordRouter = createTRPCRouter({
         include: {
           doctor: true,
           patient: true,
-          text: true,
+          texts: true,
         },
       });
     }),
@@ -41,7 +41,14 @@ export const recordRouter = createTRPCRouter({
     .input(recordSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.create({
-        data: recordSchema.parse(input),
+        data: {
+          ...input,
+          texts: {
+            createMany: {
+              data: input.texts,
+            },
+          },
+        },
       });
     }),
   updateRecord: publicProcedure
@@ -49,7 +56,14 @@ export const recordRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.update({
         where: stringIdSchema.parse(input),
-        data: recordUpdateSchema.parse(input),
+        data: {
+          ...input,
+          texts: {
+            createMany: {
+              data: input.texts,
+            },
+          },
+        },
       });
     }),
   deleteRecord: publicProcedure

@@ -15,10 +15,6 @@ export const hospitalSchema = z.object({
 export const hospitalUpdateSchema =
   hospitalSchema.merge(stringIdSchema);
 
-export const departmentIdSchema = z.object({
-  departmentId: z.string(),
-});
-
 export const departmentSchema = z.object({
   name: z.string().min(1).max(32),
   description: z.string().min(0).max(128).default(""),
@@ -52,7 +48,6 @@ export const userSchema = z.object({
   hospitalId: z.string(),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
-  // appointment: z.array()
 });
 
 export const userUpdateSchema =
@@ -94,6 +89,7 @@ export const appointmentUpdateSchema =
   appointmentSchema.merge(stringIdSchema);
 
 export const textSchema = z.object({
+  medicalRecordId: z.string(),
   title: z.string().min(2).max(32),
   content: z.string().min(8).max(1024),
 });
@@ -102,7 +98,7 @@ export const textUpdateSchema =
   textSchema.merge(stringIdSchema);
 
 export const recordSchema = z.object({
-  textId: z.string(),
+  texts: textUpdateSchema.array(),
   patientId: z.string(),
   doctorId: z.string(),
   hospitalId: z.string(),

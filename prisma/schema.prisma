@@ -135,10 +135,12 @@ enum AppointmentStatus {
 model Text {
   id String @id @default(cuid())
 
-  title         String
-  content       String
-  medicalRecord MedicalRecord[]
+  title           String
+  content         String
+  medicalRecord   MedicalRecord @relation("MedicalRecordToText", fields: [medicalRecordId], references: [id])
+  medicalRecordId String
 
+  @@index([medicalRecordId])
   @@map("texts")
 }
 
@@ -153,8 +155,7 @@ model MedicalRecord {
   doctor   Doctor @relation(fields: [doctorId], references: [id])
   doctorId String
 
-  text   Text   @relation(fields: [textId], references: [id]) // 病历内容
-  textId String
+  texts Text[] @relation("MedicalRecordToText") // 病历内容
 
   hospital   Hospital @relation("HospitalToMedicalRecord", fields: [hospitalId], references: [id])
   hospitalId String
