@@ -179,38 +179,6 @@ export const AppointmentForm: React.FC<
           onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="w-full space-y-8"
         >
-          {/* <FormField
-              control={form.control}
-              name="images"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Images</FormLabel>
-                  <FormControl>
-                    <ImageUpload
-                      value={field.value.map(
-                        (image) => image.url,
-                      )}
-                      disabled={loading}
-                      onChange={(url) =>
-                        field.onChange([
-                          ...field.value,
-                          { url },
-                        ])
-                      }
-                      onRemove={(url) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (current) =>
-                              current.url !== url,
-                          ),
-                        ])
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
           <div className="gap-8 md:grid md:grid-cols-4">
             <FormField
               control={form.control}
