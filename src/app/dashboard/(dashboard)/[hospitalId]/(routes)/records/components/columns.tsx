@@ -13,8 +13,13 @@ export const columns: ColumnDef<TRecord>[] = [
     header: "ID",
   },
   {
-    accessorKey: "textId",
-    header: "本文记录 ID",
+    accessorKey: "text",
+    header: "本文记录",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-2">
+        {row.original?.texts?.length ?? 0}
+      </div>
+    ),
   },
   {
     accessorKey: "doctorId",

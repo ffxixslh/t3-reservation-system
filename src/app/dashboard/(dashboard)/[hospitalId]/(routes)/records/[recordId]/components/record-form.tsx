@@ -8,6 +8,10 @@ import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
+import { api } from "~/trpc/react";
+import { recordUpdateSchema } from "~/schemas";
+import { type TDoctor, type TRecord } from "~/types";
+
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import {
@@ -28,12 +32,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-// import ImageUpload from "~/components/ui/image-upload";
-
-import { api } from "~/trpc/react";
-import { recordUpdateSchema } from "~/schemas";
-import { type TDoctor, type TRecord } from "~/types";
 import TextUpload from "~/components/ui/text-upload";
+import React from "react";
 
 type RecordFormValues = z.infer<typeof recordUpdateSchema>;
 
@@ -46,7 +46,7 @@ export const RecordForm: React.FC<RecordFormProps> = ({
   initialData,
   doctors,
 }) => {
-  const params = useParams<{
+  const { hospitalId, recordId } = useParams<{
     hospitalId: string;
     recordId: string;
   }>();
@@ -62,23 +62,21 @@ export const RecordForm: React.FC<RecordFormProps> = ({
   const recordDeleteMutation =
     api.record.deleteRecord.useMutation();
 
-  const title = initialData
-    ? "编辑医疗记录"
-    : "创建医疗记录";
+  const title = initialData ? "编辑病历" : "创建病历";
   const description = initialData
-    ? "编辑该医疗记录信息"
-    : "添加该新的医疗记录";
+    ? "编辑该病历信息"
+    : "添加该新的病历";
   const toastMessage = initialData
-    ? "该医疗记录信息已更新。"
-    : "该医疗记录信息已创建。";
+    ? "该病历信息已更新。"
+    : "该病历信息已创建。";
   const action = initialData ? "保存" : "创建";
 
   const defaultValues: RecordFormValues = initialData ?? {
     id: "",
-    hospitalId: params.hospitalId,
+    hospitalId,
     patientId: "",
     doctorId: "",
-    textId: "",
+    texts: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -96,9 +94,7 @@ export const RecordForm: React.FC<RecordFormProps> = ({
       } else {
         await recordCreateMutation.mutateAsync(data);
       }
-      router.push(
-        `/dashboard/${params.hospitalId}/records`,
-      );
+      router.push(`/dashboard/${hospitalId}/records`);
       toast.success(toastMessage);
       router.refresh();
     } catch (error) {
@@ -112,16 +108,14 @@ export const RecordForm: React.FC<RecordFormProps> = ({
     try {
       setLoading(true);
       await recordDeleteMutation.mutateAsync({
-        id: params.recordId,
+        id: recordId,
       });
-      router.push(
-        `/dashboard/${params.hospitalId}/records`,
-      );
-      toast.success("医疗记录数据已删除。");
+      router.push(`/dashboard/${hospitalId}/records`);
+      toast.success("病历数据已删除。");
       router.refresh();
     } catch (error) {
       toast.error(
-        "请确保你已删除所有使用到该医疗记录的相关数据。",
+        "请确保你已删除所有使用到该病历的相关数据。",
       );
     } finally {
       setLoading(false);
@@ -215,21 +209,17 @@ export const RecordForm: React.FC<RecordFormProps> = ({
               )}
             />
           </div>
-          <div className="gap-8 md:grid md:grid-cols-2">
+          <div className="gap-8 md:grid">
             <FormField
               control={form.control}
-              name="textId"
+              name="texts"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{`文本记录`}</FormLabel>
                   <FormControl>
                     <TextUpload
-                      initialData={
-                        initialData?.text ?? null
-                      }
-                      onChange={(textId) =>
-                        field.onChange(textId)
-                      }
+                      recordId={recordId}
+                      textsValue={field.value}
                     />
                   </FormControl>
                   <FormMessage />

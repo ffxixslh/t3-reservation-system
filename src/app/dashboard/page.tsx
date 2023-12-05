@@ -23,7 +23,7 @@ export default async function DashboardRootPage() {
 
   return (
     <div className="flex h-screen w-screen flex-col place-items-center justify-center">
-      <div className="h-72 w-80">
+      <div className="h-80 w-96">
         <div className="mb-2 px-1 text-start text-2xl font-bold">
           {`医院仪表板`}
         </div>

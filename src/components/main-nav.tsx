@@ -54,7 +54,7 @@ export function MainNav({
       },
       {
         href: `/dashboard/${params.hospitalId}/records`,
-        label: "医疗记录",
+        label: "病历",
         active:
           pathname ===
           `/dashboard/${params.hospitalId}/records`,

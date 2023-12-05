@@ -1,54 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Input } from "./input";
-import { Textarea } from "./textarea";
-import { Button } from "./button";
+"use client";
 
-import { api } from "~/trpc/react";
+import React, { useEffect, useState } from "react";
+import { PlusCircle } from "lucide-react";
+
+import { useTextModal } from "~/hooks/use-text-modal";
 import { type TText } from "~/types";
-import { Label } from "./label";
+
+import { Button } from "./button";
+import { TextModal } from "../modals/text-modal";
 
 interface TextUploadProps {
-  initialData: TText | null;
-  onChange: (textId: string) => void;
+  recordId: string;
+  textsValue: TText[];
 }
 
 const TextUpload: React.FC<TextUploadProps> = ({
-  initialData,
-  onChange,
+  recordId,
+  textsValue,
 }) => {
-  const [textTitle, setTextTitle] = useState(
-    initialData?.title ?? "",
-  );
-  const [textContent, setTextContent] = useState(
-    initialData?.content ?? "",
-  );
+  const textModal = useTextModal();
+
   const [isMounted, setIsMounted] = useState(false);
-
-  const textCreateMutation =
-    api.text.createText.useMutation();
-  const textUpdateMutation =
-    api.text.updateText.useMutation();
-
-  const action = initialData ? "更新文本" : "创建文本";
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const onUpload = async () => {
-    if (!initialData) {
-      const result = await textCreateMutation.mutateAsync({
-        title: textTitle,
-        content: textContent,
-      });
-      onChange(result.id);
-    } else {
-      await textUpdateMutation.mutateAsync({
-        id: initialData.id,
-        title: textTitle,
-        content: textContent,
-      });
-    }
+  const onTextCreate = () => {
+    const textTemplate = {
+      id: "",
+      title: "",
+      content: "",
+      medicalRecordId: recordId ?? "",
+    };
+    textModal.setText(textTemplate);
+    textModal.onOpen();
+  };
+
+  const onTextSelect = (text: TText) => {
+    textModal.setText(text);
+    textModal.onOpen();
   };
 
   if (!isMounted) {
@@ -56,32 +47,39 @@ const TextUpload: React.FC<TextUploadProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <Label
-        className="text-xs text-muted-foreground"
-        htmlFor="text-upload_title"
-      >{`文本标题`}</Label>
-      <Input
-        id="text-upload_title"
-        type="text"
-        placeholder={`标题`}
-        value={textTitle}
-        onChange={(e) => setTextTitle(e.target.value)}
-      />
-      <Label
-        className="text-xs text-muted-foreground"
-        htmlFor="text-upload_content"
-      >{`文本内容`}</Label>
-      <Textarea
-        id="text-upload_content"
-        placeholder={`内容`}
-        value={textContent}
-        onChange={(e) => setTextContent(e.target.value)}
-      />
-      <Button type="button" onClick={onUpload}>
-        {action}
-      </Button>
-    </div>
+    <>
+      <TextModal initialValue={textModal.text} />
+      <div className="flex flex-col gap-4">
+        <div className="gap-8 md:grid md:grid-flow-row md:grid-cols-4">
+          <div className="grid h-[80px] place-items-center rounded-md border border-input">
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-full w-full"
+              onClick={onTextCreate}
+            >
+              <PlusCircle className="h-10 w-10" />
+            </Button>
+          </div>
+          {textsValue.reverse().map((text) => (
+            <div
+              key={text.id}
+              className="relative h-[80px] cursor-pointer overflow-hidden rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
+              onClick={() => onTextSelect(text)}
+            >
+              <div className="flex h-full w-full flex-col justify-evenly gap-2 rounded-md border border-input">
+                <div className="ml-2 text-xl font-bold">
+                  {text.title}
+                </div>
+                <p className="ml-2 text-ellipsis">
+                  {text.content}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

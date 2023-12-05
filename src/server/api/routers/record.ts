@@ -1,7 +1,6 @@
 import {
   hospitalIdSchema,
   stringIdSchema,
-  recordSchema,
   recordUpdateSchema,
 } from "~/schemas";
 import {
@@ -38,7 +37,7 @@ export const recordRouter = createTRPCRouter({
       });
     }),
   createRecord: publicProcedure
-    .input(recordSchema)
+    .input(recordUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.create({
         data: {
@@ -59,6 +58,9 @@ export const recordRouter = createTRPCRouter({
         data: {
           ...input,
           texts: {
+            deleteMany: {
+              medicalRecordId: input.id,
+            },
             createMany: {
               data: input.texts,
             },

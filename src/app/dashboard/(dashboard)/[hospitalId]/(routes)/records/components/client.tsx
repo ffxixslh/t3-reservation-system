@@ -28,8 +28,8 @@ export const RecordsClient: React.FC<
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`医疗记录 (${data.length})`}
-          description={`管理医院的医疗记录数据`}
+          title={`病历 (${data.length})`}
+          description={`管理医院的病历数据`}
         />
         <Button
           onClick={() =>
@@ -48,7 +48,7 @@ export const RecordsClient: React.FC<
         columns={columns}
         data={data}
       />
-      <Heading title="API" description="医疗记录接口调用" />
+      <Heading title="API" description="病历接口调用" />
       <Separator />
       <ApiList
         entityName="doctors"

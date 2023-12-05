@@ -45,7 +45,7 @@ export const columns: ColumnDef<TDoctor>[] = [
   },
   {
     accessorKey: "medicalRecord",
-    header: "医疗记录",
+    header: "病历",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {row.original?.medicalRecords.length}

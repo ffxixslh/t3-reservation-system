@@ -45,11 +45,11 @@ export const CellAction: React.FC<CellActionProps> = ({
       await recordDeleteMutation.mutateAsync({
         id: data.id,
       });
-      toast.success(`医疗记录数据已删除。`);
+      toast.success(`病历数据已删除。`);
       router.refresh();
     } catch (error) {
       toast.error(
-        "请确保你已删除所有使用到该医疗记录的相关数据。",
+        "请确保你已删除所有使用到该病历的相关数据。",
       );
     } finally {
       setLoading(false);
@@ -59,7 +59,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 
   const onCopy = async (id: string) => {
     await navigator.clipboard.writeText(id);
-    toast.success("医疗记录 ID 已复制到剪贴板。");
+    toast.success("病历 ID 已复制到剪贴板。");
   };
 
   return (
