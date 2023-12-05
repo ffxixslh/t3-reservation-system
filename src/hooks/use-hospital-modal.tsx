@@ -1,13 +1,13 @@
 "use client";
 import { create } from "zustand";
 
-export type useBasicModalStore = {
+export interface HospitalModalProps {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
-};
+}
 
-export const useBasicModal = create<useBasicModalStore>(
+export const useHospitalModal = create<HospitalModalProps>(
   (set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),

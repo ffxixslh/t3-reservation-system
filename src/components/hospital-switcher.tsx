@@ -24,7 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { useBasicModal } from "~/hooks/use-basic-modal";
+import { useHospitalModal } from "~/hooks/use-hospital-modal";
 import { useParams, useRouter } from "next/navigation";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
@@ -40,7 +40,7 @@ export default function HospitalSwitcher({
   className,
   items,
 }: HospitalSwitcherProps) {
-  const hospitalModal = useBasicModal();
+  const hospitalModal = useHospitalModal();
   const params = useParams();
 
   const router = useRouter();

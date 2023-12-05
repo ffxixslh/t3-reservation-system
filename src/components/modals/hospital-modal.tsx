@@ -17,13 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { useBasicModal } from "~/hooks/use-basic-modal";
+import { useHospitalModal } from "~/hooks/use-hospital-modal";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { hospitalSchema } from "~/schemas";
 
-export const HospitalCreateModal = () => {
-  const createModal = useBasicModal();
+export const HospitalModal = () => {
+  const hospitalModal = useHospitalModal();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -45,14 +45,14 @@ export const HospitalCreateModal = () => {
       await hospitalCreateMutation.mutateAsync(values, {
         onSuccess: (data) => {
           router.push(`/dashboard/${data.id}`);
-          form.setValue("name", "");
-          createModal.onClose();
         },
       });
+      hospitalModal.onClose();
     } catch (error) {
       toast.error("出了些问题");
     } finally {
       setLoading(false);
+      form.setValue("name", "");
     }
   };
 
@@ -60,8 +60,8 @@ export const HospitalCreateModal = () => {
     <Modal
       title={`创建医院`}
       description={`创建一个新的医院以管理其内容。`}
-      isOpen={createModal.isOpen}
-      onClose={createModal.onClose}
+      isOpen={hospitalModal.isOpen}
+      onClose={hospitalModal.onClose}
     >
       <>
         <div className="space-y-4 py-2 pb-4">
@@ -87,9 +87,10 @@ export const HospitalCreateModal = () => {
                 />
                 <div className="flex w-full items-center justify-end space-x-2 pt-6">
                   <Button
+                    type="button"
                     disabled={loading}
                     variant="outline"
-                    onClick={createModal.onClose}
+                    onClick={hospitalModal.onClose}
                   >
                     {`取消`}
                   </Button>

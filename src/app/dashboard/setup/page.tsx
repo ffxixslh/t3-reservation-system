@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 
-import { useBasicModal } from "~/hooks/use-basic-modal";
+import { useHospitalModal } from "~/hooks/use-hospital-modal";
 
 const SetupPage = () => {
-  const useCreateModal = useBasicModal;
+  const useCreateModal = useHospitalModal;
   const onOpen = useCreateModal((state) => state.onOpen);
   const isOpen = useCreateModal((state) => state.isOpen);
 

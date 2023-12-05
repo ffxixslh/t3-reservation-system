@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { type useBasicModalStore } from "~/hooks/use-basic-modal";
+import { type HospitalModalProps } from "~/hooks/use-hospital-modal";
 
 type ExtraConfig = {
   isEdit: boolean;
@@ -8,7 +8,7 @@ type ExtraConfig = {
 };
 
 export const useExtraModal = create<
-  useBasicModalStore & ExtraConfig
+  HospitalModalProps & ExtraConfig
 >((set) => ({
   isOpen: false,
   isEdit: false,

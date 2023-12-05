@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
-import { ModalProvider } from "~/providers/modal-provider";
 import { ToastProvider } from "~/providers/toast-provider";
 import { ThemeProvider } from "~/providers/theme-provider";
+import { HospitalModalProvider } from "~/providers/hospital-modal-provider";
 
 import "~/styles/globals.css";
 
@@ -38,7 +38,7 @@ export default async function RootLayout({
             enableSystem
           >
             <ToastProvider />
-            <ModalProvider />
+            <HospitalModalProvider />
             {children}
           </ThemeProvider>
         </TRPCReactProvider>
