@@ -45,16 +45,16 @@ export const columns: ColumnDef<TPatient>[] = [
     header: "预约",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.appointments.length}
+        {row.original?.appointments?.length ?? 0}
       </div>
     ),
   },
   {
     accessorKey: "medicalRecord",
-    header: "医疗记录",
+    header: "病历",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.medicalRecords.length}
+        {row.original?.medicalRecords?.length ?? 0}
       </div>
     ),
   },
