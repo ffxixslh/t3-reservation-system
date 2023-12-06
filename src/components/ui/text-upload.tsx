@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 import { PlusCircle } from "lucide-react";
 
 import { useTextModal } from "~/hooks/use-text-modal";
@@ -10,35 +14,53 @@ import { Button } from "./button";
 import { TextModal } from "../modals/text-modal";
 
 interface TextUploadProps {
-  recordId: string;
   textsValue: TText[];
+  onCreate: (text: TText) => void;
+  onChange: (text: TText) => void;
+  onRemove: (text: TText) => void;
 }
 
+export const TextUploadContext = createContext<Pick<
+  TextUploadProps,
+  "onCreate" | "onChange" | "onRemove"
+> | null>(null);
+
 const TextUpload: React.FC<TextUploadProps> = ({
-  recordId,
   textsValue,
+  onCreate,
+  onChange,
+  onRemove,
 }) => {
   const textModal = useTextModal();
 
+  const textTemplate: TText = {
+    id: "",
+    title: "",
+    content: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
   const [isMounted, setIsMounted] = useState(false);
+  const [text, setText] = useState<TText>({
+    id: "",
+    title: "",
+    content: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const onTextCreate = () => {
-    const textTemplate = {
-      id: "",
-      title: "",
-      content: "",
-      medicalRecordId: recordId ?? "",
-    };
-    textModal.setText(textTemplate);
+    setText(textTemplate);
     textModal.onOpen();
   };
 
   const onTextSelect = (text: TText) => {
-    textModal.setText(text);
+    setText(text);
     textModal.onOpen();
   };
 
@@ -48,7 +70,11 @@ const TextUpload: React.FC<TextUploadProps> = ({
 
   return (
     <>
-      <TextModal initialValue={textModal.text} />
+      <TextUploadContext.Provider
+        value={{ onCreate, onChange, onRemove }}
+      >
+        <TextModal initialValue={text} />
+      </TextUploadContext.Provider>
       <div className="flex flex-col gap-4">
         <div className="gap-8 md:grid md:grid-flow-row md:grid-cols-4">
           <div className="grid h-[80px] place-items-center rounded-md border border-input">

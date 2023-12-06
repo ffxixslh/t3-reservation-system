@@ -4,7 +4,8 @@ import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { createId } from "@paralleldrive/cuid2";
 
 import { Modal } from "~/components/ui/modal";
 import { Input } from "~/components/ui/input";
@@ -22,8 +23,7 @@ import { useTextModal } from "~/hooks/use-text-modal";
 import { textUpdateSchema } from "~/schemas";
 import { useRouter } from "next/navigation";
 import { type TText } from "~/types";
-import { api } from "~/trpc/react";
-import { useTextUpdated } from "~/hooks/use-text-updated";
+import { TextUploadContext } from "../ui/text-upload";
 
 interface TextModalProps {
   initialValue: TText;
@@ -34,8 +34,7 @@ export const TextModal: React.FC<TextModalProps> = ({
 }) => {
   const textModal = useTextModal();
   const router = useRouter();
-  const [isTextUpdated, setIsTextUpdated] =
-    useTextUpdated();
+  const textUploadContext = useContext(TextUploadContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -44,13 +43,6 @@ export const TextModal: React.FC<TextModalProps> = ({
     defaultValues: initialValue,
     values: initialValue,
   });
-
-  const createTextMutation =
-    api.text.createText.useMutation();
-  const updateTextMutation =
-    api.text.updateText.useMutation();
-  const deleteTextMutation =
-    api.text.deleteText.useMutation();
 
   const title =
     initialValue?.id !== ""
@@ -65,17 +57,17 @@ export const TextModal: React.FC<TextModalProps> = ({
       ? "该文本记录已更新。"
       : "该文本记录已创建。";
 
-  const onSubmit = async (
+  const onSubmit = (
     values: z.infer<typeof textUpdateSchema>,
   ) => {
     try {
       setLoading(true);
-      if (initialValue?.id !== "") {
-        await updateTextMutation.mutateAsync(values);
+      if (values?.id !== "") {
+        textUploadContext?.onChange(values);
       } else {
-        await createTextMutation.mutateAsync(values);
+        values.id = createId();
+        textUploadContext?.onCreate(values);
       }
-      setIsTextUpdated(true);
       textModal.onClose();
       router.refresh();
       toast.success(toastMessage);
@@ -83,17 +75,14 @@ export const TextModal: React.FC<TextModalProps> = ({
       toast.error("出了些问题");
     } finally {
       setLoading(false);
-      setIsTextUpdated(false);
       form.reset();
     }
   };
 
-  const onDelete = async () => {
+  const onDelete = () => {
     try {
       setLoading(true);
-      await deleteTextMutation.mutateAsync({
-        id: initialValue?.id,
-      });
+      textUploadContext?.onRemove(initialValue);
       router.refresh();
       textModal.onClose();
       toast.success("该文本记录已删除。");

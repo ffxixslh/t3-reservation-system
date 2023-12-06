@@ -89,9 +89,10 @@ export const appointmentUpdateSchema =
   appointmentSchema.merge(stringIdSchema);
 
 export const textSchema = z.object({
-  medicalRecordId: z.string(),
   title: z.string().min(2).max(32),
   content: z.string().min(8).max(1024),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
 });
 
 export const textUpdateSchema =

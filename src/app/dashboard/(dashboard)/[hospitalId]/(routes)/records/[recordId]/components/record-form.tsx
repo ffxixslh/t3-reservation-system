@@ -218,8 +218,30 @@ export const RecordForm: React.FC<RecordFormProps> = ({
                   <FormLabel>{`文本记录`}</FormLabel>
                   <FormControl>
                     <TextUpload
-                      recordId={recordId}
                       textsValue={field.value}
+                      onCreate={(textValue) =>
+                        field.onChange([
+                          ...field.value,
+                          textValue,
+                        ])
+                      }
+                      onChange={(textValue) =>
+                        field.onChange([
+                          ...field.value.map((current) =>
+                            current.id === textValue.id
+                              ? textValue
+                              : current,
+                          ),
+                        ])
+                      }
+                      onRemove={(textValue) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (current) =>
+                              current.id !== textValue.id,
+                          ),
+                        ])
+                      }
                     />
                   </FormControl>
                   <FormMessage />

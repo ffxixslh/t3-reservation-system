@@ -40,7 +40,7 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
     navigator.clipboard
       .writeText(description)
       .catch((err) =>
-        console.log(`Couldn't copy to clipboard, ${err}`),
+        toast.error(`Couldn't copy to clipboard, ${err}`),
       );
     toast.success("API Route copied to clipboard.");
   };
