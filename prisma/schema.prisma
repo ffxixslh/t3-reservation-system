@@ -14,7 +14,7 @@ model Hospital {
   id        String   @id @default(cuid())
   name      String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   admins         HospitalAdmin[] @relation("HospitalToAdmin")
   patients       User[]          @relation("HospitalToPatient")
@@ -42,7 +42,7 @@ model User {
   phone     String
   role      UserRole @default(PATIENT)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   hospital   Hospital @relation("HospitalToPatient", fields: [hospitalId], references: [id])
   hospitalId String
@@ -71,7 +71,7 @@ model Doctor {
   departmentId String
   level        DoctorLevel
   createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  updatedAt    DateTime    @default(now()) @updatedAt
 
   hospital   Hospital @relation("HospitalToDoctor", fields: [hospitalId], references: [id])
   hospitalId String
@@ -97,7 +97,7 @@ model Department {
   name        String
   description String?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @default(now()) @updatedAt
 
   doctors    Doctor[] @relation("DepartmentToDoctor")
   hospital   Hospital @relation("HospitalToDepartment", fields: [hospitalId], references: [id])
@@ -111,7 +111,7 @@ model Appointment {
   status    AppointmentStatus
   time      DateTime
   createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  updatedAt DateTime          @default(now()) @updatedAt
 
   patient   User   @relation(fields: [patientId], references: [id])
   patientId String
@@ -135,8 +135,11 @@ enum AppointmentStatus {
 model Text {
   id String @id @default(cuid())
 
-  title           String
-  content         String
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   medicalRecord   MedicalRecord @relation("MedicalRecordToText", fields: [medicalRecordId], references: [id])
   medicalRecordId String
 
@@ -147,7 +150,7 @@ model Text {
 model MedicalRecord {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   patient   User   @relation(fields: [patientId], references: [id])
   patientId String
