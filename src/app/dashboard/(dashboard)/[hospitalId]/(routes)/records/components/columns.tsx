@@ -14,7 +14,7 @@ export const columns: ColumnDef<TRecord>[] = [
   },
   {
     accessorKey: "text",
-    header: "本文记录",
+    header: "文本记录",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {row.original?.texts?.length ?? 0}
