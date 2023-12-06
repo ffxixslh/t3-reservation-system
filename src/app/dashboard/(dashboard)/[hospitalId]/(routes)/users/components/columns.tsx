@@ -21,7 +21,7 @@ export const columns: ColumnDef<TPatient>[] = [
     header: "邮箱",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original?.email === null
+        {[null, ""].includes(row.original?.email)
           ? "无"
           : row.original?.email}
       </div>
