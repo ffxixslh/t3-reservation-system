@@ -4,8 +4,12 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
+import { env } from "~/env.mjs";
 import { db } from "~/server/db";
+import { api } from "~/trpc/server";
+import { type TUser } from "~/types";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -16,16 +20,10 @@ import { db } from "~/server/db";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
+      id: TUser["id"];
+      role: TUser["role"];
     } & DefaultSession["user"];
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
 /**
@@ -35,16 +33,49 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.sub,
+        role: token.role,
       },
     }),
   },
+  secret: env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   adapter: PrismaAdapter(db),
   providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        phone: {
+          label: "电话",
+          type: "text",
+          placeholder: "请输入11位电话号码",
+        },
+        password: {
+          label: "密码",
+          type: "password",
+          placeholder: "请输入个人密码",
+        },
+      },
+      async authorize(credentials) {
+        try {
+          if (!credentials) {
+            return null;
+          }
+          return await api.user.getByPhone.query({
+            phone: credentials.phone,
+          });
+        } catch (error) {
+          console.error("authorize error", error);
+          return null;
+        }
+      },
+    }),
     /**
      * Refer to the NextAuth.js docs for the provider you want to use. Example:
      *
