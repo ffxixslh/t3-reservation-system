@@ -4,10 +4,9 @@ import { useEffect } from "react";
 
 import { useHospitalModal } from "~/hooks/use-hospital-modal";
 
-const SetupPage = () => {
-  const useCreateModal = useHospitalModal;
-  const onOpen = useCreateModal((state) => state.onOpen);
-  const isOpen = useCreateModal((state) => state.isOpen);
+const DashboardSetupPage = () => {
+  const onOpen = useHospitalModal((state) => state.onOpen);
+  const isOpen = useHospitalModal((state) => state.isOpen);
 
   useEffect(() => {
     if (!isOpen) {
@@ -18,4 +17,4 @@ const SetupPage = () => {
   return null;
 };
 
-export default SetupPage;
+export default DashboardSetupPage;

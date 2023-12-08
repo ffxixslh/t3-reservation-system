@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import Navbar from "~/components/navbar";
+import DashboardNavbar from "~/components/dashboard/dashboard-navbar";
 import { api } from "~/trpc/server";
 
 export default async function DashboardLayout({
@@ -20,7 +20,7 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <Navbar />
+      <DashboardNavbar />
       {children}
     </>
   );

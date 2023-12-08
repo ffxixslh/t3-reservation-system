@@ -7,9 +7,10 @@ const AppointmentsPage = async ({
 }: {
   params: { hospitalId: string };
 }) => {
-  const appointments = await api.appointment.getAll.query({
-    hospitalId: params.hospitalId,
-  });
+  const appointments =
+    await api.appointment.getAllByHospitalId.query({
+      hospitalId: params.hospitalId,
+    });
 
   return (
     <div className="flex-col">

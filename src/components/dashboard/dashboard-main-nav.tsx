@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 import { cn } from "~/lib/utils";
 
-export function MainNav({
+export function DashboardMainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {

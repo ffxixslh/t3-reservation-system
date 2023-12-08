@@ -7,7 +7,7 @@ const UserPage = async ({
 }: {
   params: { userId: string; hospitalId: string };
 }) => {
-  const user = await api.user.getOne.query({
+  const user = await api.user.getById.query({
     id: params.userId,
   });
 
