@@ -6,6 +6,11 @@ export const hospitalIdSchema = z.object({
   hospitalId: z.string(),
 });
 
+export const credentialsSchema = z.object({
+  phone: z.string().length(11),
+  password: z.string().min(6).max(16),
+});
+
 export const hospitalSchema = z.object({
   name: z.string().min(1).max(32),
   createdAt: z.date().default(new Date()),
