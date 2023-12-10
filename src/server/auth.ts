@@ -6,7 +6,6 @@ import {
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { env } from "~/env.mjs";
 import { db } from "~/server/db";
 import { api } from "~/trpc/server";
 import { type TUser } from "~/types";
@@ -20,9 +19,16 @@ import { type TUser } from "~/types";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      id: TUser["id"];
-      role: TUser["role"];
+      id: User["id"];
+      role: User["role"];
+      hospitalId: User["hospitalId"];
     } & DefaultSession["user"];
+  }
+
+  interface User {
+    id: TUser["id"];
+    role: TUser["role"];
+    hospitalId: TUser["hospitalId"];
   }
 }
 
@@ -33,16 +39,28 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-        role: token.role,
-      },
-    }),
+    jwt: (params) => {
+      // The 'user' only exist for the first time
+      const { token, user } = params;
+      if (user) {
+        token.role = user.role;
+        token.hospitalId = user.hospitalId;
+      }
+      return token;
+    },
+    session: (params) => {
+      const { session, token } = params;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          role: token.role,
+          hospitalId: token.hospitalId,
+        },
+      };
+    },
   },
-  secret: env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
@@ -67,9 +85,15 @@ export const authOptions: NextAuthOptions = {
           if (!credentials) {
             return null;
           }
-          return await api.user.getByPhone.query({
-            phone: credentials.phone,
-          });
+          const user =
+            await api.user.getByCredentials.query({
+              phone: credentials.phone,
+              password: credentials.password,
+            });
+          if (!user) {
+            return null;
+          }
+          return user;
         } catch (error) {
           console.error("authorize error", error);
           return null;
