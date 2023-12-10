@@ -75,3 +75,30 @@ export const statusFormatter = (
     }
   }
 };
+
+type RecordWithoutKey<
+  R extends Record<string, unknown>,
+  T extends keyof R | (keyof R)[],
+> = R extends Record<infer K, unknown>
+  ? T extends (keyof R)[]
+    ? Pick<R, K extends T[number] ? never : K>
+    : Pick<R, K extends T ? never : K>
+  : R;
+
+/**
+ * Excludes a key or an array of keys from an object.
+ *
+ * @param {T} model - The object from which to exclude the key(s).
+ * @param {K} key - The key(s) to exclude from the object.
+ * @return {RecordWithoutKey<T, K>} - The object without the excluded key(s).
+ */
+export function excludeKeyFromObject<
+  T extends Record<string, unknown>,
+  K extends keyof T | (keyof T)[],
+>(model: T, key: K): RecordWithoutKey<T, K> {
+  return Object.fromEntries(
+    Object.entries(model).filter(([k]) =>
+      Array.isArray(key) ? !key.includes(k) : k !== key,
+    ),
+  ) as RecordWithoutKey<T, K>;
+}

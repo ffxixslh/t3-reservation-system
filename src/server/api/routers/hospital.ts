@@ -6,28 +6,28 @@ import {
 
 import {
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const hospitalRouter = createTRPCRouter({
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db.hospital.findMany();
   }),
-  getOne: publicProcedure
+  getOne: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.hospital.findUnique({
         where: stringIdSchema.parse(input),
       });
     }),
-  createHospital: publicProcedure
+  createHospital: protectedProcedure
     .input(hospitalSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.hospital.create({
         data: hospitalSchema.parse(input),
       });
     }),
-  updateHospital: publicProcedure
+  updateHospital: protectedProcedure
     .input(hospitalUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.hospital.update({
@@ -35,7 +35,7 @@ export const hospitalRouter = createTRPCRouter({
         data: hospitalUpdateSchema.parse(input),
       });
     }),
-  deleteHospital: publicProcedure
+  deleteHospital: protectedProcedure
     .input(stringIdSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.hospital.delete({

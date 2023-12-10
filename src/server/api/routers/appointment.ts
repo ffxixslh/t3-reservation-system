@@ -1,16 +1,16 @@
 import {
-  hospitalIdSchema,
   stringIdSchema,
   appointmentSchema,
   appointmentUpdateSchema,
+  hospitalIdSchema,
 } from "~/schemas";
 import {
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const appointmentRouter = createTRPCRouter({
-  getAll: publicProcedure
+  getAllByHospitalId: protectedProcedure
     .input(hospitalIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.appointment.findMany({
@@ -24,7 +24,23 @@ export const appointmentRouter = createTRPCRouter({
         },
       });
     }),
-  getOne: publicProcedure
+  getAllByPatientId: protectedProcedure.query(
+    async ({ ctx }) => {
+      return await ctx.db.appointment.findMany({
+        where: {
+          patientId: ctx.session.user.id,
+        },
+        include: {
+          doctor: true,
+          patient: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    },
+  ),
+  getOne: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.appointment.findUnique({
@@ -35,14 +51,14 @@ export const appointmentRouter = createTRPCRouter({
         },
       });
     }),
-  createAppointment: publicProcedure
+  createAppointment: protectedProcedure
     .input(appointmentSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.appointment.create({
         data: appointmentSchema.parse(input),
       });
     }),
-  updateAppointment: publicProcedure
+  updateAppointment: protectedProcedure
     .input(appointmentUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.appointment.update({
@@ -50,7 +66,7 @@ export const appointmentRouter = createTRPCRouter({
         data: appointmentUpdateSchema.parse(input),
       });
     }),
-  deleteAppointment: publicProcedure
+  deleteAppointment: protectedProcedure
     .input(stringIdSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.appointment.delete({
