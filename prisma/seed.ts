@@ -28,16 +28,16 @@ async function main() {
       updatedAt: new Date(),
     },
   });
-  /* 3. create patient */
+  /* 3. create user */
   const {
-    id: patientId,
-    name: patientName,
-    email: patientEmail,
-    phone: patientPhone,
-    hospitalId: patientHospitalId,
+    id: userId,
+    name: userName,
+    email: userEmail,
+    phone: userPhone,
+    hospitalId: userHospitalId,
   } = await db.user.create({
     data: {
-      name: "patient1",
+      name: "user1",
       password: "123456",
       phone: "13000000001",
       hospital: {
@@ -75,11 +75,47 @@ async function main() {
     time: appointmentTime,
   } = await db.appointment.create({
     data: {
-      patientId: patientId,
+      patientId: userId,
       doctorId: doctorId,
       hospitalId: hospitalId,
       time: new Date(),
       status: "PENDING",
+      description: "description1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+  /* 6. create record */
+  const {
+    id: recordId,
+    hospitalId: recordHospitalId,
+    patientId: recordPatientId,
+    doctorId: recordDoctorId,
+    createdAt: recordCreatedAt,
+    updatedAt: recordUpdatedAt,
+  } = await db.medicalRecord.create({
+    data: {
+      hospitalId: hospitalId,
+      patientId: userId,
+      doctorId: doctorId,
+      texts: {
+        createMany: {
+          data: [
+            {
+              title: "title1",
+              content: "content1",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+            {
+              title: "title2",
+              content: "content2",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          ],
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
