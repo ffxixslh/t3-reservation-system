@@ -66,6 +66,11 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(db),
   providers: [
+   /**
+     * Refer to the NextAuth.js docs for the provider you want to use. Example:
+     *
+     * @see https://next-auth.js.org/providers/github
+     */
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -100,12 +105,7 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
-    /**
-     * Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
-  ],
+ ],
 };
 
 /**
