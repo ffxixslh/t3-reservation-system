@@ -1,5 +1,8 @@
 import React from "react";
 import { type Metadata } from "next";
+import { redirect } from "next/navigation";
+
+import { getServerAuthSession } from "~/server/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -14,6 +17,15 @@ export default async function DashboardRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await Promise.resolve();
-  return <div className="h-full w-full">{children}</div>;
+  const session = await getServerAuthSession();
+  if (!session) {
+    return null;
+  }
+  if (session.user.role !== "ADMIN") {
+    redirect("/");
+  }
+
+  return (
+    <div className="min-h-screen w-full">{children}</div>
+  );
 }

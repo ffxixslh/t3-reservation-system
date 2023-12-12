@@ -83,6 +83,7 @@ export const appointmentSchema = z.object({
     "COMPLETED",
     "CANCELED",
   ]),
+  description: z.string().min(0).max(128),
   patientId: z.string(),
   doctorId: z.string(),
   hospitalId: z.string(),

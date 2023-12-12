@@ -40,6 +40,7 @@ import {
 } from "~/components/ui/datetime-picker";
 import { STATUS } from "~/constants";
 import { statusFormatter } from "~/lib/utils";
+import { Textarea } from "~/components/ui/textarea";
 
 type AppointmentFormValues = z.infer<
   typeof appointmentUpdateSchema
@@ -83,6 +84,7 @@ export const AppointmentForm: React.FC<
       id: "",
       status: "PENDING",
       time: new Date(),
+      description: "",
       hospitalId: params.hospitalId,
       patientId: "",
       doctorId: "",
@@ -287,6 +289,26 @@ export const AppointmentForm: React.FC<
                 </FormItem>
               )}
             />
+            <div className="gap-8 md:grid md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{`病情描述`}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        disabled={loading}
+                        placeholder={`病情描述`}
+                        required={true}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <div className="flex w-fit gap-3">
             <Button
