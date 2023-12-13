@@ -1,7 +1,6 @@
 import React from "react";
 import { type Metadata } from "next";
 import { getServerAuthSession } from "~/server/auth";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: {
@@ -17,11 +16,9 @@ export default async function UserRootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
+
   if (!session) {
     return null;
-  }
-  if (session.user.role !== "PATIENT") {
-    redirect("/");
   }
 
   return (
