@@ -1,7 +1,14 @@
+import { getServerAuthSession } from "~/server/auth";
+import { redirect } from "next/navigation";
+
 import { SignInForm } from "../signin/component/sign-in-form";
 
 export default async function SignInPage() {
-  await Promise.resolve();
+  const session = await getServerAuthSession();
+
+  if (session) {
+    redirect(`/user/${session.user.id}`);
+  }
 
   return (
     <section className="grid min-h-screen place-items-center">
