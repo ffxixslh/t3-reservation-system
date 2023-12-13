@@ -1,8 +1,17 @@
 "use client";
 
-import { Copy, Edit, MoreHorizontal } from "lucide-react";
+import {
+  Copy,
+  Edit,
+  FileText,
+  MoreHorizontal,
+  Trash,
+} from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
+import { AlertModal } from "~/components/modals/alert-modal";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -14,6 +23,7 @@ import {
 import { useAppointmentDetailModal } from "~/hooks/use-appointment-detail-modal";
 
 import { type TAppointment } from "~/types";
+import { api } from "~/trpc/react";
 
 interface CellActionProps {
   data: TAppointment;
@@ -22,12 +32,38 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({
   data,
 }) => {
+  const router = useRouter();
+  const params = useParams<{ userId: string }>();
+
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const appointmentDetailModal =
     useAppointmentDetailModal();
+
+  const appointmentUpdateMutation =
+    api.appointment.updateAppointment.useMutation();
 
   const onSelect = (data: TAppointment) => {
     appointmentDetailModal.setData(data);
     appointmentDetailModal.onOpen();
+  };
+
+  const onConfirm = async () => {
+    try {
+      setLoading(true);
+      await appointmentUpdateMutation.mutateAsync({
+        ...data,
+        status: "CANCELED",
+      });
+      toast.success(`预约数据已取消。`);
+      router.refresh();
+    } catch (error) {
+      toast.error(error as string);
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
   };
 
   const onCopy = async (id: string) => {
@@ -37,6 +73,12 @@ export const CellAction: React.FC<CellActionProps> = ({
 
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onConfirm}
+        loading={loading}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -48,12 +90,32 @@ export const CellAction: React.FC<CellActionProps> = ({
           <DropdownMenuLabel>{`操作`}</DropdownMenuLabel>
           <DropdownMenuItem onClick={() => onCopy(data.id)}>
             <Copy className="mr-2 h-4 w-4" />
-            <span>{`复制 Id`}</span>
+            <span>{`复制 ID`}</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onSelect(data)}>
-            <Edit className="mr-2 h-4 w-4" />
+            <FileText className="mr-2 h-4 w-4" />
             <span>{`详情`}</span>
           </DropdownMenuItem>
+          {data.status === "PENDING" && (
+            <>
+              <DropdownMenuItem
+                onClick={() =>
+                  router.push(
+                    `/user/${params.userId}/appointments/${data.id}`,
+                  )
+                }
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                <span>{`编辑`}</span>
+              </DropdownMenuItem>{" "}
+              <DropdownMenuItem
+                onClick={() => setOpen(true)}
+              >
+                <Trash className="mr-2 h-4 w-4" />
+                <span>{`取消`}</span>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

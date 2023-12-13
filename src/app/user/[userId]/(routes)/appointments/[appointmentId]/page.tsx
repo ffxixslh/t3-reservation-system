@@ -2,12 +2,12 @@ import { api } from "~/trpc/server";
 import { AppointmentForm } from "./components/appointment-form";
 import { getServerAuthSession } from "~/server/auth";
 
-interface AppointmentPageProps {
+interface UserAppointmentPageProps {
   params: { userId: string; appointmentId: string };
 }
 
-const AppointmentPage: React.FC<
-  AppointmentPageProps
+const UserAppointmentPage: React.FC<
+  UserAppointmentPageProps
 > = async ({ params }) => {
   const session = await getServerAuthSession();
   if (!session) {
@@ -18,7 +18,7 @@ const AppointmentPage: React.FC<
     id: params.appointmentId,
   });
   const doctors = await api.doctor.getAll.query({
-    hospitalId: session?.user.hospitalId,
+    hospitalId: session.user.hospitalId,
   });
 
   return (
@@ -33,4 +33,4 @@ const AppointmentPage: React.FC<
   );
 };
 
-export default AppointmentPage;
+export default UserAppointmentPage;
