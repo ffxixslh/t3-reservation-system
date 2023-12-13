@@ -13,7 +13,7 @@ export const columns: ColumnDef<TRecord>[] = [
     header: "ID",
   },
   {
-    accessorKey: "text",
+    accessorKey: "texts",
     header: "文本记录",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
