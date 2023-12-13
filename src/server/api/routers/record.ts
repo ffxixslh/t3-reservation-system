@@ -6,11 +6,11 @@ import {
 } from "~/schemas";
 import {
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const recordRouter = createTRPCRouter({
-  getAll: publicProcedure
+  getAllByHospitalId: protectedProcedure
     .input(hospitalIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.findMany({
@@ -25,7 +25,24 @@ export const recordRouter = createTRPCRouter({
         },
       });
     }),
-  getOne: publicProcedure
+  getAllByPatientId: protectedProcedure.query(
+    async ({ ctx }) => {
+      return await ctx.db.medicalRecord.findMany({
+        where: {
+          patientId: ctx.session.user.id,
+        },
+        include: {
+          doctor: true,
+          patient: true,
+          texts: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    },
+  ),
+  getOne: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.findUnique({
@@ -37,7 +54,7 @@ export const recordRouter = createTRPCRouter({
         },
       });
     }),
-  createRecord: publicProcedure
+  createRecord: protectedProcedure
     .input(recordSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.create({
@@ -51,7 +68,7 @@ export const recordRouter = createTRPCRouter({
         },
       });
     }),
-  updateRecord: publicProcedure
+  updateRecord: protectedProcedure
     .input(recordUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.update({
@@ -69,7 +86,7 @@ export const recordRouter = createTRPCRouter({
         },
       });
     }),
-  deleteRecord: publicProcedure
+  deleteRecord: protectedProcedure
     .input(stringIdSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.delete({

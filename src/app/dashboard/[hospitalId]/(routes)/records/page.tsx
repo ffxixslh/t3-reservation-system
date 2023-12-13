@@ -7,9 +7,11 @@ const RecordsPage = async ({
 }: {
   params: { hospitalId: string };
 }) => {
-  const records = await api.record.getAll.query({
-    hospitalId: params.hospitalId,
-  });
+  const records = await api.record.getAllByHospitalId.query(
+    {
+      hospitalId: params.hospitalId,
+    },
+  );
 
   return (
     <div className="flex-col">
