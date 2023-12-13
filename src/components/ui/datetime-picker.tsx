@@ -16,6 +16,7 @@ import { Input } from "~/components/ui/input";
 import { zhCN } from "date-fns/locale";
 
 interface DateTimePickerProps {
+  disabled?: boolean;
   date: Date;
   setDate: (date: Date) => void;
 }
@@ -39,7 +40,7 @@ export const timeParser = (value: string) => {
 
 export const DatetimePicker: React.FC<
   DateTimePickerProps
-> = ({ date, setDate }) => {
+> = ({ disabled, date, setDate }) => {
   const [selectedDateTime, setSelectedDateTime] =
     React.useState<DateTime>(DateTime.fromJSDate(date));
 
@@ -92,6 +93,7 @@ export const DatetimePicker: React.FC<
     <Popover>
       <PopoverTrigger asChild className="z-10">
         <Button
+          disabled={disabled}
           variant={"outline"}
           className={cn(
             "justify-start text-left font-normal",
