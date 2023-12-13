@@ -12,10 +12,10 @@ const HomePage = async () => {
         <div className="text-center text-2xl text-white">
           {session && (
             <>
-              <span>Logged in as {session.user?.name}</span>
+              <span>Logged in as {session.user.name}</span>
               <div className="flex gap-4 p-2">
                 <Link
-                  href={`/user/${session.user?.id}`}
+                  href={`/user/${session.user.id}`}
                   className="border-b border-b-blue-400"
                 >
                   User Space
@@ -33,12 +33,14 @@ const HomePage = async () => {
           >
             {session ? "注销" : "登录"}
           </Link>
-          <Link
-            href={"/auth/signup"}
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-          >
-            {"注册"}
-          </Link>
+          {session && (
+            <Link
+              href={"/auth/signup"}
+              className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+            >
+              {"注册"}
+            </Link>
+          )}
         </div>
       </div>
     </main>
