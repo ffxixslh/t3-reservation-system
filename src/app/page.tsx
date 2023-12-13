@@ -1,13 +1,47 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import Navbar from "~/components/navbar";
+import { getServerAuthSession } from "~/server/auth";
 
 const HomePage = async () => {
-  await Promise.resolve();
-  redirect("/dashboard");
+  const session = await getServerAuthSession();
 
   return (
-    <div className="flex h-screen w-screen flex-col place-items-center justify-center">
-      <div className="text-5xl font-bold">Home Page</div>
-    </div>
+    <main className="flex min-h-screen flex-col">
+      <Navbar />
+      <div className="container flex flex-col gap-12 px-4 py-16 ">
+        <div className="text-center text-2xl text-white">
+          {session && (
+            <>
+              <span>Logged in as {session.user?.name}</span>
+              <div className="flex gap-4 p-2">
+                <Link
+                  href={`/user/${session.user?.id}`}
+                  className="border-b border-b-blue-400"
+                >
+                  User Space
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="flex justify-center gap-2">
+          <Link
+            href={
+              session ? "/auth/signout" : "/auth/signin"
+            }
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+          >
+            {session ? "注销" : "登录"}
+          </Link>
+          <Link
+            href={"/auth/signup"}
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+          >
+            {"注册"}
+          </Link>
+        </div>
+      </div>
+    </main>
   );
 };
 export default HomePage;

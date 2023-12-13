@@ -5,6 +5,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+// import { compare } from "bcryptjs";
 
 import { db } from "~/server/db";
 import { api } from "~/trpc/server";
@@ -66,7 +67,7 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(db),
   providers: [
-   /**
+    /**
      * Refer to the NextAuth.js docs for the provider you want to use. Example:
      *
      * @see https://next-auth.js.org/providers/github
@@ -86,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
+        console.log("--------credentials", credentials);
         try {
           if (!credentials) {
             return null;
@@ -95,7 +97,14 @@ export const authOptions: NextAuthOptions = {
               phone: credentials.phone,
               password: credentials.password,
             });
-          if (!user) {
+          if (
+            !user
+            // ||
+            // !(await compare(
+            //   user.password,
+            //   credentials.password,
+            // ))
+          ) {
             return null;
           }
           return user;
@@ -105,7 +114,11 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
- ],
+  ],
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+  },
 };
 
 /**

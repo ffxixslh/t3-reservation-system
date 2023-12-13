@@ -39,6 +39,7 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
@@ -64,6 +65,7 @@
     "zustand": "^4.4.6"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/eslint": "^8.44.2",
     "@types/luxon": "^3.3.5",
     "@types/node": "^18.16.0",

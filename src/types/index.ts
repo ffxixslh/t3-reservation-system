@@ -16,9 +16,14 @@ export type TDepartment = PrismaDepartment & {
   doctors: PrismaDoctor[];
 };
 
-export type TPatient = PrismaUser & {
+export type TPatient = Omit<TUser, "doctorId"> & {
   appointments: PrismaAppointment[];
 } & { medicalRecords: PrismaMedicalRecord[] };
+
+export type TPatientWithoutPassword = Omit<
+  TPatient,
+  "password"
+>;
 
 export type TDoctor = PrismaDoctor & {
   appointments: PrismaAppointment[];

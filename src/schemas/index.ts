@@ -7,8 +7,19 @@ export const hospitalIdSchema = z.object({
 });
 
 export const credentialsSchema = z.object({
-  phone: z.string().length(11),
-  password: z.string().min(6).max(16),
+  phone: z
+    .string({
+      required_error: "电话是必填的",
+      invalid_type_error: "Phone must be a string",
+    })
+    .length(11),
+  password: z
+    .string({
+      required_error: "密码是必填的",
+      invalid_type_error: "Password must be a string",
+    })
+    .min(6)
+    .max(16),
 });
 
 export const hospitalSchema = z.object({
@@ -45,7 +56,7 @@ export const userSchema = z.object({
       required_error: "Phone is required",
       invalid_type_error: "Phone must be a string",
     })
-    .length(11),
+    .length(11, "11位电话号码是必填的"),
   email: z.string().optional().default(""),
   role: z
     .enum(["ADMIN", "DOCTOR", "PATIENT"])

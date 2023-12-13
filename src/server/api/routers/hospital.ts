@@ -7,10 +7,11 @@ import {
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 
 export const hospitalRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(async ({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.hospital.findMany();
   }),
   getOne: protectedProcedure
