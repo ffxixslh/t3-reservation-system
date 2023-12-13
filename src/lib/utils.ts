@@ -19,7 +19,7 @@ export const formatter = new Intl.NumberFormat("en-US", {
 export const dateFormatter = (
   dateValue: Date | number,
   locale: Locale,
-  formatTemplate = "yyyy-MM-dd HH:mm:ss",
+  formatTemplate = "yyyy年MM月dd日 HH时mm分",
 ) => {
   return format(dateValue, formatTemplate, {
     locale,
