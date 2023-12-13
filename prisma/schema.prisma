@@ -37,7 +37,7 @@ model HospitalAdmin {
 model User {
   id        String   @id @default(cuid())
   name      String
-  email     String?  @unique
+  email     String?
   password  String
   phone     String   @unique
   role      UserRole @default(PATIENT)
