@@ -12,7 +12,7 @@ const AppointmentPage: React.FC<
     id: params.appointmentId,
   });
 
-  const doctors = await api.doctor.getAll.query({
+  const departments = await api.department.getAll.query({
     hospitalId: params.hospitalId,
   });
 
@@ -21,7 +21,7 @@ const AppointmentPage: React.FC<
       <div className="flex-1 space-y-4 p-8 pt-6">
         <AppointmentForm
           initialData={appointment}
-          doctors={doctors}
+          departments={departments}
         />
       </div>
     </div>

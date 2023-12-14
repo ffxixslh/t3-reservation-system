@@ -8,7 +8,7 @@ interface AppointmentNewPageProps {
 const AppointmentNewPage: React.FC<
   AppointmentNewPageProps
 > = async ({ params }) => {
-  const doctors = await api.doctor.getAll.query({
+  const departments = await api.department.getAll.query({
     hospitalId: params.hospitalId,
   });
 
@@ -17,7 +17,7 @@ const AppointmentNewPage: React.FC<
       <div className="flex-1 space-y-4 p-8 pt-6">
         <AppointmentForm
           initialData={null}
-          doctors={doctors}
+          departments={departments}
         />
       </div>
     </div>

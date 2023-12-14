@@ -28,19 +28,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-// import ImageUpload from "~/components/ui/image-upload";
-
-import { api } from "~/trpc/react";
-import { appointmentUpdateSchema } from "~/schemas";
-import { type TAppointment, type TDoctor } from "~/types";
 import {
   DatetimePicker,
   selectTimeConstraint,
   timeParser,
 } from "~/components/ui/datetime-picker";
+import { Textarea } from "~/components/ui/textarea";
+
+import { api } from "~/trpc/react";
+import { appointmentUpdateSchema } from "~/schemas";
+import {
+  type TDepartment,
+  type TAppointment,
+} from "~/types";
 import { STATUS } from "~/constants";
 import { statusFormatter } from "~/lib/utils";
-import { Textarea } from "~/components/ui/textarea";
+import { Label } from "~/components/ui/label";
 
 type AppointmentFormValues = z.infer<
   typeof appointmentUpdateSchema
@@ -48,12 +51,12 @@ type AppointmentFormValues = z.infer<
 
 interface AppointmentFormProps {
   initialData: TAppointment | null;
-  doctors: TDoctor[];
+  departments: TDepartment[];
 }
 
 export const AppointmentForm: React.FC<
   AppointmentFormProps
-> = ({ initialData, doctors }) => {
+> = ({ initialData, departments }) => {
   const params = useParams<{
     hospitalId: string;
     appointmentId: string;
@@ -62,6 +65,9 @@ export const AppointmentForm: React.FC<
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [departmentId, setDepartmentId] = useState(
+    initialData?.doctor.departmentId ?? "",
+  );
 
   const appointmentCreateMutation =
     api.appointment.createAppointment.useMutation();
@@ -78,6 +84,11 @@ export const AppointmentForm: React.FC<
     ? "该预约信息已更新。"
     : "该预约信息已创建。";
   const action = initialData ? "保存" : "创建";
+
+  const doctors =
+    departments.filter(
+      (department) => department.id === departmentId,
+    )[0]?.doctors ?? [];
 
   const defaultValues: AppointmentFormValues =
     initialData ?? {
@@ -153,6 +164,12 @@ export const AppointmentForm: React.FC<
 
   const onInvalid = (error: unknown) =>
     console.error(error);
+
+  const onDepartmentSelect = (departmentId: string) => {
+    console.log("departmentId", departmentId);
+
+    setDepartmentId(departmentId);
+  };
 
   return (
     <>
@@ -232,7 +249,32 @@ export const AppointmentForm: React.FC<
                 </FormItem>
               )}
             />
-
+            <div className="flex flex-col gap-y-[5px] space-y-2 pb-2 pt-1.5">
+              <Label>{`预约科目`}</Label>
+              <Select
+                disabled={loading}
+                onValueChange={onDepartmentSelect}
+                value={departmentId}
+                required={true}
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    defaultValue={""}
+                    placeholder="选择科目"
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((department) => (
+                    <SelectItem
+                      key={department.id}
+                      value={department.id}
+                    >
+                      {department.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <FormField
               control={form.control}
               name="doctorId"
