@@ -29,7 +29,7 @@ export function SignInForm() {
 
   const searchParams = useSearchParams();
   const callbackUrl =
-    searchParams.get("callbackUrl") ?? "/user";
+    searchParams.get("callbackUrl") ?? "/";
 
   const form = useForm<z.infer<typeof credentialsSchema>>({
     resolver: zodResolver(credentialsSchema),
@@ -46,7 +46,7 @@ export function SignInForm() {
       setLoading(true);
 
       const res = await signIn("credentials", {
-        redirect: true,
+        redirect: false,
         phone: values.phone,
         password: values.password,
         callbackUrl,

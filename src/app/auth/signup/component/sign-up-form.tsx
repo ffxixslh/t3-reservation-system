@@ -49,7 +49,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
   const searchParams = useSearchParams();
   const callbackUrl =
-    searchParams.get("callbackUrl") ?? "/user";
+    searchParams.get("callbackUrl") ?? "/";
 
   const createNewUserMutation =
     api.user.createNewUser.useMutation();
@@ -89,7 +89,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
       toast.success("注册成功");
       await signIn("credentials", {
-        redirect: true,
+        redirect: false,
         phone: newUser.phone,
         password: newUser.password,
         callbackUrl,
