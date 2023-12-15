@@ -58,6 +58,7 @@ export function SignInForm() {
 
       router.push(callbackUrl);
       toast.success("登录成功");
+      router.refresh();
     } catch (error) {
       toast.error(error as string);
     } finally {

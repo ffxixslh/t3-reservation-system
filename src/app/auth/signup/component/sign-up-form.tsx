@@ -95,6 +95,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         callbackUrl,
       });
       router.push(callbackUrl);
+      router.refresh();
     } catch (error) {
       if (error instanceof TRPCClientError) {
         toast.error(error.message);
