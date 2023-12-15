@@ -6,6 +6,8 @@ import { zhCN } from "date-fns/locale";
 import { CellAction } from "./cell-action";
 import type { TPatient } from "~/types";
 import { dateFormatter, roleFormatter } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<TPatient>[] = [
   {
@@ -33,7 +35,19 @@ export const columns: ColumnDef<TPatient>[] = [
   },
   {
     accessorKey: "role",
-    header: "角色",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"角色"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {roleFormatter(row.original?.role)}
@@ -60,7 +74,19 @@ export const columns: ColumnDef<TPatient>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "创建日期",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"创建时间"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {dateFormatter(row.original?.createdAt, zhCN)}

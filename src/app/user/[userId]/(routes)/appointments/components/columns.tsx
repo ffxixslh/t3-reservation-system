@@ -9,6 +9,8 @@ import {
   dateFormatter,
   statusFormatter,
 } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<TAppointment>[] = [
   {
@@ -17,7 +19,19 @@ export const columns: ColumnDef<TAppointment>[] = [
   },
   {
     accessorKey: "status",
-    header: "预约状态",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"预约状态"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {statusFormatter(row.original?.status)}
@@ -26,7 +40,19 @@ export const columns: ColumnDef<TAppointment>[] = [
   },
   {
     accessorKey: "time",
-    header: "预约时间",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"预约时间"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {dateFormatter(row.original?.time, zhCN)}

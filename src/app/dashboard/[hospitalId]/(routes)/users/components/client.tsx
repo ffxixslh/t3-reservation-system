@@ -43,11 +43,7 @@ export const UsersClient: React.FC<UsersClientProps> = ({
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="name"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
       <Heading title="API" description="用户接口调用" />
       <Separator />
       <ApiList entityName="users" entityIdName="userId" />

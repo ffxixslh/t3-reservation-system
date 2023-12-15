@@ -76,6 +76,33 @@ export const statusFormatter = (
   }
 };
 
+export const columnIdFormatter = (columnId: string) => {
+  // make the switch below to a map
+  const columnIdMap: Record<string, string> = {
+    id: "ID",
+    name: "名称",
+    email: "邮箱",
+    phone: "电话",
+    department: "部门",
+    role: "角色",
+    level: "级别",
+    appointment: "预约",
+    medicalRecord: "病历",
+    date: "日期",
+    doctor: "医生",
+    patient: "患者",
+    texts: "文本记录",
+    description: "描述",
+    status: "预约状态",
+    time: "预约时间",
+    createdAt: "创建时间",
+    updatedAt: "更新时间",
+    actions: "操作",
+  };
+
+  return columnIdMap[columnId];
+};
+
 type RecordWithoutKey<
   R extends Record<string, unknown>,
   T extends keyof R | (keyof R)[],

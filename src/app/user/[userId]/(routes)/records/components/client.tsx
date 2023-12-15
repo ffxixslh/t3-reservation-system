@@ -47,11 +47,7 @@ export const RecordsClient: React.FC<
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="id"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
     </>
   );
 };

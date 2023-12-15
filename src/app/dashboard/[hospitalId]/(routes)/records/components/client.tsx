@@ -43,11 +43,7 @@ export const RecordsClient: React.FC<
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="id"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
       <Heading title="API" description="病历接口调用" />
       <Separator />
       <ApiList

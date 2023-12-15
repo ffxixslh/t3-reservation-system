@@ -1,10 +1,9 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { type TPatientWithoutPassword } from "~/types";
+import { type TUser } from "~/types";
 
-const UserInfoContext =
-  createContext<TPatientWithoutPassword | null>(null);
+const UserInfoContext = createContext<TUser | null>(null);
 
 export const useUserInfoContext = () =>
   useContext(UserInfoContext);
@@ -13,7 +12,7 @@ export const UserInfoProvider = ({
   value,
   children,
 }: {
-  value: TPatientWithoutPassword;
+  value: TUser;
   children: React.ReactNode;
 }) => {
   return (

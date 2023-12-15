@@ -43,12 +43,7 @@ export const AppointmentsClient: React.FC<
         </Button>
       </div>
       <Separator />
-      {/* TODO: add custom filter */}
-      <DataTable
-        searchKey="time"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
       <Heading title="API" description="预约接口调用" />
       <Separator />
       <ApiList

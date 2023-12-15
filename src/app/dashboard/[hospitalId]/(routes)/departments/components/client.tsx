@@ -43,11 +43,7 @@ export const DepartmentClient: React.FC<
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="name"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
       <Heading title="API" description="部门接口调用" />
       <Separator />
       <ApiList

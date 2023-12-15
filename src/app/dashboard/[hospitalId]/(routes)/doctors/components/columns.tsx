@@ -6,6 +6,8 @@ import { zhCN } from "date-fns/locale";
 import { CellAction } from "./cell-action";
 import type { TDoctor } from "~/types";
 import { dateFormatter, levelFormatter } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<TDoctor>[] = [
   {
@@ -18,7 +20,19 @@ export const columns: ColumnDef<TDoctor>[] = [
   },
   {
     accessorKey: "department",
-    header: "部门",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"部门"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {row.original?.department?.name}
@@ -26,8 +40,20 @@ export const columns: ColumnDef<TDoctor>[] = [
     ),
   },
   {
-    accessorKey: "role",
-    header: "级别",
+    accessorKey: "level",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"级别"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {levelFormatter(row.original?.level)}
@@ -54,7 +80,19 @@ export const columns: ColumnDef<TDoctor>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "创建日期",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"创建时间"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {dateFormatter(row.original?.createdAt, zhCN)}

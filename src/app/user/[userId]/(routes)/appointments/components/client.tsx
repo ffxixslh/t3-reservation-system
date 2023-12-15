@@ -47,12 +47,7 @@ export const AppointmentsClient: React.FC<
         </Button>
       </div>
       <Separator />
-      {/* TODO: add custom filter */}
-      <DataTable
-        searchKey="time"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
     </>
   );
 };

@@ -43,11 +43,7 @@ export const DoctorsClient: React.FC<
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="name"
-        columns={columns}
-        data={data}
-      />
+      <DataTable columns={columns} data={data} />
       <Heading title="API" description="医生接口调用" />
       <Separator />
       <ApiList

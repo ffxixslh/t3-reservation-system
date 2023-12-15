@@ -6,6 +6,8 @@ import { CellAction } from "./cell-action";
 import { type TDepartment } from "~/types";
 import { zhCN } from "date-fns/locale";
 import { dateFormatter } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<TDepartment>[] = [
   {
@@ -38,7 +40,19 @@ export const columns: ColumnDef<TDepartment>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "创建日期",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          column.toggleSorting(
+            column.getIsSorted() === "asc",
+          )
+        }
+      >
+        {"创建时间"}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {dateFormatter(row.original?.createdAt, zhCN)}
