@@ -19,6 +19,11 @@ export function UserMainNav({
   const routes = useMemo(
     () => [
       {
+        href: `/`,
+        label: "首页",
+        active: pathname === `/`,
+      },
+      {
         href: `/user/${params.userId}`,
         label: "总览",
         active: pathname === `/user/${params.userId}`,
