@@ -160,8 +160,6 @@ export const AppointmentForm: React.FC<
     console.error(error);
 
   const onDepartmentSelect = (departmentId: string) => {
-    console.log("departmentId", departmentId);
-
     setDepartmentId(departmentId);
   };
 

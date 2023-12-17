@@ -87,7 +87,6 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        console.log("--------credentials", credentials);
         try {
           if (!credentials) {
             return null;
