@@ -32,7 +32,10 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { columnIdFormatter } from "~/lib/utils";
+import {
+  columnIdFormatter,
+  getKeyByValue,
+} from "~/lib/utils";
 import { ChevronDownIcon, Filter } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
@@ -47,6 +50,7 @@ export function DataTable<TData, TValue>({
   const [searchKey, setSearchKey] = useState<
     (typeof columns)[number]["id"] & string
   >("id");
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] =
     useState<ColumnFiltersState>([]);
@@ -80,11 +84,16 @@ export function DataTable<TData, TValue>({
               .getColumn(searchKey)
               ?.getFilterValue() as string) ?? ""
           }
-          onChange={(event) => {
-            return table
+          onChange={(event) =>
+            table
               .getColumn(searchKey)
-              ?.setFilterValue(event.target.value);
-          }}
+              ?.setFilterValue(
+                getKeyByValue(
+                  searchKey,
+                  event.target.value,
+                ) ?? event.target.value,
+              )
+          }
           className="max-w-sm"
         />
         <DropdownMenu>
