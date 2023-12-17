@@ -2,6 +2,12 @@ import { type ClassValue, clsx } from "clsx";
 import { format, type Locale } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import {
+  roleMap,
+  levelMap,
+  statusMap,
+  columnIdMap,
+} from "~/constants";
+import {
   type TAppointment,
   type TDoctor,
   type TUser,
@@ -11,10 +17,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
+export const currencyFormatter = new Intl.NumberFormat(
+  "en-US",
+  {
+    style: "currency",
+    currency: "USD",
+  },
+);
 
 export const dateFormatter = (
   dateValue: Date | number,
@@ -26,81 +35,39 @@ export const dateFormatter = (
   });
 };
 
-export const roleFormatter = (role: TUser["role"]) => {
-  switch (role) {
-    case "PATIENT": {
-      return "患者";
-    }
-    case "DOCTOR": {
-      return "医生";
-    }
-    case "ADMIN": {
-      return "管理员";
-    }
-  }
-};
+export const roleFormatter = (role: TUser["role"]) =>
+  roleMap[role];
 
-export const levelFormatter = (level: TDoctor["level"]) => {
-  switch (level) {
-    case "CHIEF": {
-      return "主任医师";
-    }
-    case "ATTENDING": {
-      return "主治医师";
-    }
-    case "RESIDENT": {
-      return "住院医师";
-    }
-    case "INTERN": {
-      return "实习医师";
-    }
-  }
-};
+export const levelFormatter = (level: TDoctor["level"]) =>
+  levelMap[level];
 
 export const statusFormatter = (
   status: TAppointment["status"],
+) => statusMap[status];
+
+export const columnIdFormatter = (columnId: string) =>
+  columnIdMap[columnId];
+
+export const getKeyByValue = (
+  searchKey: string,
+  value: string,
 ) => {
-  switch (status) {
-    case "PENDING": {
-      return "待处理";
-    }
-    case "CONFIRMED": {
-      return "已确认";
-    }
-    case "CANCELED": {
-      return "已取消";
-    }
-    case "COMPLETED": {
-      return "已完成";
-    }
-  }
+  const record = getMapBySearchKey(searchKey);
+  return Object.keys(record).find(
+    (k) => record[k]?.includes(value),
+  );
 };
 
-export const columnIdFormatter = (columnId: string) => {
-  // make the switch below to a map
-  const columnIdMap: Record<string, string> = {
-    id: "ID",
-    name: "名称",
-    email: "邮箱",
-    phone: "电话",
-    department: "部门",
-    role: "角色",
-    level: "级别",
-    appointment: "预约",
-    medicalRecord: "病历",
-    date: "日期",
-    doctor: "医生",
-    patient: "患者",
-    texts: "文本记录",
-    description: "描述",
-    status: "预约状态",
-    time: "预约时间",
-    createdAt: "创建时间",
-    updatedAt: "更新时间",
-    actions: "操作",
+export const getMapBySearchKey = (key: string) => {
+  const searchKeyMap: Record<
+    string,
+    Record<string, string>
+  > = {
+    role: roleMap,
+    level: levelMap,
+    status: statusMap,
   };
-
-  return columnIdMap[columnId];
+  return searchKeyMap[key] ?? {};
 };
 
 type RecordWithoutKey<
