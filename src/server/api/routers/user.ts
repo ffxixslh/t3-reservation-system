@@ -27,7 +27,7 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-  getById: protectedProcedure
+  getOneById: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.user.findUnique({

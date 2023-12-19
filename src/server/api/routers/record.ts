@@ -42,6 +42,23 @@ export const recordRouter = createTRPCRouter({
       });
     },
   ),
+  getAllByDoctorId: protectedProcedure.query(
+    async ({ ctx }) => {
+      return await ctx.db.medicalRecord.findMany({
+        where: {
+          doctorId: ctx.session.user.doctorId!,
+        },
+        include: {
+          doctor: true,
+          patient: true,
+          texts: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    },
+  ),
   getOne: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {

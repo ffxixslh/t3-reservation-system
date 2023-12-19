@@ -40,6 +40,22 @@ export const appointmentRouter = createTRPCRouter({
       });
     },
   ),
+  getAllByDoctorId: protectedProcedure.query(
+    async ({ ctx }) => {
+      return await ctx.db.appointment.findMany({
+        where: {
+          doctorId: ctx.session.user.doctorId!,
+        },
+        include: {
+          doctor: true,
+          patient: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    },
+  ),
   getOne: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {

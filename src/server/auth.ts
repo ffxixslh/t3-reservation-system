@@ -9,7 +9,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { db } from "~/server/db";
 import { api } from "~/trpc/server";
-import { type TUser } from "~/types";
+import { type TUserOrigin } from "~/types";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -23,13 +23,15 @@ declare module "next-auth" {
       id: User["id"];
       role: User["role"];
       hospitalId: User["hospitalId"];
+      doctorId: User["doctorId"];
     } & DefaultSession["user"];
   }
 
   interface User {
-    id: TUser["id"];
-    role: TUser["role"];
-    hospitalId: TUser["hospitalId"];
+    id: TUserOrigin["id"];
+    role: TUserOrigin["role"];
+    hospitalId: TUserOrigin["hospitalId"];
+    doctorId: TUserOrigin["doctorId"];
   }
 }
 
@@ -43,15 +45,20 @@ export const authOptions: NextAuthOptions = {
     jwt: (params) => {
       // The 'user' only exist for the first time
       const { token, user } = params;
+
       if (user) {
         token.role = user.role;
         token.hospitalId = user.hospitalId;
+        if (user.role === "DOCTOR") {
+          token.doctorId = user.doctorId;
+        }
       }
       return token;
     },
     session: (params) => {
       const { session, token } = params;
-      return {
+
+      const result = {
         ...session,
         user: {
           ...session.user,
@@ -60,6 +67,10 @@ export const authOptions: NextAuthOptions = {
           hospitalId: token.hospitalId,
         },
       };
+      if (token.role === "DOCTOR") {
+        result.user.doctorId = token.doctorId as string;
+      }
+      return result;
     },
   },
   session: {

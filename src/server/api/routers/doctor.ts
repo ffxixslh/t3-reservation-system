@@ -25,7 +25,7 @@ export const doctorRouter = createTRPCRouter({
         },
       });
     }),
-  getOne: publicProcedure
+  getOneById: publicProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.doctor.findUnique({
