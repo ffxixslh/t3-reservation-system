@@ -9,7 +9,7 @@ interface DoctorPageProps {
 const DoctorPage: React.FC<DoctorPageProps> = async ({
   params,
 }) => {
-  const doctor = await api.doctor.getOne.query({
+  const doctor = await api.doctor.getOneById.query({
     id: params.doctorId,
   });
 

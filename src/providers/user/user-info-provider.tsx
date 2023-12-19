@@ -1,9 +1,11 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { type TUser } from "~/types";
+import { type TUserOrigin } from "~/types";
 
-const UserInfoContext = createContext<TUser | null>(null);
+const UserInfoContext = createContext<TUserOrigin | null>(
+  null,
+);
 
 export const useUserInfoContext = () =>
   useContext(UserInfoContext);
@@ -12,7 +14,7 @@ export const UserInfoProvider = ({
   value,
   children,
 }: {
-  value: TUser;
+  value: TUserOrigin | null;
   children: React.ReactNode;
 }) => {
   return (

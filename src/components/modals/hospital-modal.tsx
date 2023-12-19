@@ -44,6 +44,7 @@ export const HospitalModal = () => {
       setLoading(true);
       await hospitalCreateMutation.mutateAsync(values, {
         onSuccess: (data) => {
+          toast.success("医院创建成功");
           router.push(`/dashboard/${data.id}`);
         },
       });

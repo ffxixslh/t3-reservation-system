@@ -107,7 +107,7 @@ export const CellAction: React.FC<CellActionProps> = ({
               >
                 <Edit className="mr-2 h-4 w-4" />
                 <span>{`编辑`}</span>
-              </DropdownMenuItem>{" "}
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => setOpen(true)}
               >

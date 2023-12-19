@@ -1,19 +1,26 @@
 import { ThemeToggle } from "~/components/theme-toggle";
-import { LeftNav } from "./left-nav";
-import { RightNav } from "./right-nav";
 
-export default async function Navbar() {
+interface NavbarProps {
+  mainNav?: React.ReactNode;
+  subNav?: React.ReactNode;
+}
+
+const Navbar: React.FC<NavbarProps> = async ({
+  mainNav,
+  subNav,
+}) => {
   await Promise.resolve();
 
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
-        <LeftNav className="px-4" />
+        {mainNav && <div className="px-4">{mainNav}</div>}
         <div className="ml-auto flex items-center space-x-4">
-          <RightNav className="px-4" />
+          {subNav && <div className="px-2">{subNav}</div>}
           <ThemeToggle />
         </div>
       </div>
     </div>
   );
-}
+};
+export default Navbar;

@@ -1,6 +1,7 @@
 export type {
   THospital,
   TDepartment,
+  TUserOrigin,
   TUser,
   TPatient,
   TDoctor,
@@ -9,9 +10,3 @@ export type {
   TRecord,
 } from "./database";
 export type { SearchParams } from "./system";
-export type {
-  Option,
-  DataTableFilterOption,
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-} from "./data-table";

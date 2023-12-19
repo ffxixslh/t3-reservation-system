@@ -19,6 +19,11 @@ export function DashboardMainNav({
   const routes = useMemo(
     () => [
       {
+        href: `/`,
+        label: "首页",
+        active: pathname === `/`,
+      },
+      {
         href: `/dashboard/${params.hospitalId}`,
         label: "总览",
         active:

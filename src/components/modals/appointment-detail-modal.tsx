@@ -7,7 +7,7 @@ import {
   statusFormatter,
 } from "~/lib/utils";
 import { zhCN } from "date-fns/locale";
-import { Label } from "../ui/label";
+import DescriptionItem from "../ui/description-item";
 
 interface AppointmentDetailModalProps {
   title: string;
@@ -37,60 +37,34 @@ export const AppointmentDetailModal: React.FC<
       onClose={appointmentDetailModal.onClose}
     >
       <div className="flex flex-col gap-4">
-        <Label
-          className="text-muted-foreground"
-          htmlFor="appointment-modal-status"
-        >
-          {"预约状态"}
-        </Label>
-        <p
-          id="appointment-modal-status"
-          className="font-300 px-2 text-xl"
-        >
-          {statusFormatter(
+        <DescriptionItem
+          title={"预约状态"}
+          content={statusFormatter(
             appointmentDetailModal.data?.status ??
               "PENDING",
           )}
-        </p>
-        <Label
-          className="text-muted-foreground"
-          htmlFor="appointment-modal-time"
-        >
-          {"预约时间"}
-        </Label>
-        <p
-          id="appointment-modal-time"
-          className="font-300 px-2 text-xl"
-        >
-          {dateFormatter(
+        />
+        <DescriptionItem
+          title={"预约时间"}
+          content={dateFormatter(
             appointmentDetailModal.data?.time ?? 0,
             zhCN,
           )}
-        </p>
-        <Label
-          className="text-muted-foreground"
-          htmlFor="appointment-modal-doctor"
-        >
-          {"预约医生"}
-        </Label>
-        <p
-          id="appointment-modal-doctor"
-          className="font-300 px-2 text-xl"
-        >
-          {appointmentDetailModal.data?.doctor.name}
-        </p>
-        <Label
-          className="text-muted-foreground"
-          htmlFor="appointment-modal-description"
-        >
-          {"病情描述"}
-        </Label>
-        <p
-          id="appointment-modal-description"
-          className="font-300 px-2 text-xl"
-        >
-          {appointmentDetailModal.data?.description}
-        </p>
+        />
+        <DescriptionItem
+          title={"预约医生"}
+          content={appointmentDetailModal.data?.doctor.name}
+        />
+        <DescriptionItem
+          title={"预约患者"}
+          content={
+            appointmentDetailModal.data?.patient.name
+          }
+        />
+        <DescriptionItem
+          title={"病情描述"}
+          content={appointmentDetailModal.data?.description}
+        />
       </div>
     </Modal>
   );

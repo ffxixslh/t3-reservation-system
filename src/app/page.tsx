@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { LeftNav } from "~/components/left-nav";
 import Navbar from "~/components/navbar";
+import { RightNav } from "~/components/right-nav";
 import { getServerAuthSession } from "~/server/auth";
 
 const HomePage = async () => {
@@ -7,7 +9,7 @@ const HomePage = async () => {
 
   return (
     <main className="flex min-h-screen flex-col">
-      <Navbar />
+      <Navbar mainNav={<LeftNav />} subNav={<RightNav />} />
       <div className="container flex flex-col gap-12 px-4 py-16 ">
         <div className="text-center text-2xl text-white">
           {session && (
@@ -20,6 +22,14 @@ const HomePage = async () => {
                 >
                   User Space
                 </Link>
+                {session.user.role === "DOCTOR" && (
+                  <Link
+                    href={`/doctor/${session.user.doctorId}`}
+                    className="border-b border-b-blue-400"
+                  >
+                    Doctor Space
+                  </Link>
+                )}
               </div>
             </>
           )}

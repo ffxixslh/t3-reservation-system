@@ -28,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-// import ImageUpload from "~/components/ui/image-upload";
 
 import { api } from "~/trpc/react";
 import { doctorUpdateSchema } from "~/schemas";

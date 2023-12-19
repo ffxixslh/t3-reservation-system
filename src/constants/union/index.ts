@@ -1,10 +1,10 @@
 import {
   type TAppointment,
   type TDoctor,
-  type TUser,
+  type TUserOrigin,
 } from "~/types";
 
-export const ROLE: TUser["role"][] = [
+export const ROLE: TUserOrigin["role"][] = [
   "PATIENT",
   "ADMIN",
   "DOCTOR",

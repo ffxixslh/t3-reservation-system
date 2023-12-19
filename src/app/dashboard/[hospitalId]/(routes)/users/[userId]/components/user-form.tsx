@@ -31,14 +31,14 @@ import {
 
 import { api } from "~/trpc/react";
 import { userUpdateSchema } from "~/schemas";
-import { type TPatient } from "~/types";
+import { type TUser } from "~/types";
 import { roleFormatter } from "~/lib/utils";
 import { ROLE } from "~/constants";
 
 type UserFormValues = z.infer<typeof userUpdateSchema>;
 
 interface UserFormProps {
-  initialData: TPatient | null;
+  initialData: TUser | null;
 }
 
 export const UserForm: React.FC<UserFormProps> = ({
@@ -73,6 +73,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     ? {
         ...initialData,
         email: initialData.email ?? "",
+        doctorId: initialData.doctorId ?? params.userId,
       }
     : {
         id: "",
@@ -82,6 +83,7 @@ export const UserForm: React.FC<UserFormProps> = ({
         phone: "",
         role: "PATIENT",
         hospitalId: params.hospitalId,
+        doctorId: params.userId,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -244,6 +246,24 @@ export const UserForm: React.FC<UserFormProps> = ({
                         ))}
                       </SelectContent>
                     </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="doctorId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{`医生 ID`}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      disabled={loading}
+                      placeholder={`医生 ID`}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

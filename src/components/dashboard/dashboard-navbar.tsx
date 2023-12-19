@@ -1,9 +1,9 @@
 import HospitalSwitcher from "~/components/dashboard/hospital-switcher";
 import { DashboardMainNav } from "~/components/dashboard/dashboard-main-nav";
-import { ThemeToggle } from "~/components/theme-toggle";
 import { api } from "~/trpc/server";
-import { UserMenu } from "../user/user-menu";
+import { UserMenu } from "../user-menu";
 import { getServerAuthSession } from "~/server/auth";
+import Navbar from "../navbar";
 
 export default async function DashboardNavbar() {
   const session = await getServerAuthSession();
@@ -11,22 +11,21 @@ export default async function DashboardNavbar() {
     return null;
   }
 
-  const user = await api.user.getById.query({
+  const user = await api.user.getOneById.query({
     id: session.user.id,
   });
 
   const hospitals = await api.hospital.getAll.query();
 
   return (
-    <div className="border-b">
-      <div className="flex h-16 items-center px-4">
-        <HospitalSwitcher items={hospitals} />
-        <DashboardMainNav className="mx-6" />
-        <div className="ml-auto flex items-center space-x-4">
-          <ThemeToggle />
-          <UserMenu user={user} />
+    <Navbar
+      mainNav={
+        <div className="flex items-center">
+          <HospitalSwitcher items={hospitals} />
+          <DashboardMainNav className="mx-6" />
         </div>
-      </div>
-    </div>
+      }
+      subNav={<UserMenu user={user} />}
+    />
   );
 }

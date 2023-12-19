@@ -61,7 +61,7 @@ export default function HospitalSwitcher({
     label: string;
   }) => {
     setOpen(false);
-    router.push(`/${hospital.value}`);
+    router.push(`/dashboard/${hospital.value}`);
   };
 
   return (

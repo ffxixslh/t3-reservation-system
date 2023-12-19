@@ -10,7 +10,7 @@ import {
   User,
 } from "lucide-react";
 
-import { type TUser } from "~/types";
+import { type TUserOrigin } from "~/types";
 
 import {
   Avatar,
@@ -30,7 +30,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 
 interface UserMenuProps {
-  user: TUser | null;
+  user: TUserOrigin | null;
 }
 
 export const UserMenu: React.FC<UserMenuProps> = ({

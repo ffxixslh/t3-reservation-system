@@ -10,7 +10,7 @@ import {
 import {
   type TAppointment,
   type TDoctor,
-  type TUser,
+  type TUserOrigin,
 } from "~/types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -35,7 +35,7 @@ export const dateFormatter = (
   });
 };
 
-export const roleFormatter = (role: TUser["role"]) =>
+export const roleFormatter = (role: TUserOrigin["role"]) =>
   roleMap[role];
 
 export const levelFormatter = (level: TDoctor["level"]) =>

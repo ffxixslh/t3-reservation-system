@@ -10,28 +10,34 @@ import type {
 
 export type THospital = PrismaHospital;
 
-export type TUser = PrismaUser;
+export type TUserOrigin = PrismaUser;
 
 export type TDepartment = PrismaDepartment & {
   doctors: PrismaDoctor[];
 };
 
-export type TPatient = Omit<TUser, "doctorId"> & {
+export type TUser = TUserOrigin & {
   appointments: PrismaAppointment[];
-} & { medicalRecords: PrismaMedicalRecord[] };
+  medicalRecords: PrismaMedicalRecord[];
+};
+
+export type TPatient = Omit<TUser, "doctorId">;
 
 export type TDoctor = PrismaDoctor & {
   appointments: PrismaAppointment[];
-} & { medicalRecords: PrismaMedicalRecord[] } & {
+  medicalRecords: PrismaMedicalRecord[];
   department: PrismaDepartment;
 };
 
 export type TAppointment = PrismaAppointment & {
   doctor: PrismaDoctor;
-} & { patient: PrismaUser };
+  patient: PrismaUser;
+};
 
 export type TText = Omit<PrismaText, "medicalRecordId">;
 
 export type TRecord = PrismaMedicalRecord & {
   doctor: PrismaDoctor;
-} & { patient: PrismaUser } & { texts: PrismaText[] };
+  patient: PrismaUser;
+  texts: PrismaText[];
+};

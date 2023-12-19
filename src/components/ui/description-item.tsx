@@ -20,7 +20,9 @@ const DescriptionItem: React.FC<DescriptionItemProps> = ({
         {title}
       </Label>
       {content && (
-        <div className="font-200 text-lg">{content}</div>
+        <div className="font-200 pl-2 text-lg">
+          {content}
+        </div>
       )}
       {children}
     </div>

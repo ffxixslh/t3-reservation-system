@@ -76,8 +76,7 @@ model Doctor {
   hospital   Hospital @relation("HospitalToDoctor", fields: [hospitalId], references: [id])
   hospitalId String
 
-  user   User?   @relation("DoctorToUser")
-  userId String?
+  user User? @relation("DoctorToUser")
 
   appointments   Appointment[]
   medicalRecords MedicalRecord[]
@@ -143,9 +142,6 @@ model Text {
 
   medicalRecord   MedicalRecord @relation("MedicalRecordToText", fields: [medicalRecordId], references: [id])
   medicalRecordId String
-
-  @@index([medicalRecordId])
-  @@map("texts")
 }
 
 model MedicalRecord {

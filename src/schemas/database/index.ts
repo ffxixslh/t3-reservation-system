@@ -41,11 +41,12 @@ export const userSchema = z.object({
       invalid_type_error: "Phone must be a string",
     })
     .length(11, "11位电话号码是必填的"),
-  email: z.string().optional().default(""),
+  email: z.string().optional(),
   role: z
     .enum(["ADMIN", "DOCTOR", "PATIENT"])
     .default("PATIENT"),
   hospitalId: z.string(),
+  doctorId: z.string().optional(),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
 });

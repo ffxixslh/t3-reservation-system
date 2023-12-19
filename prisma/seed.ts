@@ -28,16 +28,15 @@ async function main() {
       updatedAt: new Date(),
     },
   });
-  /* 3. create user */
+  /* 3. create user: patient doctor admin */
   const {
-    id: userId,
-    name: userName,
-    email: userEmail,
-    phone: userPhone,
-    hospitalId: userHospitalId,
+    id: patientId,
+    name: patientName,
+    email: patientEmail,
+    phone: patientPhone,
   } = await db.user.create({
     data: {
-      name: "user1",
+      name: "patient1",
       password: "123456",
       phone: "13000000001",
       hospital: {
@@ -45,6 +44,46 @@ async function main() {
           id: hospitalId,
         },
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+  const {
+    id: doctorUserId,
+    name: doctorUserName,
+    email: doctorUserEmail,
+    phone: doctorUserPhone,
+  } = await db.user.create({
+    data: {
+      name: "doctor1",
+      password: "123456",
+      phone: "18000000001",
+      hospital: {
+        connect: {
+          id: hospitalId,
+        },
+      },
+      role: "DOCTOR",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+  const {
+    id: adminUserId,
+    name: adminUserName,
+    email: adminUserEmail,
+    phone: adminUserPhone,
+  } = await db.user.create({
+    data: {
+      name: "admin1",
+      password: "123456",
+      phone: "15000000001",
+      hospital: {
+        connect: {
+          id: hospitalId,
+        },
+      },
+      role: "ADMIN",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -62,6 +101,11 @@ async function main() {
       departmentId,
       hospitalId,
       level: "ATTENDING",
+      user: {
+        connect: {
+          id: doctorUserId,
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -75,9 +119,9 @@ async function main() {
     time: appointmentTime,
   } = await db.appointment.create({
     data: {
-      patientId: userId,
-      doctorId: doctorId,
-      hospitalId: hospitalId,
+      patientId: patientId,
+      doctorId,
+      hospitalId,
       time: new Date(),
       status: "PENDING",
       description: "description1",
@@ -96,7 +140,7 @@ async function main() {
   } = await db.medicalRecord.create({
     data: {
       hospitalId: hospitalId,
-      patientId: userId,
+      patientId: patientId,
       doctorId: doctorId,
       texts: {
         createMany: {

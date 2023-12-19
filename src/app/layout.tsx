@@ -7,7 +7,6 @@ import { getServerAuthSession } from "~/server/auth";
 
 import { ToastProvider } from "~/providers/toast-provider";
 import { ThemeProvider } from "~/providers/theme-provider";
-import { HospitalModalProvider } from "~/providers/hospital-modal-provider";
 import { AuthSessionProvider } from "~/providers/auth-session-provider";
 
 import "~/styles/globals.css";
@@ -42,7 +41,6 @@ export default async function RootLayout({
               enableSystem
             >
               <ToastProvider />
-              <HospitalModalProvider />
               {children}
             </ThemeProvider>
           </AuthSessionProvider>

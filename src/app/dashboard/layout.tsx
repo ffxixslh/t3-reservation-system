@@ -2,6 +2,7 @@ import React from "react";
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import { HospitalModalProvider } from "~/providers/hospital-modal-provider";
 import { getServerAuthSession } from "~/server/auth";
 
 export const metadata: Metadata = {
@@ -26,6 +27,9 @@ export default async function DashboardRootLayout({
   }
 
   return (
-    <div className="min-h-screen w-full">{children}</div>
+    <div className="min-h-screen w-full">
+      <HospitalModalProvider />
+      {children}
+    </div>
   );
 }
