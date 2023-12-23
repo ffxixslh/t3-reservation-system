@@ -46,7 +46,7 @@ export const recordRouter = createTRPCRouter({
     async ({ ctx }) => {
       return await ctx.db.medicalRecord.findMany({
         where: {
-          doctorId: ctx.session.user.doctorId!,
+          doctorId: ctx.session.user.doctorId,
         },
         include: {
           doctor: true,
@@ -76,7 +76,7 @@ export const recordRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.medicalRecord.create({
         data: {
-          ...input,
+          ...recordSchema.parse(input),
           texts: {
             createMany: {
               data: input.texts,
@@ -91,7 +91,7 @@ export const recordRouter = createTRPCRouter({
       return await ctx.db.medicalRecord.update({
         where: stringIdSchema.parse(input),
         data: {
-          ...input,
+          ...recordSchema.parse(input),
           texts: {
             deleteMany: {
               medicalRecordId: input.id,

@@ -7,6 +7,7 @@ import type {
   Hospital as PrismaHospital,
   Text as PrismaText,
 } from "@prisma/client";
+import { type DateRange } from "react-day-picker";
 
 export type THospital = PrismaHospital;
 
@@ -16,17 +17,16 @@ export type TDepartment = PrismaDepartment & {
   doctors: PrismaDoctor[];
 };
 
-export type TUser = TUserOrigin & {
+export type TPatient = TUserOrigin & {
   appointments: PrismaAppointment[];
   medicalRecords: PrismaMedicalRecord[];
 };
-
-export type TPatient = Omit<TUser, "doctorId">;
 
 export type TDoctor = PrismaDoctor & {
   appointments: PrismaAppointment[];
   medicalRecords: PrismaMedicalRecord[];
   department: PrismaDepartment;
+  dateRange: DateRange | null;
 };
 
 export type TAppointment = PrismaAppointment & {

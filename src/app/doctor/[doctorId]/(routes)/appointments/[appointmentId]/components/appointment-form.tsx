@@ -205,8 +205,8 @@ export const DoctorAppointmentForm: React.FC<
                 <FormItem className="flex flex-col gap-y-[5px] pb-2 pt-1.5">
                   <FormLabel>{`预约时间`}</FormLabel>
                   <DatetimePicker
-                    date={field.value}
-                    setDate={field.onChange}
+                    defaultDate={field.value}
+                    setDefaultDate={field.onChange}
                   />
                   <FormMessage />
                 </FormItem>

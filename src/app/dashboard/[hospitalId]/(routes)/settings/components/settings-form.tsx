@@ -1,6 +1,6 @@
 "use client";
 
-import * as z from "zod";
+import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -22,13 +22,11 @@ import { Separator } from "~/components/ui/separator";
 import { Heading } from "~/components/ui/heading";
 import { AlertModal } from "~/components/modals/alert-modal";
 import { api } from "~/trpc/react";
+import { hospitalUpdateSchema } from "~/schemas";
 
-const formSchema = z.object({
-  id: z.string(),
-  name: z.string().min(2),
-});
-
-type SettingsFormValues = z.infer<typeof formSchema>;
+type SettingsFormValues = z.infer<
+  typeof hospitalUpdateSchema
+>;
 
 interface SettingsFormProps {
   initialData: {
@@ -51,7 +49,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     api.hospital.updateHospital.useMutation();
 
   const form = useForm<SettingsFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(hospitalUpdateSchema),
     defaultValues: initialData,
   });
 

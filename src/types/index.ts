@@ -2,7 +2,6 @@ export type {
   THospital,
   TDepartment,
   TUserOrigin,
-  TUser,
   TPatient,
   TDoctor,
   TAppointment,

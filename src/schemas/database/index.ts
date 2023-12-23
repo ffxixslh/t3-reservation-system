@@ -6,6 +6,10 @@ export const hospitalIdSchema = z.object({
   hospitalId: z.string(),
 });
 
+export const userIdSchema = z.object({
+  userId: z.string(),
+});
+
 export const hospitalSchema = z.object({
   name: z.string().min(1).max(32),
   createdAt: z.date().default(new Date()),
@@ -46,7 +50,6 @@ export const userSchema = z.object({
     .enum(["ADMIN", "DOCTOR", "PATIENT"])
     .default("PATIENT"),
   hospitalId: z.string(),
-  doctorId: z.string().optional(),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
 });
@@ -64,6 +67,11 @@ export const doctorSchema = z.object({
   ]),
   departmentId: z.string(),
   hospitalId: z.string(),
+  userId: z.string(),
+  dateRange: z.object({
+    from: z.date(),
+    to: z.date(),
+  }),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
 });

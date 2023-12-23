@@ -6,6 +6,7 @@ export {
 export {
   stringIdSchema,
   hospitalIdSchema,
+  userIdSchema,
   hospitalSchema,
   hospitalUpdateSchema,
   departmentSchema,

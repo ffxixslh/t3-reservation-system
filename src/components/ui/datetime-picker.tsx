@@ -14,11 +14,12 @@ import { type SelectSingleEventHandler } from "react-day-picker";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { zhCN } from "date-fns/locale";
+import { addDays } from "date-fns";
 
 interface DateTimePickerProps {
   disabled?: boolean;
-  date: Date;
-  setDate: (date: Date) => void;
+  defaultDate: Date;
+  setDefaultDate: (date: Date) => void;
 }
 
 export const selectTimeConstraint = {
@@ -40,9 +41,11 @@ export const timeParser = (value: string) => {
 
 export const DatetimePicker: React.FC<
   DateTimePickerProps
-> = ({ disabled, date, setDate }) => {
+> = ({ disabled, defaultDate, setDefaultDate }) => {
   const [selectedDateTime, setSelectedDateTime] =
-    React.useState<DateTime>(DateTime.fromJSDate(date));
+    React.useState<DateTime>(
+      DateTime.fromJSDate(defaultDate),
+    );
 
   const handleSelect: SelectSingleEventHandler = (
     day,
@@ -55,7 +58,7 @@ export const DatetimePicker: React.FC<
     });
 
     setSelectedDateTime(modifiedDay);
-    setDate(modifiedDay.toJSDate());
+    setDefaultDate(modifiedDay.toJSDate());
   };
 
   const handleTimeChange: React.ChangeEventHandler<
@@ -69,7 +72,7 @@ export const DatetimePicker: React.FC<
     });
 
     setSelectedDateTime(modifiedDay);
-    setDate(modifiedDay.toJSDate());
+    setDefaultDate(modifiedDay.toJSDate());
   };
 
   const footer = (
@@ -97,11 +100,11 @@ export const DatetimePicker: React.FC<
           variant={"outline"}
           className={cn(
             "justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            !defaultDate && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? (
+          {defaultDate ? (
             selectedDateTime.toFormat("yyyy-MM-dd HH:mm:ss")
           ) : (
             <span>{"选择日期"}</span>
@@ -117,12 +120,7 @@ export const DatetimePicker: React.FC<
           initialFocus
           disabled={(date) =>
             date < new Date() ||
-            date >
-              new Date(
-                new Date().setDate(
-                  new Date().getDate() + 6,
-                ),
-              )
+            date > addDays(new Date(), 7)
           }
         />
         {footer}

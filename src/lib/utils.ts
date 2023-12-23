@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
-import { format, type Locale } from "date-fns";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
 import {
   roleMap,
@@ -27,7 +28,7 @@ export const currencyFormatter = new Intl.NumberFormat(
 
 export const dateFormatter = (
   dateValue: Date | number,
-  locale: Locale,
+  locale = zhCN,
   formatTemplate = "yyyy年MM月dd日 HH时mm分",
 ) => {
   return format(dateValue, formatTemplate, {

@@ -5,14 +5,14 @@ export const metadata: Metadata = {
   title: "设置",
 };
 
-interface AppointmentLayoutProps {
+interface SettingLayoutProps {
   children: React.ReactNode;
 }
 
-const AppointmentLayout: React.FC<
-  AppointmentLayoutProps
-> = ({ children }) => {
+const SettingLayout: React.FC<SettingLayoutProps> = ({
+  children,
+}) => {
   return <>{children}</>;
 };
 
-export default AppointmentLayout;
+export default SettingLayout;

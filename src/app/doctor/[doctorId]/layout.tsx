@@ -23,7 +23,7 @@ export default async function DoctorLayout({
     id: session.user.id,
   });
 
-  const doctor = await api.doctor.getOneById.query({
+  const doctor = await api.doctor.getOneByDoctorId.query({
     id: params.doctorId,
   });
 
