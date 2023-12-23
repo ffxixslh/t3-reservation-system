@@ -49,8 +49,7 @@ model User {
 
   hospitalAdmin HospitalAdmin? @relation("UserToAdmin")
 
-  doctor   Doctor? @relation("DoctorToUser", fields: [doctorId], references: [id])
-  doctorId String? @unique
+  doctor Doctor? @relation("UserToDoctor")
 
   appointments   Appointment[]
   medicalRecords MedicalRecord[]
@@ -65,23 +64,34 @@ enum UserRole {
 }
 
 model Doctor {
-  id           String      @id @default(cuid())
-  name         String
-  department   Department  @relation("DepartmentToDoctor", fields: [departmentId], references: [id])
+  id        String      @id @default(cuid())
+  name      String
+  level     DoctorLevel
+  dateRange DateRange?  @relation("DoctorToDateRange")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt
+
+  department   Department @relation("DepartmentToDoctor", fields: [departmentId], references: [id])
   departmentId String
-  level        DoctorLevel
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @default(now()) @updatedAt
 
   hospital   Hospital @relation("HospitalToDoctor", fields: [hospitalId], references: [id])
   hospitalId String
 
-  user User? @relation("DoctorToUser")
-
+  user           User            @relation("UserToDoctor", fields: [userId], references: [id])
+  userId         String          @unique
   appointments   Appointment[]
   medicalRecords MedicalRecord[]
 
   @@map("doctors")
+}
+
+model DateRange {
+  id   String   @id @default(cuid())
+  from DateTime
+  to   DateTime
+
+  doctor   Doctor @relation("DoctorToDateRange", fields: [doctorId], references: [id])
+  doctorId String @unique
 }
 
 enum DoctorLevel {

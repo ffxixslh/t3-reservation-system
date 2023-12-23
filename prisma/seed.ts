@@ -101,11 +101,7 @@ async function main() {
       departmentId,
       hospitalId,
       level: "ATTENDING",
-      user: {
-        connect: {
-          id: doctorUserId,
-        },
-      },
+      userId: doctorUserId,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
