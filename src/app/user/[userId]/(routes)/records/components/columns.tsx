@@ -2,7 +2,6 @@
 
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { zhCN } from "date-fns/locale";
 
 import { CellAction } from "./cell-action";
 import type { TRecord } from "~/types";
@@ -58,7 +57,7 @@ export const columns: ColumnDef<TRecord>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {dateFormatter(row.original?.createdAt, zhCN)}
+        {dateFormatter(row.original?.createdAt)}
       </div>
     ),
   },

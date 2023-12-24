@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { zhCN } from "date-fns/locale";
 
 import { Modal } from "~/components/ui/modal";
 import DescriptionItem from "~/components/ui/description-item";
@@ -38,7 +37,6 @@ export const RecordDetailModal: React.FC<
           title={"创建时间"}
           content={dateFormatter(
             recordDetailModal.data?.createdAt ?? 0,
-            zhCN,
           )}
         />
         <DescriptionItem

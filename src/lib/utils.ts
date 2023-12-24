@@ -28,8 +28,8 @@ export const currencyFormatter = new Intl.NumberFormat(
 
 export const dateFormatter = (
   dateValue: Date | number,
-  locale = zhCN,
   formatTemplate = "yyyy年MM月dd日 HH时mm分",
+  locale = zhCN,
 ) => {
   return format(dateValue, formatTemplate, {
     locale,

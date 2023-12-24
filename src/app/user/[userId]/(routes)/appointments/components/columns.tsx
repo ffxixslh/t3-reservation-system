@@ -1,7 +1,6 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import { zhCN } from "date-fns/locale";
 
 import { CellAction } from "./cell-action";
 import type { TAppointment } from "~/types";
@@ -55,7 +54,7 @@ export const columns: ColumnDef<TAppointment>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {dateFormatter(row.original?.time, zhCN)}
+        {dateFormatter(row.original?.time)}
       </div>
     ),
   },

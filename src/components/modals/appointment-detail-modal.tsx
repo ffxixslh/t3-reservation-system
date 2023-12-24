@@ -6,7 +6,7 @@ import {
   dateFormatter,
   statusFormatter,
 } from "~/lib/utils";
-import { zhCN } from "date-fns/locale";
+
 import DescriptionItem from "../ui/description-item";
 
 interface AppointmentDetailModalProps {
@@ -48,7 +48,6 @@ export const AppointmentDetailModal: React.FC<
           title={"预约时间"}
           content={dateFormatter(
             appointmentDetailModal.data?.time ?? 0,
-            zhCN,
           )}
         />
         <DescriptionItem

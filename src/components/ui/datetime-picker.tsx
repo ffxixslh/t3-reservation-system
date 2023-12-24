@@ -23,8 +23,8 @@ interface DateTimePickerProps {
 }
 
 export const selectTimeConstraint = {
-  min: "09:00",
-  max: "17:00",
+  min: "08:00",
+  max: "18:00",
 } as const;
 
 export const timeParser = (value: string) => {
@@ -75,23 +75,6 @@ export const DatetimePicker: React.FC<
     setDefaultDate(modifiedDay.toJSDate());
   };
 
-  const footer = (
-    <>
-      <div className="px-4 pb-4 pt-0">
-        <Label>{`时间`}</Label>
-        <Input
-          type="time"
-          lang="zh-Hans"
-          onChange={handleTimeChange}
-          value={selectedDateTime.toFormat("HH:mm")}
-          min={selectTimeConstraint.min}
-          max={selectTimeConstraint.max}
-        />
-      </div>
-      {!selectedDateTime && <p>{`请先选择一个日期。`}</p>}
-    </>
-  );
-
   return (
     <Popover>
       <PopoverTrigger asChild className="z-10">
@@ -105,7 +88,7 @@ export const DatetimePicker: React.FC<
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {defaultDate ? (
-            selectedDateTime.toFormat("yyyy-MM-dd HH:mm:ss")
+            selectedDateTime.toFormat("yyyy-MM-dd HH:mm")
           ) : (
             <span>{"选择日期"}</span>
           )}
@@ -122,8 +105,22 @@ export const DatetimePicker: React.FC<
             date < new Date() ||
             date > addDays(new Date(), 7)
           }
+          footer={
+            <>
+              <Label>{`时间`}</Label>
+              <Input
+                type="time"
+                onChange={handleTimeChange}
+                value={selectedDateTime.toFormat("HH:mm")}
+                min={selectTimeConstraint.min}
+                max={selectTimeConstraint.max}
+              />
+              {!selectedDateTime && (
+                <p>{`请先选择一个日期。`}</p>
+              )}
+            </>
+          }
         />
-        {footer}
       </PopoverContent>
     </Popover>
   );

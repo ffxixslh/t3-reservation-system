@@ -4,7 +4,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 
 import { CellAction } from "./cell-action";
 import { type TDepartment } from "~/types";
-import { zhCN } from "date-fns/locale";
+
 import { dateFormatter } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
@@ -55,7 +55,7 @@ export const columns: ColumnDef<TDepartment>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {dateFormatter(row.original?.createdAt, zhCN)}
+        {dateFormatter(row.original?.createdAt)}
       </div>
     ),
   },

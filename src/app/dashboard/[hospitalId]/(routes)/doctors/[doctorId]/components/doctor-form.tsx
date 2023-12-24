@@ -34,6 +34,8 @@ import { doctorUpdateSchema } from "~/schemas";
 import { type TDepartment, type TDoctor } from "~/types";
 import { levelFormatter } from "~/lib/utils";
 import { LEVEL } from "~/constants";
+import { useUserInfoContext } from "~/providers/user/user-info-provider";
+import { addDays } from "date-fns";
 
 type DoctorFormValues = z.infer<typeof doctorUpdateSchema>;
 
@@ -51,6 +53,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     doctorId: string;
   }>();
   const router = useRouter();
+  const userInfo = useUserInfoContext();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,15 +74,28 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     : "该医生信息已创建。";
   const action = initialData ? "保存" : "创建";
 
-  const defaultValues: DoctorFormValues = initialData ?? {
-    id: "",
-    name: "",
-    hospitalId: params.hospitalId,
-    departmentId: "",
-    level: "RESIDENT",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  const defaultValues: DoctorFormValues = initialData
+    ? {
+        ...initialData,
+        dateRange: {
+          from: new Date(),
+          to: addDays(new Date(), 7),
+        },
+      }
+    : {
+        id: "",
+        name: "",
+        hospitalId: params.hospitalId,
+        departmentId: "",
+        userId: userInfo?.id ?? "",
+        level: "RESIDENT",
+        dateRange: {
+          from: new Date(),
+          to: addDays(new Date(), 7),
+        },
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
 
   const form = useForm<DoctorFormValues>({
     resolver: zodResolver(doctorUpdateSchema),
