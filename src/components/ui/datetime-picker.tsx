@@ -9,35 +9,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { cn } from "~/lib/utils";
+import { cn, timeParser } from "~/lib/utils";
 import { type SelectSingleEventHandler } from "react-day-picker";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { zhCN } from "date-fns/locale";
 import { addDays } from "date-fns";
+import { selectTimeConstraintMap } from "~/constants/map";
 
 interface DateTimePickerProps {
   disabled?: boolean;
   defaultDate: Date;
   setDefaultDate: (date: Date) => void;
 }
-
-export const selectTimeConstraint = {
-  min: "08:00",
-  max: "18:00",
-} as const;
-
-export const timeParser = (value: string) => {
-  const hours = Number.parseInt(
-    value.split(":")[0] ?? "00",
-    10,
-  );
-  const minutes = Number.parseInt(
-    value.split(":")[1] ?? "00",
-    10,
-  );
-  return [hours, minutes] as const;
-};
 
 export const DatetimePicker: React.FC<
   DateTimePickerProps
@@ -112,8 +96,8 @@ export const DatetimePicker: React.FC<
                 type="time"
                 onChange={handleTimeChange}
                 value={selectedDateTime.toFormat("HH:mm")}
-                min={selectTimeConstraint.min}
-                max={selectTimeConstraint.max}
+                min={selectTimeConstraintMap.MIN}
+                max={selectTimeConstraintMap.MAX}
               />
               {!selectedDateTime && (
                 <p>{`请先选择一个日期。`}</p>

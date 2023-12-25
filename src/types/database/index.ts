@@ -27,6 +27,7 @@ export type TDoctor = PrismaDoctor & {
   medicalRecords: PrismaMedicalRecord[];
   department: PrismaDepartment;
   dateRange: DateRange | null;
+  timeRange: string;
 };
 
 export type TAppointment = PrismaAppointment & {

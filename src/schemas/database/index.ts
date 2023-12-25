@@ -72,6 +72,7 @@ export const doctorSchema = z.object({
     from: z.date(),
     to: z.date(),
   }),
+  timeRange: z.string(),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
 });

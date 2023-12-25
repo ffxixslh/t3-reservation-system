@@ -77,10 +77,10 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   const defaultValues: DoctorFormValues = initialData
     ? {
         ...initialData,
-        dateRange: {
+        dateRange: (initialData.dateRange ?? {
           from: new Date(),
           to: addDays(new Date(), 7),
-        },
+        }) as { from: Date; to: Date },
       }
     : {
         id: "",
@@ -93,6 +93,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
           from: new Date(),
           to: addDays(new Date(), 7),
         },
+        timeRange: "08:30-17:30",
         createdAt: new Date(),
         updatedAt: new Date(),
       };

@@ -23,9 +23,17 @@ export default async function DoctorLayout({
     id: session.user.id,
   });
 
+  if (!user) {
+    redirect("/");
+  }
+
   const doctor = await api.doctor.getOneByDoctorId.query({
     id: params.doctorId,
   });
+
+  if (!doctor) {
+    redirect("/");
+  }
 
   return (
     <UserInfoProvider value={user}>
