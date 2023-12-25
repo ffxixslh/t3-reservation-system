@@ -1,28 +1,18 @@
-# Create T3 App
+# 医疗预约系统
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## 安装及创建
 
-## What's next? How do I make an app with this?
+### PostgreSQL
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+1. 到官方下载网站[下载](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)最新版本的 `PostgreSQL 16`
+2. 根据步骤注册数据库账号 ( 账号：`postgres` ，密码：`123456` )
+3. 安装后打开 `pgAdmin 4` (如果英文不好就先设置中文，在左上角依次点击 `File -> Preferences -> Miscellaneous -> User Language` ，然后右下角点击保存，按照提示重启应用)
+4. 接着在 `pgAdmin 4` 左边的菜单中根据以下路径依次点击左边箭头( `>` )以新建数据库： `Servers -> PostgreSQL 16 -> Databases (右键) -> Create -> Database`
+5. 在新建数据库页面填写数据库名称( `reservation_system` )，即可创建项目的数据库
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## 运行
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+0. 进入项目目录
+1. 因为项目用的是 `pnpm` 做的依赖管理，所以先全局安装 `pnpm` ( `npm i -g pnpm` ) ，安装不了就设置 `npm` 包源，网上有很多教程
+2. 运行 `pnpm i` 安装依赖
+3. 运行 `pnpm run dev` 运行项目
