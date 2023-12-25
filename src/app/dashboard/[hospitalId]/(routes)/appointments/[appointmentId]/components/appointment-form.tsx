@@ -28,11 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import {
-  DatetimePicker,
-  selectTimeConstraint,
-  timeParser,
-} from "~/components/ui/datetime-picker";
+import { DatetimePicker } from "~/components/ui/datetime-picker";
 import { Textarea } from "~/components/ui/textarea";
 
 import { api } from "~/trpc/react";
@@ -42,8 +38,9 @@ import {
   type TAppointment,
 } from "~/types";
 import { STATUS } from "~/constants";
-import { statusFormatter } from "~/lib/utils";
+import { statusFormatter, timeParser } from "~/lib/utils";
 import { Label } from "~/components/ui/label";
+import { selectTimeConstraintMap } from "~/constants";
 
 type AppointmentFormValues = z.infer<
   typeof appointmentUpdateSchema
@@ -111,8 +108,12 @@ export const AppointmentForm: React.FC<
   const timeValidator = (timeValue: Date) => {
     const time = timeValue.toTimeString();
     const [selectHours] = timeParser(time);
-    const [minHours] = timeParser(selectTimeConstraint.min);
-    const [maxHours] = timeParser(selectTimeConstraint.max);
+    const [minHours] = timeParser(
+      selectTimeConstraintMap.MIN,
+    );
+    const [maxHours] = timeParser(
+      selectTimeConstraintMap.MAX,
+    );
 
     return selectHours > minHours && selectHours < maxHours;
   };

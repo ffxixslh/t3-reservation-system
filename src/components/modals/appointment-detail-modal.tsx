@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { Modal } from "~/components/ui/modal";
+
 import { useAppointmentDetailModal } from "~/hooks/use-appointment-detail-modal";
 import {
   dateFormatter,
   statusFormatter,
 } from "~/lib/utils";
-
 import DescriptionItem from "../ui/description-item";
 
 interface AppointmentDetailModalProps {

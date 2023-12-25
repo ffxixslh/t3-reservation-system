@@ -1,3 +1,8 @@
+export const selectTimeConstraintMap = {
+  MIN: "08:00",
+  MAX: "18:00",
+};
+
 export const roleMap: Record<string, string> = {
   PATIENT: "患者",
   DOCTOR: "医生",

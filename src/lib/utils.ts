@@ -26,6 +26,18 @@ export const currencyFormatter = new Intl.NumberFormat(
   },
 );
 
+export const timeParser = (value: string) => {
+  const hours = Number.parseInt(
+    value.split(":")[0] ?? "00",
+    10,
+  );
+  const minutes = Number.parseInt(
+    value.split(":")[1] ?? "00",
+    10,
+  );
+  return [hours, minutes] as const;
+};
+
 export const dateFormatter = (
   dateValue: Date | number,
   formatTemplate = "yyyy年MM月dd日 HH时mm分",

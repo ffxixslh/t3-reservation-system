@@ -3,6 +3,7 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
+  type User,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 // import { compare } from "bcryptjs";
@@ -31,7 +32,7 @@ declare module "next-auth" {
     id: TUserOrigin["id"];
     role: TUserOrigin["role"];
     hospitalId: TUserOrigin["hospitalId"];
-    doctorId: TUserOrigin["doctorId"];
+    doctorId: string;
   }
 }
 
@@ -117,7 +118,20 @@ export const authOptions: NextAuthOptions = {
           ) {
             return null;
           }
-          return user;
+          const result: User = {
+            ...user,
+            doctorId: "",
+          };
+          if (user.role === "DOCTOR") {
+            const doctor =
+              await api.doctor.getOneByUserId.query({
+                userId: user.id,
+              });
+            if (doctor) {
+              result.doctorId = doctor.id;
+            }
+          }
+          return result;
         } catch (error) {
           console.error("authorize error", error);
           return null;

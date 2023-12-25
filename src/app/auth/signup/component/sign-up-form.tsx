@@ -68,7 +68,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   const onSubmit = async (
     values: z.infer<typeof userSchema>,
   ) => {
-    // debugger;
     try {
       setLoading(true);
 
