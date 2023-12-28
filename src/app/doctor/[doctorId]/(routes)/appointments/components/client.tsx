@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -10,8 +12,8 @@ import { Separator } from "~/components/ui/separator";
 
 import { columns } from "./columns";
 import { type TAppointment } from "~/types";
-import { useSession } from "next-auth/react";
 import { AppointmentDetailModal } from "~/components/modals/appointment-detail-modal";
+import AppointmentCalendar from "~/app/doctor/[doctorId]/(routes)/appointments/components/appointment-calendar";
 
 interface AppointmentsClientProps {
   data: TAppointment[];
@@ -21,6 +23,12 @@ export const AppointmentsClient: React.FC<
   AppointmentsClientProps
 > = ({ data }) => {
   const { data: session } = useSession();
+  const [selectedDay, setSelectedDay] = useState<Date>();
+
+  const selectedDayAppointments = data.filter(
+    (appointment) =>
+      appointment.time.getDate() === selectedDay?.getDate(),
+  );
 
   const router = useRouter();
 
@@ -48,6 +56,16 @@ export const AppointmentsClient: React.FC<
       </div>
       <Separator />
       <DataTable columns={columns} data={data} />
+      <Separator />
+      <Heading
+        title={`预约日历`}
+        description="查看当日预约数据"
+      />
+      <AppointmentCalendar
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        selectedDateAppointments={selectedDayAppointments}
+      />
     </>
   );
 };
