@@ -56,11 +56,11 @@ export const AppointmentsClient: React.FC<
       </div>
       <Separator />
       <DataTable columns={columns} data={data} />
-      <Separator />
       <Heading
         title={`预约日历`}
         description="查看当日预约数据"
       />
+      <Separator />
       <AppointmentCalendar
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}

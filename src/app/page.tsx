@@ -11,7 +11,7 @@ const HomePage = async () => {
     <main className="flex min-h-screen flex-col">
       <Navbar mainNav={<LeftNav />} subNav={<RightNav />} />
       <div className="container flex flex-col gap-12 px-4 py-16 ">
-        <div className="text-center text-2xl text-white">
+        <div className="text-center text-2xl dark:text-white">
           {session && (
             <>
               <span>Logged in as {session.user.name}</span>
@@ -43,7 +43,7 @@ const HomePage = async () => {
           >
             {session ? "注销" : "登录"}
           </Link>
-          {session && (
+          {!session && (
             <Link
               href={"/auth/signup"}
               className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"

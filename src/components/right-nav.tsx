@@ -79,6 +79,14 @@ export function RightNav({
             {route.label}
           </Link>
         ))}
+      {session && (
+        <Link
+          href="/auth/signout"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        >
+          注销
+        </Link>
+      )}
     </nav>
   );
 }
