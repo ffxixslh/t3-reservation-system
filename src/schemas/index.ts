@@ -21,4 +21,6 @@ export {
   textUpdateSchema,
   recordSchema,
   recordUpdateSchema,
+  subscriptionInfoSchema,
+  subscriptionInfoUpdateSchema,
 } from "./database";

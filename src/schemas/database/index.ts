@@ -120,3 +120,19 @@ export const recordSchema = z.object({
 
 export const recordUpdateSchema =
   recordSchema.merge(stringIdSchema);
+
+export const subscriptionInfoSchema = z.object({
+  userId: z.string(),
+  subscription: z.object({
+    endpoint: z.string(),
+    keys: z.object({
+      p256dh: z.string(),
+      auth: z.string(),
+    }),
+  }),
+  createdAt: z.date().default(new Date()),
+  updatedAt: z.date().default(new Date()),
+});
+
+export const subscriptionInfoUpdateSchema =
+  subscriptionInfoSchema.merge(stringIdSchema);
