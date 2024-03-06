@@ -1,19 +1,15 @@
 import HospitalSwitcher from "~/components/dashboard/hospital-switcher";
 import { DashboardMainNav } from "~/components/dashboard/dashboard-main-nav";
 import { api } from "~/trpc/server";
-import { UserMenu } from "../user-menu";
+import { UserMenu } from "~/components/user/user-menu";
 import { getServerAuthSession } from "~/server/auth";
-import Navbar from "../navbar";
+import Navbar from "~/components/navbar";
 
 export default async function DashboardNavbar() {
   const session = await getServerAuthSession();
   if (!session) {
     return null;
   }
-
-  const user = await api.user.getOneById.query({
-    id: session.user.id,
-  });
 
   const hospitals = await api.hospital.getAll.query();
 
@@ -25,7 +21,7 @@ export default async function DashboardNavbar() {
           <DashboardMainNav className="mx-6" />
         </div>
       }
-      subNav={<UserMenu user={user} />}
+      subNav={<UserMenu />}
     />
   );
 }

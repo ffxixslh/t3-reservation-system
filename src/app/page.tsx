@@ -1,15 +1,23 @@
+"use client";
+
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { IconNav } from "~/components/icon-nav";
+
 import { LeftNav } from "~/components/left-nav";
 import Navbar from "~/components/navbar";
 import { RightNav } from "~/components/right-nav";
-import { getServerAuthSession } from "~/server/auth";
 
-const HomePage = async () => {
-  const session = await getServerAuthSession();
+const HomePage = () => {
+  const { data: session } = useSession();
 
   return (
     <main className="flex min-h-screen flex-col">
-      <Navbar mainNav={<LeftNav />} subNav={<RightNav />} />
+      <Navbar
+        mainNav={<LeftNav />}
+        subNav={<RightNav />}
+        iconNav={<IconNav />}
+      />
       <div className="container flex flex-col gap-12 px-4 py-16 ">
         <div className="text-center text-2xl dark:text-white">
           {session && (

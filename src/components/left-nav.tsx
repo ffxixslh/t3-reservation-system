@@ -26,7 +26,7 @@ export function LeftNav({
   return (
     <nav
       className={cn(
-        "flex items-center space-x-4 lg:space-x-6",
+        "mx-6 flex items-center space-x-4 lg:space-x-6",
         className,
       )}
       {...props}

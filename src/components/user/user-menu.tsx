@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import {
+  Calendar,
   CreditCard,
   LogOut,
   PlusCircle,
@@ -28,25 +29,27 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { useUserInfoContext } from "~/providers/user/user-info-provider";
 
-interface UserMenuProps {
-  user: TUserOrigin | null;
-}
+interface UserMenuProps {}
 
-export const UserMenu: React.FC<UserMenuProps> = ({
-  user,
-}) => {
+export const UserMenu: React.FC<UserMenuProps> = () => {
+  const user = useUserInfoContext();
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger
+        className="flex place-items-center"
+        asChild
+      >
         <Button
           variant="ghost"
           className="relative h-8 w-8 rounded-full"
         >
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src="/avatars/01.png"
-              alt="@shadcn"
+              src="/avatar.png"
+              alt={user?.name}
             />
             <AvatarFallback>SC</AvatarFallback>
           </Avatar>
@@ -73,23 +76,19 @@ export const UserMenu: React.FC<UserMenuProps> = ({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>{"简介"}</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
             <CreditCard className="mr-2 h-4 w-4" />
             <span>{"预约"}</span>
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>{"设置"}</span>
+            <Calendar className="mr-2 h-4 w-4" />
+            <span>{"病历"}</span>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            <span>{"添加"}</span>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>{"设置"}</span>
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -98,7 +97,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
             href={"/api/auth/signout"}
             className="flex-1"
           >
-            <div className="flex">
+            <div className="flex w-full">
               <LogOut className="mr-2 h-4 w-4" />
               <span>{"注销"}</span>
             </div>

@@ -3,11 +3,13 @@ import { cookies } from "next/headers";
 import type { Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { api } from "~/trpc/server";
 import { getServerAuthSession } from "~/server/auth";
 
 import { ToastProvider } from "~/providers/toast-provider";
 import { ThemeProvider } from "~/providers/theme-provider";
 import { AuthSessionProvider } from "~/providers/auth-session-provider";
+import { UserInfoProvider } from "~/providers/user/user-info-provider";
 
 import "~/styles/globals.css";
 
@@ -30,6 +32,12 @@ export default async function RootLayout({
 }) {
   const session = await getServerAuthSession();
 
+  const userInfo = session?.user
+    ? await api.user.getOneById.query({
+        id: session.user.id,
+      })
+    : null;
+
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
@@ -41,7 +49,9 @@ export default async function RootLayout({
               enableSystem
             >
               <ToastProvider />
-              {children}
+              <UserInfoProvider value={userInfo}>
+                {children}
+              </UserInfoProvider>
             </ThemeProvider>
           </AuthSessionProvider>
         </TRPCReactProvider>
