@@ -2,11 +2,11 @@
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { IconNav } from "~/components/icon-nav";
 
-import { LeftNav } from "~/components/left-nav";
 import Navbar from "~/components/navbar";
+import { LeftNav } from "~/components/left-nav";
 import { RightNav } from "~/components/right-nav";
+import { IconNav } from "~/components/icon-nav";
 
 const HomePage = () => {
   const { data: session } = useSession();

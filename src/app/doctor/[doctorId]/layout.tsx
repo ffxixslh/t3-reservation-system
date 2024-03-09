@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { DoctorMainNav } from "~/components/doctor/doctor-main-nav";
+import { IconNav } from "~/components/icon-nav";
 import Navbar from "~/components/navbar";
 import { UserMenu } from "~/components/user/user-menu";
 import { DoctorInfoProvider } from "~/providers/doctor/doctor-info-provider";
@@ -31,6 +32,7 @@ export default async function DoctorLayout({
       <Navbar
         mainNav={<DoctorMainNav />}
         subNav={<UserMenu />}
+        iconNav={<IconNav />}
       />
       {children}
     </DoctorInfoProvider>
