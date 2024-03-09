@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "prisma db seed",
     "postinstall": "prisma generate",
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "dev": "next dev",
+    "build": "next build",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "debug": "cross-env NODE_OPTIONS='--inspect' next dev"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
