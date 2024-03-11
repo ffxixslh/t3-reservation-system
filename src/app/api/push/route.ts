@@ -7,7 +7,9 @@ import { api } from "~/trpc/server";
 import {
   TNotification,
   TNotificationContent,
+  TSubscriptionInfo,
 } from "~/types/system";
+import NotificationCacheClient from "~/server/notificationCacheClient";
 
 webPush.setVapidDetails(
   "mailto:lhq12230@gmail.com",
@@ -25,13 +27,11 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { toUserId, notification, flag } = data;
-
-  switch (flag) {
-    case "single":
+  switch (data.flag) {
+    case "single": {
       const subscriptionInfo =
         await api.subscriptionInfo.getOne.query({
-          userId: toUserId,
+          userId: data.toUserId,
         });
       if (!subscriptionInfo) {
         return NextResponse.json({
@@ -39,22 +39,11 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      webPush.sendNotification(
-        subscriptionInfo.subscription,
-        JSON.stringify(notification),
-      );
+      handleNotification(data, subscriptionInfo);
+      return;
+    }
 
-      console.log(
-        "++++++++ push getAll ++++++++\n",
-        TransportClient.getAll(),
-      );
-
-      TransportClient.notify({
-        type: "notification",
-        data: data,
-      });
-      break;
-    case "broadcast":
+    case "broadcast": {
       const subscriptionInfos =
         await api.subscriptionInfo.getAll.query();
       if (!subscriptionInfos) {
@@ -63,19 +52,13 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      subscriptionInfos.forEach(async (s) => {
-        webPush.sendNotification(
-          s.subscription,
-          JSON.stringify(notification),
-        );
-        TransportClient.notify({
-          type: "notification",
-          data: notification,
-        });
+      subscriptionInfos.forEach((subscriptionInfo) => {
+        handleNotification(data, subscriptionInfo);
       });
-      break;
+      return;
+    }
+
     default:
-      // handle default case here
       break;
   }
 
@@ -84,9 +67,36 @@ export async function POST(request: NextRequest) {
   });
 }
 
-export async function GET(request: NextRequest) {
-  const url = new URL(request.url);
+/**
+ * Handles the notification by sending it to the subscription and updating the notification cache.
+ *
+ * @param {TNotificationContent} data - the notification content
+ * @param {TSubscriptionInfo} subscriptionInfo - the subscription information
+ */
+export function handleNotification(
+  data: TNotificationContent,
+  subscriptionInfo: TSubscriptionInfo,
+) {
+  webPush.sendNotification(
+    subscriptionInfo.subscription,
+    JSON.stringify(data.notification),
+  );
 
+  TransportClient.notify(
+    {
+      type: "notification",
+      data: data,
+    },
+    (notification) => {
+      NotificationCacheClient.setNotification(
+        subscriptionInfo.userId,
+        notification as TNotification,
+      );
+    },
+  );
+}
+
+export async function GET(request: NextRequest) {
   const subscriptions =
     await api.subscriptionInfo.getAll.query();
 

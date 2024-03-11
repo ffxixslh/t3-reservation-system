@@ -1,8 +1,13 @@
-import { TNotificationContent } from "~/types";
+import {
+  TNotification,
+  TNotificationContent,
+} from "~/types";
 
 type TUnsubscribeFn = () => void;
 
 type TSubscriberFn = (data: unknown) => void;
+
+type TFallbackFn = (data: unknown) => void;
 
 type TTransportData = {
   type: TTransportDataType;
@@ -12,7 +17,7 @@ type TTransportData = {
 type TTransportDataType = "notification" | "signaling";
 
 const transportClient = () => {
-  const subscribers = new Map<string, TSubscriberFn>();
+  const subscriberFns = new Map<string, TSubscriberFn>();
 
   /**
    * Subscribe a user to the subscriber function.
@@ -25,13 +30,9 @@ const transportClient = () => {
     userId: string,
     subscriberFn: TSubscriberFn,
   ): TUnsubscribeFn => {
-    const nextSubscribers = subscribers.set(
+    const nextSubscribers = subscriberFns.set(
       userId,
       subscriberFn,
-    );
-    console.log(
-      "========nextSubscribers========\n",
-      nextSubscribers,
     );
 
     return () => nextSubscribers.delete(userId);
@@ -41,10 +42,12 @@ const transportClient = () => {
    * Notify function to handle different types of transport data.
    *
    * @param {TTransportData} transportData - the transport data to be processed
-   * @return {boolean} indicates whether the notification was successfully handled
+   * @param {TFallbackFn} fallbackFn - the fallback function to be called in case of an error
+   * @return {Promise<boolean>} indicates whether the notification was successfully handled
    */
   const notify = async (
     transportData: TTransportData,
+    fallbackFn?: TFallbackFn,
   ): Promise<boolean> => {
     const { type, data } = transportData;
     console.log(
@@ -58,20 +61,22 @@ const transportClient = () => {
           data as TNotificationContent;
 
         if (flag === "single") {
-          const subscriberFn = subscribers.get(toUserId);
-          console.log(
-            "========subscriberFn========\n",
+          const subscriberFn = subscriberFns.get(toUserId);
+          return handleNotification(
             subscriberFn,
+            notification,
+            fallbackFn,
           );
+        }
 
-          if (!subscriberFn) {
-            return false;
-          }
-          subscriberFn(notification);
-          return true;
-        } else if (flag === "broadcast") {
-          subscribers.forEach((s) => s(notification));
-          return true;
+        if (flag === "broadcast") {
+          subscriberFns.forEach((subscriberFn) => {
+            return handleNotification(
+              subscriberFn,
+              notification,
+              fallbackFn,
+            );
+          });
         }
 
         return false;
@@ -87,7 +92,25 @@ const transportClient = () => {
     }
   };
 
-  const getAll = () => subscribers;
+  const getAll = () => subscriberFns;
+
+  const handleNotification = (
+    subscriberFn: TSubscriberFn | undefined,
+    notification: TNotification,
+    fallbackFn?: TFallbackFn,
+  ) => {
+    if (!subscriberFn && fallbackFn) {
+      fallbackFn(notification);
+      return true;
+    }
+
+    if (!subscriberFn) {
+      return false;
+    }
+
+    subscriberFn(notification);
+    return true;
+  };
 
   return {
     subscribe,
