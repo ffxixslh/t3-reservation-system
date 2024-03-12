@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import webpush from "web-push";
 
 import { env } from "~/env.mjs";
-import { TSubscriptionInfo } from "~/types/system";
+import { TSubscriptionInfo } from "~/types";
 import { api } from "~/trpc/server";
 
 webpush.setVapidDetails(

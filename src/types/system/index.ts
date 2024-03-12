@@ -1,10 +1,3 @@
-import { PushSubscription } from "web-push";
-
-export type TSubscriptionInfo = {
-  userId: string;
-  subscription: PushSubscription;
-};
-
 export type TNotification = {
   title: string;
   options: NotificationOptions;
@@ -15,4 +8,10 @@ export type TNotificationContent = {
   fromUserId: string;
   toUserId: string;
   notification: TNotification;
+};
+
+export type TNotifyWays = {
+  push: boolean;
+  mail: boolean;
+  notify: boolean;
 };

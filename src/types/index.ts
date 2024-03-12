@@ -7,10 +7,11 @@ export type {
   TAppointment,
   TText,
   TRecord,
+  TSubscriptionInfo,
 } from "./database";
 
 export type {
-  TSubscriptionInfo,
   TNotification,
   TNotificationContent,
+  TNotifyWays,
 } from "./system";
