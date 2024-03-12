@@ -61,7 +61,7 @@ const notificationCacheClient = () => {
 };
 
 declare global {
-  var NotificationClient: ReturnType<
+  var _NotificationCacheClient: ReturnType<
     typeof notificationCacheClient
   >;
 }
@@ -73,9 +73,10 @@ let NotificationCacheClient: ReturnType<
 if (process.env.NODE_ENV === "production") {
   NotificationCacheClient = notificationCacheClient();
 } else {
-  if (!global.NotificationClient) {
-    global.NotificationClient = notificationCacheClient();
+  if (!global._NotificationCacheClient) {
+    global._NotificationCacheClient =
+      notificationCacheClient();
   }
-  NotificationCacheClient = global.NotificationClient;
+  NotificationCacheClient = global._NotificationCacheClient;
 }
 export default NotificationCacheClient;

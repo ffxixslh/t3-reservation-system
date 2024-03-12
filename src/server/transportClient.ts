@@ -50,10 +50,6 @@ const transportClient = () => {
     fallbackFn?: TFallbackFn,
   ): Promise<boolean> => {
     const { type, data } = transportData;
-    console.log(
-      "========transportData========\n",
-      transportData,
-    );
 
     switch (type) {
       case "notification": {
@@ -120,7 +116,7 @@ const transportClient = () => {
 };
 
 declare global {
-  var TransportClient: ReturnType<typeof transportClient>;
+  var _TransportClient: ReturnType<typeof transportClient>;
 }
 
 let TransportClient: ReturnType<typeof transportClient>;
@@ -128,10 +124,10 @@ let TransportClient: ReturnType<typeof transportClient>;
 if (process.env.NODE_ENV === "production") {
   TransportClient = transportClient();
 } else {
-  if (!global.TransportClient) {
-    global.TransportClient = transportClient();
+  if (!global._TransportClient) {
+    global._TransportClient = transportClient();
   }
-  TransportClient = global.TransportClient;
+  TransportClient = global._TransportClient;
 }
 
 export default TransportClient;

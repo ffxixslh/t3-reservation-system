@@ -28,13 +28,6 @@ const cronJobClient = () => {
       null,
       start,
     );
-
-    console.log(`
-    -------- job --------
-    type: ${typeof job}
-    job: ${job}
-    `);
-
     return job;
   };
 
@@ -52,7 +45,7 @@ const cronJobClient = () => {
 };
 
 declare global {
-  var CronJobClient: ReturnType<typeof cronJobClient>;
+  var _CronJobClient: ReturnType<typeof cronJobClient>;
 }
 
 let CronJobClient: ReturnType<typeof cronJobClient>;
@@ -60,10 +53,10 @@ let CronJobClient: ReturnType<typeof cronJobClient>;
 if (process.env.NODE_ENV === "production") {
   CronJobClient = cronJobClient();
 } else {
-  if (!global.CronJobClient) {
-    global.CronJobClient = cronJobClient();
+  if (!global._CronJobClient) {
+    global._CronJobClient = cronJobClient();
   }
-  CronJobClient = global.CronJobClient;
+  CronJobClient = global._CronJobClient;
 }
 
 export default CronJobClient;
