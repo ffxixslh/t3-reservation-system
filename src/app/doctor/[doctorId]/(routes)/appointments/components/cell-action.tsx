@@ -51,9 +51,21 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await appointmentUpdateMutation.mutateAsync({
-        ...data,
-        status: "CONFIRMED",
+      const nextAppointment =
+        await appointmentUpdateMutation.mutateAsync({
+          ...data,
+          status: "CONFIRMED",
+        });
+      await fetch("/api/cron", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          time: nextAppointment.time,
+          patientId: nextAppointment.patientId,
+          doctorId: nextAppointment.doctorId,
+        }),
       });
       toast.success(`预约数据已确认。`);
       router.refresh();
@@ -68,9 +80,21 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onCancel = async () => {
     try {
       setLoading(true);
-      await appointmentUpdateMutation.mutateAsync({
-        ...data,
-        status: "CANCELED",
+      const nextAppointment =
+        await appointmentUpdateMutation.mutateAsync({
+          ...data,
+          status: "CANCELED",
+        });
+      await fetch("/api/cron", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          time: nextAppointment.time,
+          patientId: nextAppointment.patientId,
+          doctorId: nextAppointment.doctorId,
+        }),
       });
       toast.success(`预约数据已取消。`);
       router.refresh();
@@ -85,9 +109,21 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onCompleted = async () => {
     try {
       setLoading(true);
-      await appointmentUpdateMutation.mutateAsync({
-        ...data,
-        status: "COMPLETED",
+      const nextAppointment =
+        await appointmentUpdateMutation.mutateAsync({
+          ...data,
+          status: "COMPLETED",
+        });
+      await fetch("/api/cron", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          time: nextAppointment.time,
+          patientId: nextAppointment.patientId,
+          doctorId: nextAppointment.doctorId,
+        }),
       });
       toast.success(`预约数据已完成。`);
       router.refresh();
