@@ -198,7 +198,7 @@ export const AppointmentForm: React.FC<
               name="time"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-y-[5px] pb-2 pt-1.5">
-                  <FormLabel>{`预约时间`}</FormLabel>
+                  <FormLabel>{`预约时间 (${selectTimeConstraintMap.MIN} - ${selectTimeConstraintMap.MAX})`}</FormLabel>
                   <DatetimePicker
                     defaultDate={field.value}
                     setDefaultDate={field.onChange}
