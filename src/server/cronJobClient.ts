@@ -7,19 +7,20 @@ const cronJobClient = () => {
    *
    * @param {DateTime | Date | string} timeValue - the value representing the time for the job
    * @param {() => void | Promise<void>} onTickCallback - the callback to be called when the job is triggered
-   * @param {number} timeOffset - the offset in hours to be added to the time value
+   * @param {number} timeOffset - the offset in hours to be added to the time value, default to -30 minutes.
    * @param {boolean} start - whether the job should be started
    * @return {CronJob} the created job
    */
   const createCronJob = (
     timeValue: string,
     onTickCallback: () => void | Promise<void>,
-    timeOffset = 30,
-    start = true,
+    timeOffset: number = -30,
+    start: boolean = true,
   ): CronJob => {
-    const parsedTime = convertTimeValueToDate(timeValue);
-
-    parsedTime.setHours(parsedTime.getHours() + timeOffset);
+    const parsedTime = convertTimeValueToDateTime(
+      timeValue,
+      timeOffset,
+    );
 
     const job = new CronJob(
       parsedTime,
@@ -30,10 +31,15 @@ const cronJobClient = () => {
     return job;
   };
 
-  const convertTimeValueToDate = (
-    timeValue: Date | string,
+  const convertTimeValueToDateTime = (
+    timeValue: string,
+    timeOffset: number,
   ) => {
-    const result = new Date(timeValue);
+    const result = DateTime.fromISO(timeValue)
+      .plus({
+        minutes: timeOffset,
+      })
+      .toJSDate();
 
     return result;
   };
