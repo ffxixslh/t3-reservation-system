@@ -30,6 +30,11 @@ export const env = createEnv({
     ),
     VAPID_PUBLIC_KEY: z.string(),
     VAPID_PRIVATE_KEY: z.string(),
+    STMP_SERVICE: z.string(),
+    STMP_HOST: z.string(),
+    STMP_PORT: z.string(),
+    STMP_USER: z.string(),
+    STMP_PASS: z.string(),
   },
 
   /**
@@ -54,6 +59,11 @@ export const env = createEnv({
     NEXT_PUBLIC_VAPID_PUBLIC_KEY: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
     VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
     VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
+    STMP_SERVICE: process.env.STMP_SERVICE,
+    STMP_HOST: process.env.STMP_HOST,
+    STMP_PORT: process.env.STMP_PORT,
+    STMP_USER: process.env.STMP_USER,
+    STMP_PASS: process.env.STMP_PASS,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -7,9 +7,11 @@ import { api } from "~/trpc/server";
 import {
   TNotification,
   TNotificationContent,
+  TNotifyWays,
   TSubscriptionInfo,
-} from "~/types/system";
+} from "~/types";
 import NotificationCacheClient from "~/server/notificationCacheClient";
+import MailerClient from "~/server/mailerClient";
 
 webPush.setVapidDetails(
   "mailto:lhq12230@gmail.com",
@@ -72,48 +74,61 @@ export async function POST(request: NextRequest) {
  *
  * @param {TNotificationContent} data - the notification content
  * @param {TSubscriptionInfo} subscriptionInfo - the subscription information
+ * @param {object} ways - the ways to handle the notification
  */
-export function handleNotification(
+export async function handleNotification(
   data: TNotificationContent,
   subscriptionInfo: TSubscriptionInfo,
+  ways: TNotifyWays = {
+    push: true,
+    notify: true,
+    mail: true,
+  },
 ) {
-  webPush.sendNotification(
-    subscriptionInfo.subscription,
-    JSON.stringify(data.notification),
-  );
+  const { push, notify, mail } = ways;
 
-  TransportClient.notify(
-    {
-      type: "notification",
-      data: data,
-    },
-    (notification) => {
-      NotificationCacheClient.setNotification(
-        subscriptionInfo.userId,
-        notification as TNotification,
-      );
-    },
-  );
-}
-
-export async function GET(request: NextRequest) {
-  const subscriptions =
-    await api.subscriptionInfo.getAll.query();
-
-  subscriptions.forEach((s) => {
-    const payload: TNotification = {
-      title: "WebPush Notification!",
-      options: {
-        body: "Hello World",
-      },
-    };
+  if (push) {
     webPush.sendNotification(
-      s.subscription,
-      JSON.stringify(payload),
+      subscriptionInfo.subscription,
+      JSON.stringify(data.notification),
     );
-  });
+  }
 
-  return NextResponse.json({
-    message: `${subscriptions.length} messages sent!`,
-  });
+  if (notify) {
+    TransportClient.notify(
+      {
+        type: "notification",
+        data: data,
+      },
+      (notification) => {
+        NotificationCacheClient.setNotification(
+          subscriptionInfo.userId,
+          notification as TNotification,
+        );
+      },
+    );
+  }
+
+  if (mail) {
+    const user = await api.user.getOneById.query({
+      id: subscriptionInfo.userId,
+    });
+    if (!user) {
+      return;
+    }
+
+    if (!user.email) {
+      return;
+    }
+
+    MailerClient.sendMail({
+      from: `医疗预约系统 <${env.STMP_USER}>`,
+      to: user.email,
+      subject: "预约信息通知",
+      html: `
+      <h1>${data.notification.title}</h1>
+      <p>${data.notification.options.body}</p>
+    `,
+    });
+  }
 }
