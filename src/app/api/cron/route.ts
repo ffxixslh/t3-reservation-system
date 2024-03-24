@@ -62,6 +62,11 @@ export async function POST(request: NextRequest) {
           handleNotification(
             appointmentData,
             subscriptionInfo,
+            {
+              push: true,
+              notify: true,
+              mail: true,
+            },
           );
         }),
       );

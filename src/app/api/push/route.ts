@@ -82,7 +82,7 @@ export async function handleNotification(
   ways: TNotifyWays = {
     push: true,
     notify: true,
-    mail: true,
+    mail: false,
   },
 ) {
   const { push, notify, mail } = ways;
