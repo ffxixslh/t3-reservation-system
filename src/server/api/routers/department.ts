@@ -7,11 +7,11 @@ import {
 
 import {
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const departmentRouter = createTRPCRouter({
-  getAll: publicProcedure
+  getAll: protectedProcedure
     .input(hospitalIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.department.findMany({
@@ -24,7 +24,7 @@ export const departmentRouter = createTRPCRouter({
         },
       });
     }),
-  getOne: publicProcedure
+  getOne: protectedProcedure
     .input(stringIdSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.department.findUnique({
@@ -34,14 +34,14 @@ export const departmentRouter = createTRPCRouter({
         },
       });
     }),
-  createDepartment: publicProcedure
+  createDepartment: protectedProcedure
     .input(departmentSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.department.create({
         data: departmentSchema.parse(input),
       });
     }),
-  updateDepartment: publicProcedure
+  updateDepartment: protectedProcedure
     .input(departmentUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.department.update({
@@ -49,7 +49,7 @@ export const departmentRouter = createTRPCRouter({
         data: departmentUpdateSchema.parse(input),
       });
     }),
-  deleteDepartment: publicProcedure
+  deleteDepartment: protectedProcedure
     .input(stringIdSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.department.delete({
