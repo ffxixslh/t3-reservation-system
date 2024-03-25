@@ -11,7 +11,7 @@ export default function SignOutPage() {
   };
 
   return (
-    <main className="grid min-h-screen w-full place-items-center">
+    <main className="grid h-full w-full place-items-center">
       <div className="flex flex-col items-center gap-4 rounded-xl border p-8">
         <p className="font-400 text-xl">确定要注销吗？</p>
         <div className="flex gap-2">
