@@ -38,7 +38,7 @@ export const userSchema = z.object({
       invalid_type_error: "Password must be a string",
     })
     .min(6)
-    .max(16),
+    .max(32),
   phone: z
     .string({
       required_error: "Phone is required",

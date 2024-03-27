@@ -50,6 +50,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
       name: "",
       email: "",
       phone: "",
+      password: "",
     },
   });
 
@@ -80,7 +81,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8"
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <FormField
               control={form.control}
               name="name"
@@ -125,6 +126,23 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                     <Input
                       disabled={loading}
                       placeholder={`用户电话`}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{`密码`}</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder={`用户密码`}
                       {...field}
                     />
                   </FormControl>

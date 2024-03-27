@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import {
   hospitalIdSchema,
   credentialsSchema,
@@ -35,6 +36,34 @@ export const userRouter = createTRPCRouter({
         include: {
           appointments: true,
           medicalRecords: true,
+        },
+      });
+    }),
+  getOneByPhone: publicProcedure
+    .input(
+      z.object({
+        phone: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.user.findUnique({
+        where: {
+          phone: input.phone,
+        },
+      });
+    }),
+  getOneByEmailResetPassword: publicProcedure
+    .input(
+      z.object({
+        phone: z.string(),
+        emailResetPassword: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.user.findUnique({
+        where: {
+          phone: input.phone,
+          emailResetPassword: input.emailResetPassword,
         },
       });
     }),
@@ -98,6 +127,40 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.user.delete({
         where: stringIdSchema.parse(input),
+      });
+    }),
+  updateEmailResetPassword: publicProcedure
+    .input(
+      z.object({
+        phone: z.string(),
+        emailResetPassword: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.user.update({
+        where: {
+          phone: input.phone,
+        },
+        data: {
+          emailResetPassword: input.emailResetPassword,
+        },
+      });
+    }),
+  updatePassword: publicProcedure
+    .input(
+      z.object({
+        phone: z.string(),
+        password: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.user.update({
+        where: {
+          phone: input.phone,
+        },
+        data: {
+          password: input.password,
+        },
       });
     }),
 });

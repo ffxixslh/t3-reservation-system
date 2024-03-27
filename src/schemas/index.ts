@@ -1,7 +1,4 @@
-export {
-  credentialsSchema,
-  searchParamsSchema,
-} from "./system";
+export { credentialsSchema } from "./system";
 
 export {
   stringIdSchema,
