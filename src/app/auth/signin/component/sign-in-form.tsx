@@ -51,8 +51,8 @@ export function SignInForm() {
         password: values.password,
         callbackUrl,
       });
-      if (!res) {
-        toast.error("无效的电话或密码");
+      if (!res || !res.ok) {
+        toast.error("认证失败：无效的电话或密码");
         return;
       }
 
