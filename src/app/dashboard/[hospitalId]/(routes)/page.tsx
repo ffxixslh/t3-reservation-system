@@ -13,11 +13,10 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Heading } from "~/components/ui/heading";
-import { getTotalRevenue } from "~/actions/get-total-revenue";
-import { getSalesCount } from "~/actions/get-sales-count";
-import { getGraphRevenue } from "~/actions/get-graph-revenue";
-import { getStockCount } from "~/actions/get-stock-count";
-import { formatter } from "~/lib/utils";
+import { getGraphAcceptedAppointments } from "~/actions/get-graph-revenue";
+import { getRateAcceptedAppointments } from "~/actions/get-rate-accepted-appointment";
+import { getRatePatientActivity } from "~/actions/get-rate-patient-activity";
+import { getRateSystemUse } from "~/actions/get-rate-system-use";
 
 interface DashboardPageProps {
   params: {
@@ -28,66 +27,17 @@ interface DashboardPageProps {
 const DashboardPage: React.FC<DashboardPageProps> = async ({
   params,
 }) => {
-  await Promise.resolve(1);
-
-  const data = [
-    {
-      name: "Jan",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Feb",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Mar",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Apr",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "May",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Jun",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Jul",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Aug",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Sep",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Oct",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Nov",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-      name: "Dec",
-      total: Math.floor(Math.random() * 5000) + 1000,
-    },
-  ];
-  // const totalRevenue = await getTotalRevenue(
-  //   params.hospitalId,
-  // );
-  // const graphRevenue = await getGraphRevenue(
-  //   params.hospitalId,
-  // );
-  // const salesCount = await getSalesCount(params.hospitalId);
-  // const stockCount = await getStockCount(params.hospitalId);
+  const acceptedAppointmentsRate =
+    await getRateAcceptedAppointments(params.hospitalId);
+  const patientActivityRate = await getRatePatientActivity(
+    params.hospitalId,
+  );
+  const systemUseRate = await getRateSystemUse(
+    params.hospitalId,
+  );
+  const graphRevenue = await getGraphAcceptedAppointments(
+    params.hospitalId,
+  );
 
   return (
     <div className="flex-col">
@@ -101,51 +51,49 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Total Revenue
+                医生预约率
               </CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {/* {formatter.format(totalRevenue)} */}
-                {"1234"}
+                {acceptedAppointmentsRate}%
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Sales
+                患者活跃度
               </CardTitle>
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {/* +{salesCount} */}+{1234}
+                {patientActivityRate}%
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Products In Stock
+                系统使用统计
               </CardTitle>
               <Package className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {/* {stockCount} */}
-                {1234}
+                {systemUseRate}%
               </div>
             </CardContent>
           </Card>
         </div>
         <Card className="col-span-4">
           <CardHeader>
-            <CardTitle>Overview</CardTitle>
+            <CardTitle>预约总览</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
-            <Overview data={data} />
+            <Overview data={graphRevenue} />
           </CardContent>
         </Card>
       </div>
