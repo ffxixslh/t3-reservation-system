@@ -30,6 +30,14 @@ export const departmentSchema = z.object({
 export const departmentUpdateSchema =
   departmentSchema.merge(stringIdSchema);
 
+export const adminSchema = z.object({
+  userId: z.string(),
+  hospitalId: z.string(),
+});
+
+export const adminUpdateSchema =
+  adminSchema.merge(stringIdSchema);
+
 export const userSchema = z.object({
   name: z.string().min(1).max(32),
   password: z

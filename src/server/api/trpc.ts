@@ -14,6 +14,8 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+import { CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { CreateWSSContextFnOptions } from "@trpc/server/adapters/ws";
 
 /**
  * 1. CONTEXT
@@ -55,13 +57,18 @@ export const createInnerTRPCContext = async (
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: {
-  req: NextRequest;
-}) => {
+export const createTRPCContext = async (
+  opts:
+    | {
+        req: NextRequest;
+      }
+    | CreateNextContextOptions
+    | CreateWSSContextFnOptions,
+) => {
   // Fetch stuff that depends on the request
 
   return await createInnerTRPCContext({
-    headers: opts.req.headers,
+    headers: opts.req.headers as unknown as Headers,
   });
 };
 

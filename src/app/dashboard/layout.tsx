@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import { HospitalModalProvider } from "~/providers/hospital-modal-provider";
 import { getServerAuthSession } from "~/server/auth";
+import NotFound from "../not-found";
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +24,7 @@ export default async function DashboardRootLayout({
     return null;
   }
   if (session.user.role !== "ADMIN") {
-    redirect("/");
+    return <NotFound />;
   }
 
   return (

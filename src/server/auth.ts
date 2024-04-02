@@ -25,6 +25,7 @@ declare module "next-auth" {
       role: User["role"];
       hospitalId: User["hospitalId"];
       doctorId: User["doctorId"];
+      adminId: User["adminId"];
     } & DefaultSession["user"];
   }
 
@@ -33,6 +34,7 @@ declare module "next-auth" {
     role: TUserOrigin["role"];
     hospitalId: TUserOrigin["hospitalId"];
     doctorId: string;
+    adminId: string;
   }
 }
 
@@ -121,6 +123,7 @@ export const authOptions: NextAuthOptions = {
           const result: User = {
             ...user,
             doctorId: "",
+            adminId: "",
           };
           if (user.role === "DOCTOR") {
             const doctor =
@@ -129,6 +132,15 @@ export const authOptions: NextAuthOptions = {
               });
             if (doctor) {
               result.doctorId = doctor.id;
+            }
+          }
+          if (user.role === "ADMIN") {
+            const admin =
+              await api.hospitalAdmin.getOneByUserId.query({
+                userId: user.id,
+              });
+            if (admin) {
+              result.adminId = admin.id;
             }
           }
           return result;

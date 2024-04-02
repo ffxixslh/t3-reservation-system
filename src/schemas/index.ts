@@ -8,6 +8,8 @@ export {
   hospitalUpdateSchema,
   departmentSchema,
   departmentUpdateSchema,
+  adminSchema,
+  adminUpdateSchema,
   userSchema,
   userUpdateSchema,
   doctorSchema,
