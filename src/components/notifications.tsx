@@ -44,29 +44,6 @@ export default function Notifications() {
     return <div>您的浏览器不支持通知推送服务</div>;
   }
 
-  const postToPush = async (data: TNotificationContent) => {
-    const response = await fetch("/api/push", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-  };
-
-  const fakeNotification: TNotificationContent = {
-    flag: "single",
-    fromUserId: user.id,
-    toUserId: user.id,
-    notification: {
-      title: "test",
-      options: {
-        body: "test",
-        image: "/avatar.png",
-      },
-    },
-  };
-
   useEffect(() => {
     if (!session) {
       return;
@@ -120,16 +97,6 @@ export default function Notifications() {
             )}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Button
-                variant="outline"
-                onClick={() => postToPush(fakeNotification)}
-              >
-                send to '/api/push'
-              </Button>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
           <DropdownMenuGroup>
             {messages.map((message, index) => {
               const messageJson = JSON.parse(
