@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import { api } from "~/trpc/react";
 import { recordUpdateSchema } from "~/schemas";
@@ -45,6 +45,8 @@ export const DoctorRecordForm: React.FC<
     doctorId: string;
     recordId: string;
   }>();
+  const searchParams = useSearchParams()
+  const patientId = searchParams.get('patientId')
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,7 +71,7 @@ export const DoctorRecordForm: React.FC<
     initialData ?? {
       id: "",
       hospitalId: session?.user.hospitalId ?? "",
-      patientId: "",
+      patientId: patientId ?? "",
       doctorId: session?.user.doctorId ?? "",
       texts: [],
       createdAt: new Date(),

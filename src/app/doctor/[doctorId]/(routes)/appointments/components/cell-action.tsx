@@ -6,6 +6,7 @@ import {
   MoreHorizontal,
   CheckCircle,
   Trash,
+  PlusCircleIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -140,6 +141,12 @@ export const CellAction: React.FC<CellActionProps> = ({
     toast.success("预约 ID 已复制到剪贴板。");
   };
 
+  const onCreateRecord = () => {
+    router.push(
+      `/doctor/${data.doctorId}/records/new?patientId=${data.patientId}`,
+    );
+  };
+
   return (
     <>
       <AlertModal
@@ -178,6 +185,12 @@ export const CellAction: React.FC<CellActionProps> = ({
                 <span>{`取消`}</span>
               </DropdownMenuItem>
             </>
+          )}
+          {data.status === "CONFIRMED" && (
+            <DropdownMenuItem onClick={onCreateRecord}>
+              <PlusCircleIcon className="mr-2 h-4 w-4" />
+              <span>{`创建病历`}</span>
+            </DropdownMenuItem>
           )}
           {data.status === "CONFIRMED" && (
             <DropdownMenuItem onClick={onCompleted}>
