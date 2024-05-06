@@ -26,8 +26,10 @@ export const AppointmentsClient: React.FC<
   const [selectedDay, setSelectedDay] = useState<Date>();
 
   const selectedDayAppointments = data.filter(
-    (appointment) =>
-      appointment.time.getDate() === selectedDay?.getDate(),
+    (appointment) => (
+      appointment.time.toDateString() ===
+      selectedDay?.toDateString()
+    ),
   );
 
   const router = useRouter();
