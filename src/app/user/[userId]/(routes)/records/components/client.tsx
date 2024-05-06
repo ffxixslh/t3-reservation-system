@@ -35,16 +35,6 @@ export const RecordsClient: React.FC<
           title={`病历 (${data.length})`}
           description={`查看你的病历数据`}
         />
-        <Button
-          onClick={() =>
-            router.push(
-              `/user/${params.userId}/records/new`,
-            )
-          }
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          <span>{`新增`}</span>
-        </Button>
       </div>
       <Separator />
       <DataTable columns={columns} data={data} />

@@ -2,7 +2,7 @@ import React from "react";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "医生",
+  title: "病历",
 };
 
 interface AppointmentLayoutProps {
